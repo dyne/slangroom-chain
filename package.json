@@ -1,6 +1,6 @@
 {
   "name": "@dyne/zencode-chain",
-  "version": "1.1.0",
+  "version": "1.0.0",
   "description": "Execute chain of zencode smart contracts",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
