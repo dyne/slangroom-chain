@@ -4,6 +4,9 @@
 </h1>
 
 <p align="center">
+  <a href="https://codecov.io/gh/dyne/zencode-chain">
+    <img src="https://codecov.io/gh/dyne/zencode-chain/branch/master/graph/badge.svg" alt="coverage badge">
+  </a>
   <a href="https://dyne.org">
     <img src="https://img.shields.io/badge/%3C%2F%3E%20with%20%E2%9D%A4%20by-Dyne.org-blue.svg" alt="Dyne.org">
   </a>
