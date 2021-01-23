@@ -22,7 +22,6 @@ jobs:
       - run: yarn cov:check
       - run: yarn cov:send
       - run: yarn doc
-      - run: yarn doc:publish
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
