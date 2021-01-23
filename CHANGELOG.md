@@ -1,3 +1,15 @@
+# [1.1.0](https://github.com/dyne/zencode-chain/compare/v1.0.0...v1.1.0) (2021-01-23)
+
+
+### Features
+
+* 👷  Add coverage ([dec2000](https://github.com/dyne/zencode-chain/commit/dec2000fb73194c2fc6a4c1c03b438121b6faa14))
+
+
+### Reverts
+
+* **CI:** 📝  Remove doc publishing ([ef33d14](https://github.com/dyne/zencode-chain/commit/ef33d149eb15a6f5d5472e19953312a00fb355f9))
+
 # 1.0.0 (2021-01-23)
 
 
