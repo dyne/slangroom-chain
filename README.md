@@ -1,12 +1,9 @@
 <h1 align="center">
-  @dyne/zencode-chain</br>
+  @dyne/zencode-chain<br/><br/>
   <sub>Execute chain of zencode smart contracts</sub>
 </h1>
 
 <p align="center">
-  <a href="https://travis-ci.com/DECODEproject/@dyne/zencode-chain">
-    <img src="https://travis-ci.com/DECODEproject/@dyne/zencode-chain.svg?branch=master" alt="Build Status">
-  </a>
   <a href="https://dyne.org">
     <img src="https://img.shields.io/badge/%3C%2F%3E%20with%20%E2%9D%A4%20by-Dyne.org-blue.svg" alt="Dyne.org">
   </a>
@@ -32,7 +29,7 @@
   <a href="#-license">💼 License</a>
 </h4>
 
-Abstract description like: 🚧 Zenroom is a software in **ALPHA stage** and are part of the [DECODE project](https://decodeproject.eu) about data-ownership and [technological sovereignty](https://www.youtube.com/watch?v=RvBRbwBm_nQ). Our effort is that of improving people's awareness of how their data is processed by algorithms, as well facilitate the work of developers to create along [privacy by design principles](https://decodeproject.eu/publications/privacy-design-strategies-decode-architecture) using algorithms that can be deployed in any situation without any change.
+Zenroom and zencode are part of the [DECODE project](https://decodeproject.eu) about data-ownership and [technological sovereignty](https://www.youtube.com/watch?v=RvBRbwBm_nQ). Our effort is that of improving people's awareness of how their data is processed by algorithms, as well facilitate the work of developers to create along [privacy by design principles](https://decodeproject.eu/publications/privacy-design-strategies-decode-architecture) using algorithms that can be deployed in any situation without any change.
 
 <details id="toc">
  <summary><strong>🚩 Table of Contents</strong> (click to expand)</summary>
@@ -57,7 +54,93 @@ Abstract description like: 🚧 Zenroom is a software in **ALPHA stage** and are
 
 ## 🎮 Quick start
 
-To start using @dyne/zencode-chain just (TODO: fill with real documentation)
+In many use-cases you want to chain execution of different zencode and
+pass the output as keys/data to other zencodes.
+This small library helps to achieve that by putting your zencode in an
+array of steps.
+
+in the following example we define two steps and the result of the first
+is passed as `keys` to the second one.
+
+```js
+import { execute } from '@dyne/zencode-chain';
+
+const newAccount = `{"username": "Alice"}`;
+
+const steps_definition = {
+  verbosity: false,
+  steps: [
+    {
+      id: 'step1',
+      zencode: `Scenario ecdh: create the keypair at user creation
+Given that my name is in a 'string' named 'username'
+When I create the keypair
+Then print my 'keypair'`,
+      data: newAccount,
+    },
+    {
+      id: 'step2',
+      zencode: `Scenario 'ecdh': Publish the public key
+Given that my name is in a 'string' named 'username'
+and I have my 'keypair'
+Then print my 'public key' from 'keypair'`,
+      data: newAccount,
+      keysFromStep: 'step1',
+    },
+  ],
+};
+
+execute(steps).then((r) => console.log(r));
+```
+
+### Step definitions
+
+The steps definition is an object literal defined as follows:
+
+```typescript
+type Steps = {
+  readonly steps: readonly Step[]; // an array of step definitions
+  readonly conf?: string; // zenroom configuration, could be overridden by each step
+  readonly verbose?: boolean;
+};
+```
+
+The single step definition is an object literal defined as follows:
+
+```typescript
+type Step = {
+  readonly id: string;
+  readonly zencode: string;
+  readonly data?: string;
+  readonly dataFromStep?: string;
+  readonly dataTransform?:
+    | ((data: string) => string)
+    | ((data: string) => Promise<string>);
+  readonly keys?: string;
+  readonly keysFromStep?: string;
+  readonly keysTransform?:
+    | ((data: string) => string)
+    | ((data: string) => Promise<string>);
+  readonly conf?: string;
+};
+```
+
+The list of the attributes are:
+
+- **id** mandatory, a unique string to identify your step
+- **zencode** mandatory, your zencode to run
+- **data** optional, the data; when you want to pass it directly
+- **dataFromStep** optional, the step.id to get the result as input
+- **dataTransform** optional, a function that accepts a string and return a string,
+  that will be executed on data just before the execution. This intended to be used
+  to mangle your data with some transformation (eg. remove a key, or rename it)
+- **keys** optional, the keys; when you want to pass it directly
+- **keysFromStep** optional, the step.id to get the result as input
+- **keysTransform** optional, a function that accepts a string and return a string,
+  that will be executed on keys just before the execution. This intended to be used
+  to mangle your keys with some transformation (eg. remove an attribute, or rename it)
+- **conf** optional, the zenroom conf for the specific zencode_exec (eg. 'memmanager=lw')
+  overrides generic one
 
 ---
 
