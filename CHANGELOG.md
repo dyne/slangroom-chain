@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/dyne/zencode-chain/compare/v1.1.0...v1.2.0) (2021-01-27)
+
+
+### Features
+
+* ✨  onAfter and onBefore hooks, to mangle input/output ([1af065f](https://github.com/dyne/zencode-chain/commit/1af065f4f9fab945d89926ad7f83ad7a0e992b5c))
+
 # [1.1.0](https://github.com/dyne/zencode-chain/compare/v1.0.0...v1.1.0) (2021-01-23)
 
 
