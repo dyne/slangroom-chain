@@ -11,9 +11,37 @@ type Step = {
   readonly keys?: string;
   readonly keysFromStep?: string;
   readonly keysTransform?:
-    | ((data: string) => string)
-    | ((data: string) => Promise<string>);
+    | ((keys: string) => string)
+    | ((keys: string) => Promise<string>);
   readonly conf?: string;
+  readonly onAfter?:
+    | ((
+        result: string,
+        zencode: string,
+        data: string | undefined,
+        keys: string | undefined,
+        conf: string | undefined
+      ) => void)
+    | ((
+        result: string,
+        zencode: string,
+        data: string | undefined,
+        keys: string | undefined,
+        conf: string | undefined
+      ) => Promise<void>);
+  readonly onBefore?:
+    | ((
+        zencode: string,
+        data: string | undefined,
+        keys: string | undefined,
+        conf: string | undefined
+      ) => void)
+    | ((
+        zencode: string,
+        data: string | undefined,
+        keys: string | undefined,
+        conf: string | undefined
+      ) => Promise<void>);
 };
 
 type Steps = {
@@ -52,11 +80,14 @@ export const execute = async (steps: Steps): Promise<string> => {
         console.log(`TRANSFORMED KEYS: ${keys}`);
       }
     }
+    if (step.onBefore) await step.onBefore(step.zencode, data, keys, conf);
     const { result, logs } = await zencode_exec(step.zencode, {
       data,
       keys,
       conf,
     });
+    if (step.onAfter)
+      await step.onAfter(result, step.zencode, data, keys, conf);
     results[step.id] = result;
     if (steps.verbose) {
       console.log(logs);

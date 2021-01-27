@@ -206,3 +206,37 @@ test('keyTransform should work', async (t) => {
   const result = await execute(steps);
   t.is(result, '{"hello":"world"}');
 });
+
+test('callbacks should work', async (t) => {
+  let before = false;
+  let after = false;
+  let afterResult = '';
+
+  const steps = {
+    verbose: true,
+    steps: [
+      {
+        id: 'some',
+        conf: 'memmanager=lw',
+        zencode: `Given that I have a 'string' named 'hello'
+                    Then print all data as 'string'`,
+        keys: JSON.stringify({ hello: 'world' }),
+        onBefore: () => {
+          before = true;
+        },
+        onAfter: (result: string) => {
+          after = true;
+          afterResult = result;
+        },
+        keysTransform: (k: string) => {
+          return JSON.stringify(JSON.parse(k));
+        },
+      },
+    ],
+  };
+  const result = await execute(steps);
+  t.true(before);
+  t.true(after);
+  t.is(afterResult, '{"hello":"world"}');
+  t.is(result, '{"hello":"world"}');
+});

@@ -3,6 +3,9 @@
   "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/master/cspell.schema.json",
   "language": "en",
   "words": [
+    "zencodes",
+    "keypair",
+    "ecdh",
     "Zenroom",
     "decidiamo",
     "zencode",

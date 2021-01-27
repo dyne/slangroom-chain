@@ -149,7 +149,7 @@ The list of the attributes are:
 
 ## 📋 Testing
 
-``yarn test`
+`yarn test`
 
 **[🔝 back to top](#toc)**
 

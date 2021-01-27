@@ -1,11 +1,11 @@
-const {execute} = require('./build/main/index')
-const bench = require('nanobench')
+const { execute } = require('./build/main/index');
+const bench = require('nanobench');
 
 const signPetition = async () => {
-  const account = `{"username": "Alice"}`
-  const participants = `{ "participants": [ "jaromil@dyne.org", "puria@dyne.org", "andrea@dyne.org" ] }`
+  const account = `{"username": "Alice"}`;
+  const participants = `{ "participants": [ "jaromil@dyne.org", "puria@dyne.org", "andrea@dyne.org" ] }`;
 
-  const participant_email = `{"email": "bob@wonder.land", "petition_uid": "More privacy for all!"}`
+  const participant_email = `{"email": "bob@wonder.land", "petition_uid": "More privacy for all!"}`;
   const steps = {
     verbose: false,
     conf: 'memmanager=lw',
@@ -156,15 +156,19 @@ and print the 'public key' inside 'keypair'
     ],
   };
 
-  (await execute(steps));
+  await execute(steps);
 };
 
-bench('petition flow 200.000 times', function (b) {
-  b.start()
+const tries = 150;
 
-  for (var i = 0; i < 100; i++) {
-    (async () => { await signPetition() })()
+bench(`petition flow ${tries} times`, function (b) {
+  b.start();
+
+  for (var i = 0; i < tries; i++) {
+    (async () => {
+      await signPetition();
+    })();
   }
 
-  b.end()
-})
+  b.end();
+});
