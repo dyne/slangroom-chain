@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/dyne/zencode-chain/compare/v1.3.0...v1.3.1) (2024-05-15)
+
+
+### Bug Fixes
+
+* update the GA permission rules ([#2](https://github.com/dyne/zencode-chain/issues/2)) ([b60ba93](https://github.com/dyne/zencode-chain/commit/b60ba938a53e742c2bd3022580ee3ebfcea441d2))
+
 # [1.3.0](https://github.com/dyne/zencode-chain/compare/v1.2.0...v1.3.0) (2024-05-15)
 
 
