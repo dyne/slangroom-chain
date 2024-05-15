@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/dyne/zencode-chain/compare/v1.2.0...v1.3.0) (2024-05-15)
+
+
+### Features
+
+* move from zencode_exec to salngroom.execute ([#1](https://github.com/dyne/zencode-chain/issues/1)) ([7f4cf24](https://github.com/dyne/zencode-chain/commit/7f4cf24007f1b75b75d1bdb5c3d15c6caf220432))
+
 # [1.2.0](https://github.com/dyne/zencode-chain/compare/v1.1.0...v1.2.0) (2021-01-27)
 
 
