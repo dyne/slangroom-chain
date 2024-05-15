@@ -1,11 +1,11 @@
 <h1 align="center">
-  @dyne/zencode-chain<br/><br/>
-  <sub>Execute chain of zencode smart contracts</sub>
+  @dyne/slangroom-chain<br/><br/>
+  <sub>Execute chain of slangroom smart contracts</sub>
 </h1>
 
 <p align="center">
-  <a href="https://codecov.io/gh/dyne/zencode-chain">
-    <img src="https://codecov.io/gh/dyne/zencode-chain/branch/master/graph/badge.svg" alt="coverage badge">
+  <a href="https://codecov.io/gh/dyne/slangroom-chain">
+    <img src="https://codecov.io/gh/dyne/slangroom-chain/branch/master/graph/badge.svg" alt="coverage badge">
   </a>
   <a href="https://dyne.org">
     <img src="https://img.shields.io/badge/%3C%2F%3E%20with%20%E2%9D%A4%20by-Dyne.org-blue.svg" alt="Dyne.org">
@@ -32,7 +32,7 @@
   <a href="#-license">💼 License</a>
 </h4>
 
-Zenroom and zencode are part of the [DECODE project](https://decodeproject.eu) about data-ownership and [technological sovereignty](https://www.youtube.com/watch?v=RvBRbwBm_nQ). Our effort is that of improving people's awareness of how their data is processed by algorithms, as well facilitate the work of developers to create along [privacy by design principles](https://decodeproject.eu/publications/privacy-design-strategies-decode-architecture) using algorithms that can be deployed in any situation without any change.
+Zenroom and slangroom are part of the [DECODE project](https://decodeproject.eu) about data-ownership and [technological sovereignty](https://www.youtube.com/watch?v=RvBRbwBm_nQ). Our effort is that of improving people's awareness of how their data is processed by algorithms, as well facilitate the work of developers to create along [privacy by design principles](https://decodeproject.eu/publications/privacy-design-strategies-decode-architecture) using algorithms that can be deployed in any situation without any change.
 
 <details id="toc">
  <summary><strong>🚩 Table of Contents</strong> (click to expand)</summary>
@@ -51,22 +51,22 @@ Zenroom and zencode are part of the [DECODE project](https://decodeproject.eu) a
 
 ## 💾 Install
 
-`yard add @dyne/zencode-chain`
+`pnpm add @dyne/slangroom-chain`
 
 ---
 
 ## 🎮 Quick start
 
-In many use-cases you want to chain execution of different zencode and
-pass the output as keys/data to other zencodes.
-This small library helps to achieve that by putting your zencode in an
+In many use-cases you want to chain execution of different slangroom and
+pass the output as keys/data to other slangrooms.
+This small library helps to achieve that by putting your slangroom in an
 array of steps.
 
 in the following example we define two steps and the result of the first
 is passed as `keys` to the second one.
 
 ```js
-import { execute } from '@dyne/zencode-chain';
+import { execute } from '@dyne/slangroom-chain';
 
 const newAccount = `{"username": "Alice"}`;
 
@@ -75,7 +75,7 @@ const steps_definition = {
   steps: [
     {
       id: 'step1',
-      zencode: `Scenario ecdh: create the keypair at user creation
+      slangroom: `Scenario ecdh: create the keypair at user creation
 Given that my name is in a 'string' named 'username'
 When I create the keypair
 Then print my 'keypair'`,
@@ -83,7 +83,7 @@ Then print my 'keypair'`,
     },
     {
       id: 'step2',
-      zencode: `Scenario 'ecdh': Publish the public key
+      slangroom: `Scenario 'ecdh': Publish the public key
 Given that my name is in a 'string' named 'username'
 and I have my 'keypair'
 Then print my 'public key' from 'keypair'`,
@@ -113,7 +113,7 @@ The single step definition is an object literal defined as follows:
 ```typescript
 type Step = {
   readonly id: string;
-  readonly zencode: string;
+  readonly slangroom: string;
   readonly data?: string;
   readonly dataFromStep?: string;
   readonly dataTransform?:
@@ -131,7 +131,7 @@ type Step = {
 The list of the attributes are:
 
 - **id** mandatory, a unique string to identify your step
-- **zencode** mandatory, your zencode to run
+- **slangroom** mandatory, your slangroom to run
 - **data** optional, the data; when you want to pass it directly
 - **dataFromStep** optional, the step.id to get the result as input
 - **dataTransform** optional, a function that accepts a string and return a string,
@@ -142,14 +142,14 @@ The list of the attributes are:
 - **keysTransform** optional, a function that accepts a string and return a string,
   that will be executed on keys just before the execution. This intended to be used
   to mangle your keys with some transformation (eg. remove an attribute, or rename it)
-- **conf** optional, the zenroom conf for the specific zencode_exec (eg. 'memmanager=lw')
+- **conf** optional, the zenroom conf for the specific slangroom_exec (eg. 'memmanager=lw')
   overrides generic one
 
 ---
 
 ## 📋 Testing
 
-`yarn test`
+`pnpm coverage`
 
 **[🔝 back to top](#toc)**
 
@@ -169,9 +169,9 @@ No known issue by now
 
 Copyleft (ɔ) 2021 by [Dyne.org](https://www.dyne.org) foundation, Amsterdam
 
-Designed, written and maintained by Puria Nafisi Azizi.
+Designed, written and maintained by Puria Nafisi Azizi
+Slangroom added by Matteo Cristino
 
-Special thanks to Mr. W. White for his special contributions.
 
 **[🔝 back to top](#toc)**
 
@@ -204,8 +204,8 @@ Please first take a look at the [Dyne.org - Contributor License Agreement](CONTR
 
 ## 💼 License
 
-    @dyne/zencode-chain - Execute chain of zencode smart contracts
-    Copyleft (ɔ) 2021 Dyne.org foundation, Amsterdam
+    @dyne/slangroom-chain - Execute chain of slangroom smart contracts
+    Copyleft (ɔ) 2021-2024 Dyne.org foundation, Amsterdam
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as

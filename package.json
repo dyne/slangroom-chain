@@ -1,7 +1,7 @@
 {
-  "name": "@dyne/zencode-chain",
+  "name": "@dyne/slangroom-chain",
   "version": "1.3.1",
-  "description": "Execute chain of zencode smart contracts",
+  "description": "Execute chain of slangroom smart contracts",
   "main": "build/main/index.js",
   "type": "module",
   "module": "build/main/index.js",
