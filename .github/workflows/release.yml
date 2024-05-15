@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: dyne/pnpm@v1
-      - run: pnpm t
+      - run: pnpm coverage
 
   release:
     name: Release
