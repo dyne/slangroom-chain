@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/dyne/zencode-chain/compare/v1.3.1...v1.4.0) (2024-05-15)
+
+
+### Features
+
+* trigger release and correct the doc ([a8f8124](https://github.com/dyne/zencode-chain/commit/a8f8124c414f68baf11bde3ec0b6b399e156feba))
+
 ## [1.3.1](https://github.com/dyne/zencode-chain/compare/v1.3.0...v1.3.1) (2024-05-15)
 
 
