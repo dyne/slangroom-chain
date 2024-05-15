@@ -17,26 +17,19 @@ jobs:
     name: Release
     needs: test
     if: github.ref == 'refs/heads/master'
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
     runs-on: ubuntu-latest
     steps:
-      - name: 🛎  Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: 🎯 Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - name: 🔨 Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 8
-      - name: ⏬ Install dependencies
-        run: pnpm install
+      - name: 🔨 Setup pnpm
+        uses: dyne/pnpm@v1
       - name: 🧪 Run the tests
         run: pnpm coverage
       - name: 📦️ Release
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npx semantic-release
