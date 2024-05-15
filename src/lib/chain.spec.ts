@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { execute } from './chain';
+import { execute } from './chain.js';
 
 test('should execute work', async (t) => {
   const account = JSON.stringify({ username: 'Alice' });

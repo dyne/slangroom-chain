@@ -1,1 +1,1 @@
-export * from './lib/chain';
+export * from './lib/chain.js';
