@@ -15,28 +15,31 @@ test('should execute work', async (t) => {
     verbose: true,
     steps: [
       {
-        id: 'issuer_keypair',
+        id: 'issuer_keyring',
         zencode: `Scenario credential: publish verifier
             Given that I am known as 'Decidiamo'
-            When I create the issuer keypair
-            Then print my 'issuer keypair'`,
+            When I create the issuer key
+            and I create the issuer public key
+            Then print my 'issuer_public_key'
+            Then print my 'keyring'`,
       },
       {
-        id: 'keypair',
-        zencode: `Scenario ecdh: create the keypair at user creation
+        id: 'keyring',
+        zencode: `Scenario ecdh: create the key at user creation
             Given that my name is in a 'string' named 'username'
-            When I create the keypair
-            Then print my 'keypair'`,
+            When I create the ecdh key
+            Then print my 'keyring'`,
         data: account,
       },
       {
         id: 'pubkey',
         zencode: `Scenario 'ecdh': Publish the public key
             Given that my name is in a 'string' named 'username'
-            and I have my 'keypair'
-            Then print my 'public key' from 'keypair'`,
+            and I have my 'keyring'
+            When I create the ecdh public key
+            Then print my 'ecdh_public_key'`,
         data: account,
-        keysFromStep: 'keypair',
+        keysFromStep: 'keyring',
       },
       {
         id: 'petition_request',
@@ -46,28 +49,28 @@ Scenario ecdh: sign the petition
 
 # state my identity
 Given that I am known as 'Alice'
-and I have my 'keypair'
+and I have my 'keyring'
 and I have a 'string array' named 'participants'
 
 # create the petition and its keypair
-When I create the credential keypair
+When I create the credential key
 and I create the petition 'More privacy for all!'
 
 # sign the hash
 # When I create the hash of 'petition'
-When I create the signature of 'petition'
-and I insert 'signature' in 'petition'
+When I create the ecdh signature of 'petition'
+and I rename 'ecdh_signature' to 'petition.signature'
 
-When I create the signature of 'participants'
-and I rename the 'signature' to 'participants.signature'
+When I create the ecdh signature of 'participants'
+and I rename the 'ecdh signature' to 'participants.signature'
 
-Then print my 'credential keypair'
+Then print my 'keyring'
 and print the 'petition'
+and print the 'petition.signature'
 and print the 'participants'
 and print the 'participants.signature'
-and print the 'public key' inside 'keypair'
         `,
-        keysFromStep: 'keypair',
+        keysFromStep: 'keyring',
         data: participants,
       },
       {
@@ -82,52 +85,55 @@ and print the 'public key' inside 'keypair'
         zencode: `Scenario ecdh
             Scenario petition
 
-            Given that I have a 'public key' from 'Alice'
+            Given that I have a 'ecdh public key' from 'Alice'
             and I have a 'petition'
+            and I have a 'ecdh signature' named 'petition.signature'
             and I have a 'string array' named 'participants'
-            and I have a 'signature' named 'participants.signature'
+            and I have a 'ecdh signature' named 'participants.signature'
 
-            When I verify the 'petition' is signed by 'Alice'
+            When I verify the 'petition' has a ecdh signature in 'petition.signature' by 'Alice'
             and I verify the new petition to be empty
 
-            When I verify the 'participants' has a signature in 'participants.signature' by 'Alice'
+            When I verify the 'participants' has a ecdh signature in 'participants.signature' by 'Alice'
             and I verify 'participants' contains a list of emails
+
+            When I pickup from path 'petition.uid'
 
             Then print 'petition'
             and print 'participants'
-            and print the 'uid' as 'string' inside 'petition'`,
+            and print the 'uid' as 'string'`,
       },
       {
         id: 'petition',
         dataFromStep: 'new_petition',
-        keysFromStep: 'issuer_keypair',
+        keysFromStep: 'issuer_keyring',
         zencode: `Scenario credential
           Scenario petition
           Given I am 'Decidiamo'
-          and I have my 'issuer keypair'
+          and I have my 'keyring'
           and I have a 'petition'
-          When I create the copy of 'verifier' from dictionary 'issuer keypair'
-          and I rename the 'copy' to 'verifier'
-          and I insert 'verifier' in 'petition'
+          When I create the issuer public key
+          Then print the 'issuer public key'
           Then print the 'petition'`,
       },
       {
         id: 'signature_credential',
-        keysFromStep: 'issuer_keypair',
+        keysFromStep: 'issuer_keyring',
         data: participant_email,
         zencode: `Scenario credential
             Given that I am known as 'Decidiamo'
-            and I have my 'issuer keypair'
+            and I have my 'keyring'
             and I have a 'string' named 'email'
             and I have a 'string' named 'petition_uid'
+            When I create the issuer public key
             When I append 'email' to 'petition_uid'
             and I create the hash of 'petition_uid'
-            and I create the credential keypair with secret key 'hash'
+            and I create the credential key with secret key 'hash'
             and I create the credential request
             and I create the credential signature
             and I create the credentials
             Then print the 'credentials'
-            and print the 'credential keypair'
+            and print the 'keyring'
             and print the 'verifier'`,
       },
       {
@@ -136,10 +142,11 @@ and print the 'public key' inside 'keypair'
         zencode: `Scenario credential
             Scenario petition: sign petition
             Given I am 'Bob'
-            and I have a 'credential keypair'
+            and I have a 'keyring'
             and I have a 'credentials'
-            and I have a 'verifier'
-            When I aggregate the verifiers
+            and I have a 'base64 dictionary' named 'verifier'
+            When I create the issuer public key
+            When I aggregate the verifiers in 'verifier'
             and I create the petition signature 'More privacy for all!'
             Then print the 'petition signature'`,
       },
@@ -152,8 +159,8 @@ and print the 'public key' inside 'keypair'
             Given that I am 'Decidiamo'
             and I have a 'petition signature'
             and I have a 'petition'
-            When the petition signature is not a duplicate
-            and the petition signature is just one more
+            When I verify the petition signature is not a duplicate
+            and I verify the petition signature is just one more
             and I add the signature to the petition
             Then print the 'petition'`,
       },
@@ -171,11 +178,11 @@ test('specific conf step should override the generic one', async (t) => {
     logs.push(x);
   };
   const steps = {
-    conf: 'memmanager=sys',
+    conf: 'rngseed=hex:74eeeab870a394175fae808dd5dd3b047f3ee2d6a8d01e14bff94271565625e98a63babe8dd6cbea6fedf3e19de4bc80314b861599522e44409fdd20f7cd6cfc',
     steps: [
       {
         id: 'some',
-        conf: 'memmanager=lw',
+        conf: 'rngseed=hex:11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111',
         zencode: `Given that I have a 'string' named 'hello'
                 Then print all data as 'string'`,
         data: JSON.stringify({ hello: 'world' }),
@@ -184,7 +191,7 @@ test('specific conf step should override the generic one', async (t) => {
     verbose: true,
   };
   await execute(steps);
-  t.true(logs.join().includes('Memory manager selected: lightweight'));
+  t.true(logs.join().includes('CONF: rngseed=hex:11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111'));
 });
 
 test('keyTransform should work', async (t) => {
@@ -193,7 +200,7 @@ test('keyTransform should work', async (t) => {
     steps: [
       {
         id: 'some',
-        conf: 'memmanager=lw',
+        conf: 'debug=0',
         zencode: `Given that I have a 'string' named 'hello'
                     Then print all data as 'string'`,
         keys: JSON.stringify({ hello: 'world' }),
@@ -204,7 +211,7 @@ test('keyTransform should work', async (t) => {
     ],
   };
   const result = await execute(steps);
-  t.is(result, '{"hello":"world"}');
+  t.deepEqual(JSON.parse(result), {hello:"world"});
 });
 
 test('callbacks should work', async (t) => {
@@ -217,7 +224,7 @@ test('callbacks should work', async (t) => {
     steps: [
       {
         id: 'some',
-        conf: 'memmanager=lw',
+        conf: 'debug=0',
         zencode: `Given that I have a 'string' named 'hello'
                     Then print all data as 'string'`,
         keys: JSON.stringify({ hello: 'world' }),
@@ -237,6 +244,6 @@ test('callbacks should work', async (t) => {
   const result = await execute(steps);
   t.true(before);
   t.true(after);
-  t.is(afterResult, '{"hello":"world"}');
-  t.is(result, '{"hello":"world"}');
+  t.deepEqual(JSON.parse(afterResult), { hello: 'world' });
+  t.deepEqual(JSON.parse(result), { hello: 'world' });
 });
