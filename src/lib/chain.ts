@@ -20,27 +20,27 @@ type Step = {
         zencode: string,
         data: string | undefined,
         keys: string | undefined,
-        conf: string | undefined
+        conf: string | undefined,
       ) => void)
     | ((
         result: string,
         zencode: string,
         data: string | undefined,
         keys: string | undefined,
-        conf: string | undefined
+        conf: string | undefined,
       ) => Promise<void>);
   readonly onBefore?:
     | ((
         zencode: string,
         data: string | undefined,
         keys: string | undefined,
-        conf: string | undefined
+        conf: string | undefined,
       ) => void)
     | ((
         zencode: string,
         data: string | undefined,
         keys: string | undefined,
-        conf: string | undefined
+        conf: string | undefined,
       ) => Promise<void>);
 };
 

@@ -191,7 +191,13 @@ test('specific conf step should override the generic one', async (t) => {
     verbose: true,
   };
   await execute(steps);
-  t.true(logs.join().includes('CONF: rngseed=hex:11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111'));
+  t.true(
+    logs
+      .join()
+      .includes(
+        'CONF: rngseed=hex:11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111',
+      ),
+  );
 });
 
 test('keyTransform should work', async (t) => {
@@ -211,7 +217,7 @@ test('keyTransform should work', async (t) => {
     ],
   };
   const result = await execute(steps);
-  t.deepEqual(JSON.parse(result), {hello:"world"});
+  t.deepEqual(JSON.parse(result), { hello: 'world' });
 });
 
 test('callbacks should work', async (t) => {
