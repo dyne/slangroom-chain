@@ -1,4 +1,19 @@
-import { zencode_exec } from 'zenroom';
+import { Slangroom } from '@slangroom/core';
+import { fs } from '@slangroom/fs';
+import { git } from '@slangroom/git';
+import { helpers } from '@slangroom/helpers';
+import { http } from '@slangroom/http';
+import { JSONSchema } from '@slangroom/json-schema';
+import { oauth } from '@slangroom/oauth';
+import { pocketbase } from '@slangroom/pocketbase';
+import { qrcode } from '@slangroom/qrcode';
+import { redis } from '@slangroom/redis';
+import { shell } from '@slangroom/shell';
+import { timestamp } from '@slangroom/timestamp';
+import { wallet } from '@slangroom/wallet';
+import { zencode } from '@slangroom/zencode';
+
+const slang = new Slangroom(fs, git, helpers, http, JSONSchema, oauth, pocketbase, qrcode, redis, shell, timestamp, wallet, zencode)
 
 type Step = {
   readonly id: string;
@@ -20,27 +35,27 @@ type Step = {
         zencode: string,
         data: string | undefined,
         keys: string | undefined,
-        conf: string | undefined
+        conf: string | undefined,
       ) => void)
     | ((
         result: string,
         zencode: string,
         data: string | undefined,
         keys: string | undefined,
-        conf: string | undefined
+        conf: string | undefined,
       ) => Promise<void>);
   readonly onBefore?:
     | ((
         zencode: string,
         data: string | undefined,
         keys: string | undefined,
-        conf: string | undefined
+        conf: string | undefined,
       ) => void)
     | ((
         zencode: string,
         data: string | undefined,
         keys: string | undefined,
-        conf: string | undefined
+        conf: string | undefined,
       ) => Promise<void>);
 };
 
@@ -81,18 +96,18 @@ export const execute = async (steps: Steps): Promise<string> => {
       }
     }
     if (step.onBefore) await step.onBefore(step.zencode, data, keys, conf);
-    const { result, logs } = await zencode_exec(step.zencode, {
-      data,
-      keys,
+    const { result, logs } = await slang.execute(step.zencode, {
+      data: data ? JSON.parse(data) : {},
+      keys: keys ? JSON.parse(keys) : {},
       conf,
     });
     if (step.onAfter)
-      await step.onAfter(result, step.zencode, data, keys, conf);
-    results[step.id] = result;
+      await step.onAfter(JSON.stringify(result), step.zencode, data, keys, conf);
+    results[step.id] = JSON.stringify(result);
     if (steps.verbose) {
       console.log(logs);
     }
-    final = result;
+    final = JSON.stringify(result);
   }
 
   return final;
