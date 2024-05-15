@@ -1,12 +1,21 @@
 name: Release
 on:
+  pull_request:
   push:
     branches:
       - master
 # TODO: docs
 jobs:
+  test:
+    name: 🧪
+    runs-on: ubuntu-latest
+    steps:
+      - uses: dyne/pnpm@v1
+      - run: pnpm t
+
   release:
     name: Release
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: 🛎  Checkout
