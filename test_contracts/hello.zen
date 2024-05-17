@@ -1,0 +1,4 @@
+Given I have a 'string' named 'hello'
+and I have a 'string' named 'bonjour'
+
+Then print the data

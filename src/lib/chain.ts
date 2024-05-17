@@ -15,16 +15,29 @@ import { zencode } from '@slangroom/zencode';
 
 const slang = new Slangroom(fs, git, helpers, http, JSONSchema, oauth, pocketbase, qrcode, redis, shell, timestamp, wallet, zencode)
 
+const readFromFileContract = `Rule unknown ignore
+Given I send path 'path' and read verbatim file content and output into 'content'
+Given I have a 'string' named 'content'
+Then print the 'content'
+`
+const readFromFile = async (path: string): Promise<string> => {
+  const { result } = await slang.execute(readFromFileContract, {data: {path: path}});
+  return result.content as string;
+}
+
 type Step = {
   readonly id: string;
-  readonly zencode: string;
+  readonly zencode?: string;
+  readonly zencodeFromFile?: string;
   readonly data?: string;
   readonly dataFromStep?: string;
+  readonly dataFromFile?: string;
   readonly dataTransform?:
     | ((data: string) => string)
     | ((data: string) => Promise<string>);
   readonly keys?: string;
   readonly keysFromStep?: string;
+  readonly keysFromFile?: string;
   readonly keysTransform?:
     | ((keys: string) => string)
     | ((keys: string) => Promise<string>);
@@ -74,9 +87,10 @@ export const execute = async (steps: Steps): Promise<string> => {
   let final = '';
 
   for (const step of steps.steps) {
-    let data = step.dataFromStep ? results[step.dataFromStep] : step.data;
-    let keys = step.keysFromStep ? results[step.keysFromStep] : step.keys;
+    let data = step.dataFromFile ? await readFromFile(step.dataFromFile) : step.dataFromStep ? results[step.dataFromStep] : step.data;
+    let keys = step.keysFromFile ? await readFromFile(step.keysFromFile) : step.keysFromStep ? results[step.keysFromStep] : step.keys;
     const conf = step.conf ? step.conf : steps.conf;
+    const zencode = step.zencodeFromFile ? await readFromFile(step.zencodeFromFile) : step.zencode || '';
     if (steps.verbose) {
       console.log(`Executing contract ${step.id} `);
       console.log(`DATA: ${data}`);
@@ -95,14 +109,14 @@ export const execute = async (steps: Steps): Promise<string> => {
         console.log(`TRANSFORMED KEYS: ${keys}`);
       }
     }
-    if (step.onBefore) await step.onBefore(step.zencode, data, keys, conf);
-    const { result, logs } = await slang.execute(step.zencode, {
+    if (step.onBefore) await step.onBefore(zencode, data, keys, conf);
+    const { result, logs } = await slang.execute(zencode, {
       data: data ? JSON.parse(data) : {},
       keys: keys ? JSON.parse(keys) : {},
       conf,
     });
     if (step.onAfter)
-      await step.onAfter(JSON.stringify(result), step.zencode, data, keys, conf);
+      await step.onAfter(JSON.stringify(result), zencode, data, keys, conf);
     results[step.id] = JSON.stringify(result);
     if (steps.verbose) {
       console.log(logs);
