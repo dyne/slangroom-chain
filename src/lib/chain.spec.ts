@@ -253,3 +253,19 @@ test('callbacks should work', async (t) => {
   t.deepEqual(JSON.parse(afterResult), { hello: 'world' });
   t.deepEqual(JSON.parse(result), { hello: 'world' });
 });
+
+test('read from file', async (t) => {
+  process.env['FILES_DIR'] = ".";
+  const steps = {
+    steps: [
+      {
+        id: 'from file',
+        zencodeFromFile: 'test_contracts/hello.zen',
+        dataFromFile: 'test_contracts/hello.data.json',
+        keysFromFile: 'test_contracts/hello.keys.json',
+      }
+    ]
+  };
+  const result = await execute(steps);
+  t.deepEqual(JSON.parse(result), {hello: "world", bonjour: 'monde'});
+});
