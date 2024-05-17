@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/dyne/zencode-chain/compare/v1.4.0...v1.5.0) (2024-05-17)
+
+
+### Features
+
+* add the possibility to load keys, data and zencode from file ([#5](https://github.com/dyne/zencode-chain/issues/5)) ([bf5ab6c](https://github.com/dyne/zencode-chain/commit/bf5ab6cb38d82199639c48dd8b96a5e77b5e9849))
+
 # [1.4.0](https://github.com/dyne/zencode-chain/compare/v1.3.1...v1.4.0) (2024-05-15)
 
 
