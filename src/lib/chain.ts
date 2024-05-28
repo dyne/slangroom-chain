@@ -82,12 +82,17 @@ type Results = {
   [x: string]: string;
 };
 
-export const execute = async (steps: Steps): Promise<string> => {
+export const execute = async (steps: Steps, inputData?: string): Promise<string> => {
   const results: Results = {};
   let final = '';
 
+  var firstIteration = true;
   for (const step of steps.steps) {
     let data = step.dataFromFile ? await readFromFile(step.dataFromFile) : step.dataFromStep ? results[step.dataFromStep] : step.data;
+    if (firstIteration) {
+      if (typeof(data) == 'undefined') data = inputData;
+      firstIteration = false;
+    }
     let keys = step.keysFromFile ? await readFromFile(step.keysFromFile) : step.keysFromStep ? results[step.keysFromStep] : step.keys;
     const conf = step.conf ? step.conf : steps.conf;
     const zencode = step.zencodeFromFile ? await readFromFile(step.zencodeFromFile) : step.zencode || '';
