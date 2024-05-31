@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/dyne/zencode-chain/compare/v1.5.0...v1.6.0) (2024-05-31)
+
+
+### Features
+
+* first contract read data from input if no other data is specified ([#6](https://github.com/dyne/zencode-chain/issues/6)) ([170b9d0](https://github.com/dyne/zencode-chain/commit/170b9d0abf4b944e1b10bb476bba28edb36b697c))
+
 # [1.5.0](https://github.com/dyne/zencode-chain/compare/v1.4.0...v1.5.0) (2024-05-17)
 
 
