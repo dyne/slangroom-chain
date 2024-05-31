@@ -269,3 +269,17 @@ test('read from file', async (t) => {
   const result = await execute(steps);
   t.deepEqual(JSON.parse(result), {hello: "world", bonjour: 'monde'});
 });
+
+test('read input data', async (t) => {
+  const steps = {
+    steps: [
+      {
+        id: 'from input data',
+        zencodeFromFile: 'test_contracts/hello.zen',
+        keysFromFile: 'test_contracts/hello.keys.json',
+      }
+    ]
+  };
+  const result = await execute(steps, '{"hello": "world"}');
+  t.deepEqual(JSON.parse(result), {hello: "world", bonjour: 'monde'});
+});
