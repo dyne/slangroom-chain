@@ -58,7 +58,7 @@ Zenroom and zencode are part of the [DECODE project](https://decodeproject.eu) a
 ## 🎮 Quick start
 
 In many use-cases you want to chain execution of different slangroom and
-pass the output as keys/data to other slangrooms.
+pass the output as keys/data to other slangroom contracts.
 This small library helps to achieve that by putting your slangroom in an
 array of steps.
 

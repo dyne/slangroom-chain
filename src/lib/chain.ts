@@ -13,17 +13,33 @@ import { timestamp } from '@slangroom/timestamp';
 import { wallet } from '@slangroom/wallet';
 import { zencode } from '@slangroom/zencode';
 
-const slang = new Slangroom(fs, git, helpers, http, JSONSchema, oauth, pocketbase, qrcode, redis, shell, timestamp, wallet, zencode)
+const slang = new Slangroom(
+  fs,
+  git,
+  helpers,
+  http,
+  JSONSchema,
+  oauth,
+  pocketbase,
+  qrcode,
+  redis,
+  shell,
+  timestamp,
+  wallet,
+  zencode,
+);
 
 const readFromFileContract = `Rule unknown ignore
 Given I send path 'path' and read verbatim file content and output into 'content'
 Given I have a 'string' named 'content'
 Then print the 'content'
-`
+`;
 const readFromFile = async (path: string): Promise<string> => {
-  const { result } = await slang.execute(readFromFileContract, {data: {path: path}});
+  const { result } = await slang.execute(readFromFileContract, {
+    data: { path: path },
+  });
   return result.content as string;
-}
+};
 
 type Step = {
   readonly id: string;
@@ -82,20 +98,32 @@ type Results = {
   [x: string]: string;
 };
 
-export const execute = async (steps: Steps, inputData?: string): Promise<string> => {
+export const execute = async (
+  steps: Steps,
+  inputData?: string,
+): Promise<string> => {
   const results: Results = {};
   let final = '';
-
-  var firstIteration = true;
+  let firstIteration = true;
   for (const step of steps.steps) {
-    let data = step.dataFromFile ? await readFromFile(step.dataFromFile) : step.dataFromStep ? results[step.dataFromStep] : step.data;
+    let data = step.dataFromFile
+      ? await readFromFile(step.dataFromFile)
+      : step.dataFromStep
+        ? results[step.dataFromStep]
+        : step.data;
     if (firstIteration) {
-      if (typeof(data) == 'undefined') data = inputData;
+      if (typeof data == 'undefined') data = inputData;
       firstIteration = false;
     }
-    let keys = step.keysFromFile ? await readFromFile(step.keysFromFile) : step.keysFromStep ? results[step.keysFromStep] : step.keys;
+    let keys = step.keysFromFile
+      ? await readFromFile(step.keysFromFile)
+      : step.keysFromStep
+        ? results[step.keysFromStep]
+        : step.keys;
     const conf = step.conf ? step.conf : steps.conf;
-    const zencode = step.zencodeFromFile ? await readFromFile(step.zencodeFromFile) : step.zencode || '';
+    const zencode = step.zencodeFromFile
+      ? await readFromFile(step.zencodeFromFile)
+      : step.zencode || '';
     if (steps.verbose) {
       console.log(`Executing contract ${step.id} `);
       console.log(`DATA: ${data}`);
