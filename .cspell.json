@@ -33,7 +33,13 @@
     "sandboxed",
     "transpiled",
     "typedoc",
-    "untracked"
+    "untracked",
+    "slangroom",
+    "matteo",
+    "cristino",
+    "rngseed",
+    "qrcode",
+    "pocketbase"
   ],
   "flagWords": [],
   "ignorePaths": [

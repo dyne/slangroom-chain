@@ -255,7 +255,7 @@ test('callbacks should work', async (t) => {
 });
 
 test('read from file', async (t) => {
-  process.env['FILES_DIR'] = ".";
+  process.env['FILES_DIR'] = '.';
   const steps = {
     steps: [
       {
@@ -263,11 +263,11 @@ test('read from file', async (t) => {
         zencodeFromFile: 'test_contracts/hello.zen',
         dataFromFile: 'test_contracts/hello.data.json',
         keysFromFile: 'test_contracts/hello.keys.json',
-      }
-    ]
+      },
+    ],
   };
   const result = await execute(steps);
-  t.deepEqual(JSON.parse(result), {hello: "world", bonjour: 'monde'});
+  t.deepEqual(JSON.parse(result), { hello: 'world', bonjour: 'monde' });
 });
 
 test('read input data', async (t) => {
@@ -277,9 +277,9 @@ test('read input data', async (t) => {
         id: 'from input data',
         zencodeFromFile: 'test_contracts/hello.zen',
         keysFromFile: 'test_contracts/hello.keys.json',
-      }
-    ]
+      },
+    ],
   };
   const result = await execute(steps, '{"hello": "world"}');
-  t.deepEqual(JSON.parse(result), {hello: "world", bonjour: 'monde'});
+  t.deepEqual(JSON.parse(result), { hello: 'world', bonjour: 'monde' });
 });
