@@ -1,3 +1,10 @@
+## [1.6.3](https://github.com/dyne/zencode-chain/compare/v1.6.2...v1.6.3) (2024-06-15)
+
+
+### Bug Fixes
+
+* use for await ... of ([ae0bdeb](https://github.com/dyne/zencode-chain/commit/ae0bdebfd5e02fff9af8336b32a2dcbe9059d616))
+
 ## [1.6.2](https://github.com/dyne/zencode-chain/compare/v1.6.1...v1.6.2) (2024-06-15)
 
 
