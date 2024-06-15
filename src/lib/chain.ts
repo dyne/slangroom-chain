@@ -1,3 +1,5 @@
+import { fs } from 'fs';
+
 import { Slangroom } from '@slangroom/core';
 import { fs } from '@slangroom/fs';
 import { git } from '@slangroom/git';
@@ -29,16 +31,8 @@ const slang = new Slangroom(
   zencode,
 );
 
-const readFromFileContract = `Rule unknown ignore
-Given I send path 'path' and read verbatim file content and output into 'content'
-Given I have a 'string' named 'content'
-Then print the 'content'
-`;
-const readFromFile = async (path: string): Promise<string> => {
-  const { result } = await slang.execute(readFromFileContract, {
-    data: { path: path },
-  });
-  return result.content as string;
+const readFromFile = (path: string): string => {
+  return fs.readFileSync(path).toString('utf-8');
 };
 
 type Step = {
@@ -107,7 +101,7 @@ export const execute = async (
   let firstIteration = true;
   for (const step of steps.steps) {
     let data = step.dataFromFile
-      ? await readFromFile(step.dataFromFile)
+      ? readFromFile(step.dataFromFile)
       : step.dataFromStep
         ? results[step.dataFromStep]
         : step.data;
@@ -116,13 +110,13 @@ export const execute = async (
       firstIteration = false;
     }
     let keys = step.keysFromFile
-      ? await readFromFile(step.keysFromFile)
+      ? readFromFile(step.keysFromFile)
       : step.keysFromStep
         ? results[step.keysFromStep]
         : step.keys;
     const conf = step.conf ? step.conf : steps.conf;
     const zencode = step.zencodeFromFile
-      ? await readFromFile(step.zencodeFromFile)
+      ? readFromFile(step.zencodeFromFile)
       : step.zencode || '';
     if (steps.verbose) {
       console.log(`Executing contract ${step.id} `);
