@@ -99,7 +99,7 @@ export const execute = async (
   const results: Results = {};
   let final = '';
   let firstIteration = true;
-  for (const step of steps.steps) {
+  for await (const step of steps.steps) {
     let data = step.dataFromFile
       ? readFromFile(step.dataFromFile)
       : step.dataFromStep
@@ -154,3 +154,4 @@ export const execute = async (
 
   return final;
 };
+
