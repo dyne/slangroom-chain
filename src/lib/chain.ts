@@ -120,6 +120,7 @@ export const execute = async (
       : step.zencode || '';
     if (steps.verbose) {
       console.log(`Executing contract ${step.id} `);
+      console.log(`ZENCODE: ${zencode}`);
       console.log(`DATA: ${data}`);
       console.log(`KEYS: ${keys}`);
       console.log(`CONF: ${conf}`);
