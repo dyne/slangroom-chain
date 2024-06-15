@@ -1,4 +1,4 @@
-import { fs } from 'fs';
+import fs from 'fs';
 
 import { Slangroom } from '@slangroom/core';
 import { fs } from '@slangroom/fs';
