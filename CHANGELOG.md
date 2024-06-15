@@ -1,3 +1,10 @@
+## [1.6.2](https://github.com/dyne/zencode-chain/compare/v1.6.1...v1.6.2) (2024-06-15)
+
+
+### Bug Fixes
+
+* on verbose print the contract ([5d50788](https://github.com/dyne/zencode-chain/commit/5d507881f28b540ec5fd755df938f31d6e846567))
+
 ## [1.6.1](https://github.com/dyne/zencode-chain/compare/v1.6.0...v1.6.1) (2024-06-15)
 
 
