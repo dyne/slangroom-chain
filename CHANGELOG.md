@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/dyne/zencode-chain/compare/v1.6.0...v1.6.1) (2024-06-15)
+
+
+### Bug Fixes
+
+* use fs.readFileSync to read from file ([#9](https://github.com/dyne/zencode-chain/issues/9)) ([4fe5afd](https://github.com/dyne/zencode-chain/commit/4fe5afd254d55b4329e89007720dea77b072d3aa))
+
 # [1.6.0](https://github.com/dyne/zencode-chain/compare/v1.5.0...v1.6.0) (2024-05-31)
 
 
