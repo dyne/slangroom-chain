@@ -1,3 +1,10 @@
+## [1.6.4](https://github.com/dyne/zencode-chain/compare/v1.6.3...v1.6.4) (2024-07-01)
+
+
+### Bug Fixes
+
+* add @slangroom/db plugin and bump @slangroom/* plugins ([#10](https://github.com/dyne/zencode-chain/issues/10)) ([79519a8](https://github.com/dyne/zencode-chain/commit/79519a8d0f240e49d8b0f9c9303b9206db987878))
+
 ## [1.6.3](https://github.com/dyne/zencode-chain/compare/v1.6.2...v1.6.3) (2024-06-15)
 
 
