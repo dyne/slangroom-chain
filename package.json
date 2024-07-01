@@ -132,6 +132,7 @@
   },
   "dependencies": {
     "@slangroom/core": "^1.30.0",
+    "@slangroom/db": "^1.33.14",
     "@slangroom/fs": "^1.30.0",
     "@slangroom/git": "^1.30.0",
     "@slangroom/helpers": "^1.30.0",

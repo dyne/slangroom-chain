@@ -1,6 +1,7 @@
 import fs from 'fs';
 
 import { Slangroom } from '@slangroom/core';
+import { db } from '@slangroom/db';
 import { fs as slangroomfs } from '@slangroom/fs';
 import { git } from '@slangroom/git';
 import { helpers } from '@slangroom/helpers';
@@ -16,6 +17,7 @@ import { wallet } from '@slangroom/wallet';
 import { zencode } from '@slangroom/zencode';
 
 const slang = new Slangroom(
+  db,
   slangroomfs,
   git,
   helpers,
