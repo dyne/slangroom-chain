@@ -283,3 +283,28 @@ test('read input data', async (t) => {
   const result = await execute(steps, '{"hello": "world"}');
   t.deepEqual(JSON.parse(result), { hello: 'world', bonjour: 'monde' });
 });
+
+test('chain as yaml file', async (t) => {
+  const steps = `
+  steps:
+    - id: hello from file
+      zencodeFromFile: test_contracts/hello.zen
+      keysFromFile: test_contracts/hello.keys.json
+    - id: add another hello
+      dataFromStep: hello from file
+      zencode: |
+        Given I have a 'string' named 'hello'
+        Given I have a 'string' named 'bonjour'
+
+        When I set 'hola' to 'mundo' as 'string'
+
+        Then print the 'hello'
+        Then print the 'bonjour'
+        Then print the 'hola'`;
+  const result = await execute(steps, '{"hello": "world"}');
+  t.deepEqual(JSON.parse(result), {
+    hello: 'world',
+    bonjour: 'monde',
+    hola: 'mundo',
+  });
+});

@@ -15,6 +15,7 @@ import { shell } from '@slangroom/shell';
 import { timestamp } from '@slangroom/timestamp';
 import { wallet } from '@slangroom/wallet';
 import { zencode } from '@slangroom/zencode';
+import YAML from 'yaml';
 
 const slang = new Slangroom(
   db,
@@ -94,14 +95,23 @@ type Results = {
   [x: string]: string;
 };
 
+const verbose = (verbose: boolean | undefined) => {
+  if (verbose) return (message: string) => console.log(message);
+  return () => {};
+};
+
 export const execute = async (
-  steps: Steps,
+  steps: Steps | string,
   inputData?: string,
 ): Promise<string> => {
   const results: Results = {};
   let final = '';
   let firstIteration = true;
-  for await (const step of steps.steps) {
+  let jsonSteps;
+  if (typeof steps === 'string') jsonSteps = YAML.parse(steps) as Steps;
+  else jsonSteps = steps;
+  const verboseMessage = verbose(jsonSteps.verbose);
+  for await (const step of jsonSteps.steps) {
     let data = step.dataFromFile
       ? readFromFile(step.dataFromFile)
       : step.dataFromStep
@@ -116,28 +126,20 @@ export const execute = async (
       : step.keysFromStep
         ? results[step.keysFromStep]
         : step.keys;
-    const conf = step.conf ? step.conf : steps.conf;
+    const conf = step.conf ? step.conf : jsonSteps.conf;
     const zencode = step.zencodeFromFile
       ? readFromFile(step.zencodeFromFile)
       : step.zencode || '';
-    if (steps.verbose) {
-      console.log(`Executing contract ${step.id} `);
-      console.log(`ZENCODE: ${zencode}`);
-      console.log(`DATA: ${data}`);
-      console.log(`KEYS: ${keys}`);
-      console.log(`CONF: ${conf}`);
-    }
+    verboseMessage(
+      `Executing contract ${step.id}\nZENCODE: ${zencode}\nDATA: ${data}\nKEYS: ${keys}\nCONF: ${conf}`,
+    );
     if (data && step.dataTransform) {
       data = await step.dataTransform(data);
-      if (steps.verbose) {
-        console.log(`TRANSFORMED DATA: ${data}`);
-      }
+      verboseMessage(`TRANSFORMED DATA: ${data}`);
     }
     if (keys && step.keysTransform) {
       keys = await step.keysTransform(keys);
-      if (steps.verbose) {
-        console.log(`TRANSFORMED KEYS: ${keys}`);
-      }
+      verboseMessage(`TRANSFORMED KEYS: ${keys}`);
     }
     if (step.onBefore) await step.onBefore(zencode, data, keys, conf);
     const { result, logs } = await slang.execute(zencode, {
@@ -148,12 +150,9 @@ export const execute = async (
     if (step.onAfter)
       await step.onAfter(JSON.stringify(result), zencode, data, keys, conf);
     results[step.id] = JSON.stringify(result);
-    if (steps.verbose) {
-      console.log(logs);
-    }
+    verboseMessage(logs);
     final = JSON.stringify(result);
   }
 
   return final;
 };
-
