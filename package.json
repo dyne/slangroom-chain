@@ -145,6 +145,7 @@
     "@slangroom/shell": "^1.33.14",
     "@slangroom/timestamp": "^1.33.14",
     "@slangroom/wallet": "^1.33.14",
-    "@slangroom/zencode": "^1.33.14"
+    "@slangroom/zencode": "^1.33.14",
+    "yaml": "^2.4.5"
   }
 }
