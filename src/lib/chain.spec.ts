@@ -232,7 +232,6 @@ test.skip('callbacks should work', async (t) => {
 });
 
 test('read from file', async (t) => {
-  process.env['FILES_DIR'] = '.';
   const steps = `
     steps:
       - id: 'from file'
@@ -253,7 +252,7 @@ test('read input data', async (t) => {
   t.deepEqual(JSON.parse(result), { hello: 'world', bonjour: 'monde' });
 });
 
-test('chain as yaml file', async (t) => {
+test('mix zencode and zencodeFromFile', async (t) => {
   const steps = `
   steps:
     - id: hello from file
@@ -275,5 +274,36 @@ test('chain as yaml file', async (t) => {
     hello: 'world',
     bonjour: 'monde',
     hola: 'mundo',
+  });
+});
+
+test('onBefore create a file and delete it onAfter', async (t) => {
+  process.env['FILES_DIR'] = '.';
+  const steps = `
+  steps:
+    - id: create and delete new_file
+      onBefore:
+        run: |
+          touch new_file.test
+      zencode: |
+        Rule unknown ignore
+        Given I send path 'file_path' and verify file exists
+        Given I have a 'string' named 'file_path'
+        Then print the 'file_path'
+      keys:
+        file_path: new_file.test
+      onAfter:
+        run: |
+          rm new_file.test
+    - id: check new_file does not exist
+      dataFromStep: create and delete new_file
+      zencode: |
+        Rule unknown ignore
+        Given I send path 'file_path' and verify file does not exist
+        Given I have a 'string' named 'file_path'
+        Then print the string 'everything works'`;
+  const result = await execute(steps);
+  t.deepEqual(JSON.parse(result), {
+    output: ['everything_works'],
   });
 });
