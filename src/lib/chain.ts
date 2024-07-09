@@ -15,6 +15,7 @@ import { shell } from '@slangroom/shell';
 import { timestamp } from '@slangroom/timestamp';
 import { wallet } from '@slangroom/wallet';
 import { zencode } from '@slangroom/zencode';
+import { execaCommand } from 'execa';
 import YAML from 'yaml';
 
 const slang = new Slangroom(
@@ -100,6 +101,9 @@ const fnParse = async (
   return await fn(...Object.values(args));
 };
 
+const runShellCommand = async (command: string): Promise<void> => {
+  await execaCommand(command);
+};
 const getDataOrKeys = (
   step: Step,
   results: Results,
@@ -107,14 +111,17 @@ const getDataOrKeys = (
 ): string => {
   const fromFile: keyof Step = `${dataOrKeys}FromFile`;
   const fromStep: keyof Step = `${dataOrKeys}FromStep`;
-  let data = '{}';
-  if (typeof step[fromFile] === 'string')
+  if (!step[fromFile] && !step[fromStep] && !step[dataOrKeys]) return '{}';
+  let data;
+  if (step[fromFile] && typeof step[fromFile] === 'string')
     data = readFromFile(step[fromFile] as string);
-  else if (typeof step[fromStep] === 'string')
+  else if (step[fromStep] && typeof step[fromStep] === 'string')
     data = results[step[fromStep] as string];
-  else if (typeof step[dataOrKeys] === 'string')
-    data = step[dataOrKeys] as string;
-  if (!data) throw new Error(`No ${dataOrKeys} provided for step ${step.id}`);
+  else if (typeof step[dataOrKeys] === 'string') data = step[dataOrKeys];
+  else if (typeof step[dataOrKeys] === 'object')
+    data = JSON.stringify(step[dataOrKeys]);
+  if (!data)
+    throw new Error(`No valid ${dataOrKeys} provided for step ${step.id}`);
   return data;
 };
 
@@ -138,8 +145,8 @@ const manageBeforeOrAfter = async (
 ): Promise<void> => {
   if (stepOnBeforeOrAfter && stepOnBeforeOrAfter.jsFunction)
     await fnParse(stepOnBeforeOrAfter.jsFunction, data);
-  //if (stepOnBeforeOrAfter && stepOnBeforeOrAfter.run)
-  //  await runShellCommand(stepOnBeforeOrAfter.run, data);
+  if (stepOnBeforeOrAfter && stepOnBeforeOrAfter.run)
+    await runShellCommand(stepOnBeforeOrAfter.run);
   return;
 };
 
