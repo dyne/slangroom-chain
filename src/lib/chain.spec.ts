@@ -2,6 +2,9 @@ import test from 'ava';
 
 import { execute } from './chain.js';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(global as any).variable = 'Hello';
+
 test('should execute work', async (t) => {
   const account = JSON.stringify({ username: 'Alice' });
   const participants = JSON.stringify({
@@ -198,39 +201,6 @@ test('keyTransform should work', async (t) => {
   t.deepEqual(JSON.parse(result), { hello: 'world' });
 });
 
-test.skip('callbacks should work', async (t) => {
-  // eslint-disable-next-line prefer-const
-  let before = false;
-  // eslint-disable-next-line prefer-const
-  let after = false;
-  // eslint-disable-next-line prefer-const
-  let afterResult = '';
-
-  const steps = `
-    verbose: true
-    steps:
-      - id: 'some'
-        conf: 'debug=0'
-        zencode: |
-          Given that I have a 'string' named 'hello'
-          Then print all data as 'string'
-        keys: '${JSON.stringify({ hello: 'world' })}'
-        onBefore:
-          jsFunction: |
-            before = true;
-        onAfter:
-          jsFunction: |
-            after = true;
-            afterResult = result;
-        keysTransform: |
-          return JSON.stringify(JSON.parse(keys))`;
-  const result = await execute(steps);
-  t.true(before);
-  t.true(after);
-  t.deepEqual(JSON.parse(afterResult), { hello: 'world' });
-  t.deepEqual(JSON.parse(result), { hello: 'world' });
-});
-
 test('read from file', async (t) => {
   const steps = `
     steps:
@@ -306,4 +276,52 @@ test('onBefore create a file and delete it onAfter', async (t) => {
   t.deepEqual(JSON.parse(result), {
     output: ['everything_works'],
   });
+});
+
+test('check for variables onBefore and onAfter, pass onBefore and fails onAfter', async (t) => {
+  const steps = `
+  steps:
+    - id: create and delete new_file
+      onBefore:
+        jsFunction: |
+          if(variable !== 'Hello') {
+            throw new Error('variable is not Hello: '+variable)
+          }
+      zencode: |
+        Given nothing
+        When I set 'res' to 'cat' as 'string'
+        Then print the 'res'
+      onAfter:
+        jsFunction: |
+          const r = variable+'_'+JSON.parse(result).res
+          if(r !== 'Hello_world') {
+            throw new Error('result is not Hello_world: '+r)
+          }`;
+  const fn = execute(steps);
+  const err = await t.throwsAsync(fn);
+  t.is(
+    err?.message,
+    `Error executing JS function:
+const r = variable+'_'+JSON.parse(result).res
+if(r !== 'Hello_world') {
+  throw new Error('result is not Hello_world: '+r)
+}
+
+Error: result is not Hello_world: Hello_cat`,
+  );
+});
+
+test('invalid data', async (t) => {
+  const steps = `
+  steps:
+    - id: step with invalid data
+      zencode: |
+        Rule unknown ignore
+        Given I send path 'file_path' and verify file exists
+        Given I have a 'string' named 'file_path'
+        Then print the 'file_path'
+      data: 1`;
+  const fn = execute(steps);
+  const err = await t.throwsAsync(fn);
+  t.is(err?.message, 'No valid data provided for step step with invalid data');
 });
