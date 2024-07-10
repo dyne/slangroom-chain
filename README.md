@@ -37,14 +37,15 @@ Zenroom and zencode are part of the [DECODE project](https://decodeproject.eu) a
 <details id="toc">
  <summary><strong>🚩 Table of Contents</strong> (click to expand)</summary>
 
-- [Install](#-install)
-- [Quick start](#-quick-start)
-- [Testing](#-testing)
-- [Troubleshooting & debugging](#-troubleshooting--debugging)
-- [Acknowledgements](#-acknowledgements)
-- [Links](#-links)
-- [Contributing](#-contributing)
-- [License](#-license)
+- [💾 Install](#-install)
+- [🎮 Quick start](#-quick-start)
+  - [Step definitions](#step-definitions)
+- [📋 Testing](#-testing)
+- [🐛 Troubleshooting \& debugging](#-troubleshooting--debugging)
+- [😍 Acknowledgements](#-acknowledgements)
+- [🌐 Links](#-links)
+- [👤 Contributing](#-contributing)
+- [💼 License](#-license)
 </details>
 
 ---
@@ -52,6 +53,8 @@ Zenroom and zencode are part of the [DECODE project](https://decodeproject.eu) a
 ## 💾 Install
 
 `pnpm add @dyne/slangroom-chain`
+
+**[🔝 back to top](#toc)**
 
 ---
 
@@ -70,35 +73,34 @@ import { execute } from '@dyne/slangroom-chain';
 
 const newAccount = `{"username": "Alice"}`;
 
-const steps_definition = {
-  verbosity: false,
-  steps: [
-    {
-      id: 'step1',
-      slangroom: `Scenario ecdh: create the keypair at user creation
-Given that my name is in a 'string' named 'username'
-When I create the keypair
-Then print my 'keypair'`,
-      data: newAccount,
-    },
-    {
-      id: 'step2',
-      slangroom: `Scenario 'ecdh': Publish the public key
-Given that my name is in a 'string' named 'username'
-and I have my 'keypair'
-Then print my 'public key' from 'keypair'`,
-      data: newAccount,
-      keysFromStep: 'step1',
-    },
-  ],
-};
+const steps_definition = `
+  verbose: false,
+  steps: 
+    - id: 'step1'
+      zencode: |
+        Scenario ecdh: create the keyring at user creation
+        Given that my name is in a 'string' named 'username'
+        When I create the keyring
+        Then print my 'keyring'
+      data: ${newAccount}
+    - id: 'step2'
+      zencode: |
+        Scenario 'ecdh': Create and publish public key
+        Given that my name is in a 'string' named 'username'
+        and I have my 'keypair'
+        When I create the ecdh public key
+        Then print my 'ecdh public key'
+      data: ${newAccount}
+      keysFromStep: 'step1'`;
 
 execute(steps).then((r) => console.log(r));
 ```
 
 ### Step definitions
 
-The steps definition is an object literal defined as follows:
+As can be seen the `steps_definition` is written following the 
+[yaml format](https://yaml.org/spec/1.2.2/). Internally these steps are
+converted into a json format that is typed as follow:
 
 ```typescript
 type Steps = {
@@ -111,39 +113,69 @@ type Steps = {
 The single step definition is an object literal defined as follows:
 
 ```typescript
-type Step = {
+type BasicStep = {
   readonly id: string;
-  readonly slangroom: string;
   readonly data?: string;
   readonly dataFromStep?: string;
-  readonly dataTransform?:
-    | ((data: string) => string)
-    | ((data: string) => Promise<string>);
+  readonly dataFromFile?: string;
+  readonly dataTransform?: string;
   readonly keys?: string;
   readonly keysFromStep?: string;
-  readonly keysTransform?:
-    | ((data: string) => string)
-    | ((data: string) => Promise<string>);
+  readonly keysFromFile?: string;
+  readonly keysTransform?: string;
   readonly conf?: string;
+  readonly onAfter?: {
+    readonly run?: string;
+    readonly jsFunction?: string;
+  };
+  readonly onBefore?: {
+    readonly run?: string;
+    readonly jsFunction?: string;
+  };
 };
+
+type Step =
+  | (BasicStep & {
+      readonly zencode: string;
+    })
+  | (BasicStep & {
+      readonly zencodeFromFile: string;
+    });
 ```
 
 The list of the attributes are:
 
 - **id** mandatory, a unique string to identify your step
-- **slangroom** mandatory, your slangroom to run
+- **zencode** must be present if *zencodeFromFile* is not present, your slangroom to run
+- **zencodeFromFile** must be present if *zencode* is not present, the path to your slangroom contract to run
 - **data** optional, the data; when you want to pass it directly
 - **dataFromStep** optional, the step.id to get the result as input
-- **dataTransform** optional, a function that accepts a string and return a string,
+- **dataFromFile** optional, the path to the data file
+- **dataTransform** optional, a body of a js function that has `data` as input string and return a string,
   that will be executed on data just before the execution. This intended to be used
   to mangle your data with some transformation (eg. remove a key, or rename it)
 - **keys** optional, the keys; when you want to pass it directly
 - **keysFromStep** optional, the step.id to get the result as input
-- **keysTransform** optional, a function that accepts a string and return a string,
+- **keysFromFile** optional, the path to the keys file
+- **keysTransform** optional, a body of a js function that has `keys` as input string and return a string,
   that will be executed on keys just before the execution. This intended to be used
   to mangle your keys with some transformation (eg. remove an attribute, or rename it)
-- **conf** optional, the zenroom conf for the specific slangroom_exec (eg. 'memmanager=lw')
+- **conf** optional, the zenroom conf for the specific slangroom_exec (eg. 'rngseed=hex:...')
   overrides generic one
+- **onBefore** optional, can contains **jsFunction** or **run** attributes where:
+  - **jsFunction** optional, the body of a js function that has `zencode, data, keys, conf` as input strings and return a nothing
+  - **run** optional, a shell command to run
+  
+  This will be executed before the contract execution, it can not modify anything, but can be used to
+  perform external operations (eg. do a call to an external API, send a email, etc) 
+- **onAfter** optional, can contains **jsFunction** or **run** attributes where:
+  - **jsFunction** optional, the body of a js function that has `result, zencode, data, keys, conf` as input strings and return a nothing
+  - **run** optional, a shell command to run
+  
+  This will be executed after the contract execution, it can not modify anything, but can be used to
+  perform external operations (eg. do a call to an external API, send a email, etc) 
+
+**[🔝 back to top](#toc)**
 
 ---
 
