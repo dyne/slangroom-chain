@@ -43,6 +43,7 @@ const slang = new Slangroom(
   zencode,
 );
 
+/* c8 ignore next */
 const AsyncFunction = async function () {}.constructor;
 
 const readFromFile = (path: string): string => {
@@ -138,7 +139,7 @@ export const execute = async (
     const zencode =
       'zencodeFromFile' in step
         ? readFromFile(step.zencodeFromFile)
-        : step.zencode || '';
+        : step.zencode;
     verboseFn(
       `Executing contract ${step.id}\nZENCODE: ${zencode}\nDATA: ${data}\nKEYS: ${keys}\nCONF: ${conf}`,
     );
@@ -146,8 +147,8 @@ export const execute = async (
     keys = await manageTransform(step.keysTransform, { keys }, verboseFn);
     await manageBeforeOrAfter(step.onBefore, { zencode, data, keys, conf });
     const { result, logs } = await slang.execute(zencode, {
-      data: data ? JSON.parse(data) : {},
-      keys: keys ? JSON.parse(keys) : {},
+      data: JSON.parse(data),
+      keys: JSON.parse(keys),
       conf,
     });
     let stringResult;
