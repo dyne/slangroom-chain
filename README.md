@@ -74,26 +74,26 @@ import { execute } from '@dyne/slangroom-chain';
 const newAccount = `{"username": "Alice"}`;
 
 const steps_definition = `
-  verbose: false,
+  verbose: false
   steps: 
     - id: 'step1'
       zencode: |
         Scenario ecdh: create the keyring at user creation
         Given that my name is in a 'string' named 'username'
-        When I create the keyring
+        When I create the ecdh key
         Then print my 'keyring'
       data: ${newAccount}
     - id: 'step2'
       zencode: |
         Scenario 'ecdh': Create and publish public key
         Given that my name is in a 'string' named 'username'
-        and I have my 'keypair'
+        and I have my 'keyring'
         When I create the ecdh public key
         Then print my 'ecdh public key'
       data: ${newAccount}
       keysFromStep: 'step1'`;
 
-execute(steps).then((r) => console.log(r));
+execute(steps_definition).then((r) => console.log(r));
 ```
 
 ### Step definitions
