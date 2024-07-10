@@ -18,6 +18,14 @@ import { zencode } from '@slangroom/zencode';
 import { execaCommand } from 'execa';
 import YAML from 'yaml';
 
+import type {
+  OnBeforeOrAfter,
+  OnBeforeOrAfterData,
+  Results,
+  Step,
+  Steps,
+} from './types';
+
 const slang = new Slangroom(
   db,
   slangroomfs,
@@ -35,53 +43,6 @@ const slang = new Slangroom(
   zencode,
 );
 
-type OnBeforeOrAfter = {
-  readonly run?: string;
-  readonly jsFunction?: string;
-};
-
-type Step = {
-  readonly id: string;
-  readonly zencode?: string;
-  readonly zencodeFromFile?: string;
-  readonly data?: string;
-  readonly dataFromStep?: string;
-  readonly dataFromFile?: string;
-  readonly dataTransform?: string;
-  readonly keys?: string;
-  readonly keysFromStep?: string;
-  readonly keysFromFile?: string;
-  readonly keysTransform?: string;
-  readonly conf?: string;
-  readonly onAfter?: OnBeforeOrAfter;
-  readonly onBefore?: OnBeforeOrAfter;
-};
-
-type Steps = {
-  readonly steps: readonly Step[];
-  readonly conf?: string;
-  readonly verbose?: boolean;
-};
-
-type Results = {
-  [x: string]: string;
-};
-
-type OnBeforeData = {
-  readonly zencode: string;
-  readonly data?: string;
-  readonly keys?: string;
-  readonly conf?: string;
-};
-
-type OnAfterData = {
-  readonly result: string;
-  readonly zencode: string;
-  readonly data?: string;
-  readonly keys?: string;
-  readonly conf?: string;
-};
-
 const AsyncFunction = async function () {}.constructor;
 
 const readFromFile = (path: string): string => {
@@ -93,7 +54,7 @@ const verbose = (verbose: boolean | undefined): ((m: string) => void) => {
   return () => {};
 };
 
-const fnParse = async (
+const execJsFun = async (
   stringFn: string,
   args: Record<string, string>,
 ): Promise<string> => {
@@ -101,9 +62,10 @@ const fnParse = async (
   return await fn(...Object.values(args));
 };
 
-const runShellCommand = async (command: string): Promise<void> => {
+const execShellCommand = async (command: string): Promise<void> => {
   await execaCommand(command);
 };
+
 const getDataOrKeys = (
   step: Step,
   results: Results,
@@ -134,19 +96,21 @@ const manageTransform = async (
     if ('data' in transformData) return transformData.data;
     else return transformData.keys;
   }
-  const data = await fnParse(transformFn, transformData);
+  const data = await execJsFun(transformFn, transformData);
   verboseFn(`TRANSFORMED DATA: ${data}`);
   return data;
 };
 
 const manageBeforeOrAfter = async (
   stepOnBeforeOrAfter: OnBeforeOrAfter | undefined,
-  data: OnBeforeData | OnAfterData,
+  data: OnBeforeOrAfterData,
 ): Promise<void> => {
-  if (stepOnBeforeOrAfter && stepOnBeforeOrAfter.jsFunction)
-    await fnParse(stepOnBeforeOrAfter.jsFunction, data);
-  if (stepOnBeforeOrAfter && stepOnBeforeOrAfter.run)
-    await runShellCommand(stepOnBeforeOrAfter.run);
+  if (stepOnBeforeOrAfter) {
+    if (stepOnBeforeOrAfter.jsFunction)
+      await execJsFun(stepOnBeforeOrAfter.jsFunction, data);
+    if (stepOnBeforeOrAfter.run)
+      await execShellCommand(stepOnBeforeOrAfter.run);
+  }
   return;
 };
 
@@ -167,9 +131,10 @@ export const execute = async (
     }
     let keys = getDataOrKeys(step, results, 'keys');
     const conf = step.conf ? step.conf : jsonSteps.conf;
-    const zencode = step.zencodeFromFile
-      ? readFromFile(step.zencodeFromFile)
-      : step.zencode || '';
+    const zencode =
+      'zencodeFromFile' in step
+        ? readFromFile(step.zencodeFromFile)
+        : step.zencode || '';
     verboseFn(
       `Executing contract ${step.id}\nZENCODE: ${zencode}\nDATA: ${data}\nKEYS: ${keys}\nCONF: ${conf}`,
     );
