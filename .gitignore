@@ -9,3 +9,7 @@ coverage
 package-lock.json
 
 .coverage
+
+// docs
+docs/.vitepress/dist
+docs/.vitepress/cache
