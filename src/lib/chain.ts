@@ -59,7 +59,11 @@ const execJsFun = async (
   args: Record<string, string>,
 ): Promise<string> => {
   const fn = AsyncFunction(...Object.keys(args), stringFn);
-  return await fn(...Object.values(args));
+  try {
+    return await fn(...Object.values(args));
+  } catch (e) {
+    throw new Error(`Error executing JS function:\n${stringFn}\n${e}`);
+  }
 };
 
 const execShellCommand = async (command: string): Promise<void> => {
@@ -140,7 +144,7 @@ export const execute = async (
     );
     data = await manageTransform(step.dataTransform, { data }, verboseFn);
     keys = await manageTransform(step.keysTransform, { keys }, verboseFn);
-    manageBeforeOrAfter(step.onBefore, { zencode, data, keys, conf });
+    await manageBeforeOrAfter(step.onBefore, { zencode, data, keys, conf });
     const { result, logs } = await slang.execute(zencode, {
       data: data ? JSON.parse(data) : {},
       keys: keys ? JSON.parse(keys) : {},
@@ -149,10 +153,11 @@ export const execute = async (
     let stringResult;
     try {
       stringResult = JSON.stringify(result);
-    } catch (e) {
+    } /* c8 ignore next 4 */ catch (e) {
+      // this should be unreachable
       throw new Error(`failed to stringify result: ${result}\ngot error: ${e}`);
     }
-    manageBeforeOrAfter(step.onAfter, {
+    await manageBeforeOrAfter(step.onAfter, {
       result: stringResult,
       zencode,
       data,
