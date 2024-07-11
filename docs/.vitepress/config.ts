@@ -26,6 +26,7 @@ export default defineConfig({
             link: '/guide/what-is-slangroom-chain',
           },
           { text: 'Getting Started', link: '/guide/getting-started.md' },
+          { text: 'Step definition', link: '/guide/step-definition.md' },
         ],
       },
 
