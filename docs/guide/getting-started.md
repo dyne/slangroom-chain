@@ -6,7 +6,22 @@ SPDX-License-Identifier: CC-BY-NC-SA-4.0
 
 # Getting Started
 
+## Setup
+
+Create a new directory and initialize the project with the command
+
+::: code-group
+```sh [npm]
+npm init
+```
+```sh [pnpm]
+pnpm init
+```
+:::
+
 ## Installation
+
+Install the slangroom-chain library
 
 ::: code-group
 ```sh [npm]
@@ -17,7 +32,9 @@ pnpm add @dyne/slangroom-chain
 ```
 :::
 
-## Example of chain
+## Simple example
+
+Wrote a simple example in your `index.mjs` file:
 
 ```js [index.mjs]
 import { execute } from '@dyne/slangroom-chain';
@@ -44,13 +61,19 @@ const steps_definition = `
       data: ${newAccount}
       keysFromStep: 'step1'`;
 
-execute(steps).then((r) => console.log(JSON.parse(r)));
+execute(steps_definition).then((r) => console.log(JSON.parse(r)));
 ```
 
 ## Run the example
+
+Run:
+
 ```bash
 node index.mjs
 ```
+
+and the output will be:
+
 ```json
 {
   "Alice": {
