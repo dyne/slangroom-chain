@@ -273,18 +273,16 @@ sidebar: false
       Execute chain of slangroom smart contracts
       </p>
       <div class="hero-actions">
-        <!-- not used at the moment
-        <a href="/slangroom-chain/statements/" class="hero-action primary">
-          Statements
+        <a href="/guide/what-is-slangroom-chain" class="hero-action primary">
+          Guide
         </a>
-        <a href="/slangroom-chain/deployments/" class="hero-action secondary">
-          Deployments
+        <a href="/examples/" class="hero-action secondary">
+          Examples
         </a>
-        -->
       </div>
-      <a class="video-backdrop" href="/slangroom-chain/description" target="_blank">
+      <a class="video-backdrop" href="/guide/what-is-slangroom-chain" target="_blank">
         <video
-          src="https://user-images.githubusercontent.com/10400064/222474710-bc263775-06b8-4a78-8099-676a9ad3c7a4.mov"
+          src="https://github.com/dyne/slangroom-chain/assets/102997993/528e0f1f-432c-4ccd-86bf-a09231dd9556"
           autoplay="true"
           loop="true"
           muted="true"
