@@ -36,7 +36,14 @@ export default defineConfig({
     },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
+      { icon: 'github', link: 'https://github.com/dyne/slangroom-chain' },
+      {
+        icon: 'npm',
+        link: 'https://www.npmjs.com/package/@dyne/slangroom-chain',
+      },
+      { icon: 'mastodon', link: 'https://toot.community/@dyne' },
+      { icon: 'x', link: 'https://x.com/DyneOrg' },
+      { icon: 'linkedin', link: 'https://www.linkedin.com/company/dyne-org' },
     ],
   },
 });
