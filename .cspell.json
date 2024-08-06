@@ -39,7 +39,10 @@
     "cristino",
     "rngseed",
     "qrcode",
-    "pocketbase"
+    "pocketbase",
+    "hola",
+    "mundo",
+    "slangroomfs"
   ],
   "flagWords": [],
   "ignorePaths": [
