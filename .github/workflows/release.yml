@@ -10,8 +10,16 @@ on:
       - main
 # TODO: docs
 jobs:
+  reuse:
+    name: 🚨
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: fsfe/reuse-action@v5
+
   test:
     name: 🧪
+    needs: reuse
     runs-on: ubuntu-latest
     steps:
       - uses: dyne/pnpm@v1
