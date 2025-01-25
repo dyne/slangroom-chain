@@ -16,8 +16,8 @@ type JsonOnBeforeFn =
 export type JsonOnBefore =
   | JsonOnBeforeFn
   | {
-      jsFunction?: JsonOnBeforeFn,
-      run?: string,
+      jsFunction?: JsonOnBeforeFn;
+      run?: string;
     };
 
 type JsonOnAfterFn =
@@ -39,13 +39,11 @@ type JsonOnAfterFn =
 export type JsonOnAfter =
   | JsonOnAfterFn
   | {
-      jsFunction?: JsonOnAfterFn,
-      run?: string,
+      jsFunction?: JsonOnAfterFn;
+      run?: string;
     };
 
-export type JsonOnBeforeOrAfter =
-  | JsonOnBefore
-  | JsonOnAfter
+export type JsonOnBeforeOrAfter = JsonOnBefore | JsonOnAfter;
 
 type JsonDataTransform =
   | ((data: string) => string)
@@ -78,7 +76,7 @@ export type JsonStep =
     })
   | (JsonBasicStep & {
       readonly zencodeFromFile: string;
-  });
+    });
 
 export type JsonSteps = {
   readonly steps: readonly JsonStep[];
@@ -90,7 +88,7 @@ export type JsonSteps = {
 export type YamlOnBeforeOrAfter = {
   readonly run?: string;
   readonly jsFunction?: string;
-}
+};
 
 type YamlBasicStep = {
   readonly id: string;
@@ -113,7 +111,7 @@ type YamlStep =
     })
   | (YamlBasicStep & {
       readonly zencodeFromFile: string;
-  });
+    });
 
 export type YamlSteps = {
   readonly steps: readonly YamlStep[];
@@ -145,3 +143,28 @@ type OnAfterData = {
 };
 
 export type OnBeforeOrAfterData = OnBeforeData | OnAfterData;
+
+export interface Chain {
+  steps: JsonSteps | YamlSteps;
+  manageTransform(
+    transformFn: string | JsonTransformFn | undefined,
+    transformData: string,
+    transformType: 'data' | 'keys',
+    verboseFn: (m: string) => void,
+  ): Promise<string>;
+  manageBefore(
+    stepOnBefore: YamlOnBeforeOrAfter | JsonOnBefore | undefined,
+    zencode: string,
+    data: string | undefined,
+    keys: string | undefined,
+    conf: string | undefined,
+  ): Promise<void>;
+  manageAfter(
+    stepOnAfter: YamlOnBeforeOrAfter | JsonOnAfter | undefined,
+    result: string,
+    zencode: string,
+    data: string | undefined,
+    keys: string | undefined,
+    conf: string | undefined,
+  ): Promise<void>;
+}

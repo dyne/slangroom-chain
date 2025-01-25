@@ -1,7 +1,7 @@
-
 import { execaCommand } from 'execa';
 
 import type {
+  Chain,
   JsonOnAfter,
   JsonOnBefore,
   JsonSteps,
@@ -12,7 +12,7 @@ const execShellCommand = async (command: string): Promise<void> => {
   await execaCommand(command);
 };
 
-export class JsonChain {
+export class JsonChain implements Chain {
   steps: JsonSteps;
   constructor(steps: JsonSteps) {
     this.steps = steps;
@@ -36,7 +36,7 @@ export class JsonChain {
     data: string | undefined,
     keys: string | undefined,
     conf: string | undefined,
-  ) : Promise<void> {
+  ): Promise<void> {
     if (!stepOnBefore) return;
     if (typeof stepOnBefore === 'function') {
       await stepOnBefore(zencode, data, keys, conf);
@@ -47,7 +47,7 @@ export class JsonChain {
         await execShellCommand(stepOnBefore.run);
       }
     }
-  };
+  }
 
   async manageAfter(
     stepOnAfter: JsonOnAfter | undefined,
@@ -56,7 +56,7 @@ export class JsonChain {
     data: string | undefined,
     keys: string | undefined,
     conf: string | undefined,
-  ) : Promise<void> {
+  ): Promise<void> {
     if (!stepOnAfter) return;
     if (typeof stepOnAfter === 'function') {
       await stepOnAfter(result, zencode, data, keys, conf);
@@ -67,5 +67,5 @@ export class JsonChain {
         await execShellCommand(stepOnAfter.run);
       }
     }
-  };
+  }
 }

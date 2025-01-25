@@ -2,6 +2,7 @@ import { execaCommand } from 'execa';
 import YAML from 'yaml';
 
 import type {
+  Chain,
   OnBeforeOrAfterData,
   YamlOnBeforeOrAfter,
   YamlSteps,
@@ -32,11 +33,10 @@ const manageBeforeOrAfter = async (
 ): Promise<void> => {
   if (stepOnBeforeOrAfter.jsFunction)
     await execJsFun(stepOnBeforeOrAfter.jsFunction, data);
-  if (stepOnBeforeOrAfter.run)
-    await execShellCommand(stepOnBeforeOrAfter.run);
-}
+  if (stepOnBeforeOrAfter.run) await execShellCommand(stepOnBeforeOrAfter.run);
+};
 
-export class YamlChain {
+export class YamlChain implements Chain {
   steps: YamlSteps;
   constructor(steps: string) {
     this.steps = YAML.parse(steps);
@@ -49,7 +49,9 @@ export class YamlChain {
     verboseFn: (m: string) => void,
   ): Promise<string> {
     if (!transformFn) return transformData;
-    const data = await execJsFun(transformFn, {[transformType]: transformData});
+    const data = await execJsFun(transformFn, {
+      [transformType]: transformData,
+    });
     verboseFn(`TRANSFORMED ${transformType}: ${data}`);
     return data;
   }
@@ -60,7 +62,7 @@ export class YamlChain {
     data: string | undefined,
     keys: string | undefined,
     conf: string | undefined,
-  ) : Promise<void> {
+  ): Promise<void> {
     if (!stepOnBefore) return;
     await manageBeforeOrAfter(stepOnBefore, { zencode, data, keys, conf });
   }
@@ -72,8 +74,14 @@ export class YamlChain {
     data: string | undefined,
     keys: string | undefined,
     conf: string | undefined,
-  ) : Promise<void> {
+  ): Promise<void> {
     if (!stepOnAfter) return;
-    await manageBeforeOrAfter(stepOnAfter, { result, zencode, data, keys, conf });
-  };
+    await manageBeforeOrAfter(stepOnAfter, {
+      result,
+      zencode,
+      data,
+      keys,
+      conf,
+    });
+  }
 }
