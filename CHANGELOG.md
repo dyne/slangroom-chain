@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/dyne/zencode-chain/compare/v1.6.4...v1.7.0) (2025-01-25)
+
+
+### Features
+
+* chains are in yaml format ([#11](https://github.com/dyne/zencode-chain/issues/11)) ([5301863](https://github.com/dyne/zencode-chain/commit/530186379c98998c0f40fbeb1914d3b088f16819))
+
 ## [1.6.4](https://github.com/dyne/zencode-chain/compare/v1.6.3...v1.6.4) (2024-07-01)
 
 
