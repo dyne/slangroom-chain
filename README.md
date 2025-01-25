@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2025 Dyne.org foundation
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <h1 align="center">
   @dyne/slangroom-chain<br/><br/>
   <sub>Execute chain of slangroom smart contracts</sub>

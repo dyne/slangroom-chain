@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 Dyne.org foundation
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 name: Release
 on:
   pull_request:
@@ -14,7 +18,7 @@ jobs:
       - run: pnpm coverage
 
   release:
-    name: Release
+    name: 📦
     needs: test
     if: github.ref == 'refs/heads/main'
     permissions:
