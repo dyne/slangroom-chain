@@ -16,6 +16,10 @@ import { timestamp } from '@slangroom/timestamp';
 import { wallet } from '@slangroom/wallet';
 import { zencode } from '@slangroom/zencode';
 
+import { JsonChain } from './jsonChain.js';
+import type { Chain, JsonSteps, Results, Step } from './types';
+import { YamlChain } from './yamlChain.js';
+
 const slang = new Slangroom(
   db,
   slangroomfs,
@@ -37,123 +41,107 @@ const readFromFile = (path: string): string => {
   return fs.readFileSync(path).toString('utf-8');
 };
 
-type Step = {
-  readonly id: string;
-  readonly zencode?: string;
-  readonly zencodeFromFile?: string;
-  readonly data?: string;
-  readonly dataFromStep?: string;
-  readonly dataFromFile?: string;
-  readonly dataTransform?:
-    | ((data: string) => string)
-    | ((data: string) => Promise<string>);
-  readonly keys?: string;
-  readonly keysFromStep?: string;
-  readonly keysFromFile?: string;
-  readonly keysTransform?:
-    | ((keys: string) => string)
-    | ((keys: string) => Promise<string>);
-  readonly conf?: string;
-  readonly onAfter?:
-    | ((
-        result: string,
-        zencode: string,
-        data: string | undefined,
-        keys: string | undefined,
-        conf: string | undefined,
-      ) => void)
-    | ((
-        result: string,
-        zencode: string,
-        data: string | undefined,
-        keys: string | undefined,
-        conf: string | undefined,
-      ) => Promise<void>);
-  readonly onBefore?:
-    | ((
-        zencode: string,
-        data: string | undefined,
-        keys: string | undefined,
-        conf: string | undefined,
-      ) => void)
-    | ((
-        zencode: string,
-        data: string | undefined,
-        keys: string | undefined,
-        conf: string | undefined,
-      ) => Promise<void>);
+const verbose = (verbose: boolean | undefined): ((m: string) => void) => {
+  if (verbose) return (message: string) => console.log(message);
+  return () => {};
 };
 
-type Steps = {
-  readonly steps: readonly Step[];
-  readonly conf?: string;
-  readonly verbose?: boolean;
+const getDataOrKeys = (
+  step: Step,
+  results: Results,
+  dataOrKeys: 'data' | 'keys',
+): string => {
+  const fromFile: keyof Step = `${dataOrKeys}FromFile`;
+  const fromStep: keyof Step = `${dataOrKeys}FromStep`;
+  if (!step[fromFile] && !step[fromStep] && !step[dataOrKeys]) return '{}';
+  let data;
+  if (step[fromFile] && typeof step[fromFile] === 'string')
+    data = readFromFile(step[fromFile] as string);
+  else if (step[fromStep] && typeof step[fromStep] === 'string')
+    data = results[step[fromStep] as string];
+  else if (typeof step[dataOrKeys] === 'string') data = step[dataOrKeys];
+  else if (typeof step[dataOrKeys] === 'object')
+    data = JSON.stringify(step[dataOrKeys]);
+  if (!data)
+    throw new Error(`No valid ${dataOrKeys} provided for step ${step.id}`);
+  return data;
 };
 
-type Results = {
-  [x: string]: string;
+const getDataAndKeys = (
+  step: Step,
+  results: Results,
+): { data: string; keys: string } => {
+  return {
+    data: getDataOrKeys(step, results, 'data'),
+    keys: getDataOrKeys(step, results, 'keys'),
+  };
 };
 
 export const execute = async (
-  steps: Steps,
+  steps: string | JsonSteps,
   inputData?: string,
 ): Promise<string> => {
   const results: Results = {};
   let final = '';
   let firstIteration = true;
-  for await (const step of steps.steps) {
-    let data = step.dataFromFile
-      ? readFromFile(step.dataFromFile)
-      : step.dataFromStep
-        ? results[step.dataFromStep]
-        : step.data;
+  let parsedSteps: Chain;
+  if (typeof steps === 'string') parsedSteps = new YamlChain(steps);
+  else parsedSteps = new JsonChain(steps);
+  const verboseFn = verbose(parsedSteps.steps.verbose);
+  for (const step of parsedSteps.steps.steps) {
+    let { data, keys } = getDataAndKeys(step, results);
+    // TODO: remove firstIteration boolean variable and
+    // each time the data is input take as data the result of
+    // previous step for easier chaining
     if (firstIteration) {
-      if (typeof data == 'undefined') data = inputData;
+      if (data === '{}' && inputData) data = inputData;
       firstIteration = false;
     }
-    let keys = step.keysFromFile
-      ? readFromFile(step.keysFromFile)
-      : step.keysFromStep
-        ? results[step.keysFromStep]
-        : step.keys;
-    const conf = step.conf ? step.conf : steps.conf;
-    const zencode = step.zencodeFromFile
-      ? readFromFile(step.zencodeFromFile)
-      : step.zencode || '';
-    if (steps.verbose) {
-      console.log(`Executing contract ${step.id} `);
-      console.log(`ZENCODE: ${zencode}`);
-      console.log(`DATA: ${data}`);
-      console.log(`KEYS: ${keys}`);
-      console.log(`CONF: ${conf}`);
-    }
-    if (data && step.dataTransform) {
-      data = await step.dataTransform(data);
-      if (steps.verbose) {
-        console.log(`TRANSFORMED DATA: ${data}`);
-      }
-    }
-    if (keys && step.keysTransform) {
-      keys = await step.keysTransform(keys);
-      if (steps.verbose) {
-        console.log(`TRANSFORMED KEYS: ${keys}`);
-      }
-    }
-    if (step.onBefore) await step.onBefore(zencode, data, keys, conf);
+    const conf = step.conf ? step.conf : parsedSteps.steps.conf;
+    const zencode =
+      'zencodeFromFile' in step
+        ? readFromFile(step.zencodeFromFile)
+        : step.zencode;
+    verboseFn(
+      `Executing contract ${step.id}\nZENCODE: ${zencode}\nDATA: ${data}\nKEYS: ${keys}\nCONF: ${conf}`,
+    );
+    data = await parsedSteps.manageTransform(
+      step.dataTransform,
+      data,
+      'data',
+      verboseFn,
+    );
+    keys = await parsedSteps.manageTransform(
+      step.keysTransform,
+      keys,
+      'keys',
+      verboseFn,
+    );
+    await parsedSteps.manageBefore(step.onBefore, zencode, data, keys, conf);
     const { result, logs } = await slang.execute(zencode, {
-      data: data ? JSON.parse(data) : {},
-      keys: keys ? JSON.parse(keys) : {},
+      data: JSON.parse(data),
+      keys: JSON.parse(keys),
       conf,
     });
-    if (step.onAfter)
-      await step.onAfter(JSON.stringify(result), zencode, data, keys, conf);
-    results[step.id] = JSON.stringify(result);
-    if (steps.verbose) {
-      console.log(logs);
+    let stringResult;
+    try {
+      stringResult = JSON.stringify(result);
+    } /* c8 ignore next 4 */ catch (e) {
+      // this should be unreachable
+      throw new Error(`failed to stringify result: ${result}\ngot error: ${e}`);
     }
-    final = JSON.stringify(result);
+    await parsedSteps.manageAfter(
+      step.onAfter,
+      stringResult,
+      zencode,
+      data,
+      keys,
+      conf,
+    );
+    results[step.id] = stringResult;
+    verboseFn(logs);
+    final = stringResult;
   }
 
   return final;
 };
-
