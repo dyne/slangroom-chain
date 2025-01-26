@@ -6,8 +6,11 @@ import test from 'ava';
 
 import { execute } from './chain.js';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-(global as any).variable = 'Hello';
+declare global {
+  // eslint-disable-next-line no-var
+  var variable: string;
+}
+global.variable = 'Hello';
 
 test('should execute work [yaml]', async (t) => {
   const account = JSON.stringify({ username: 'Alice' });
@@ -522,24 +525,24 @@ test('mix zencode and zencodeFromFile', async (t) => {
   });
 });
 
-test('onBefore create a file and delete it onAfter', async (t) => {
+test('onBefore create a file and delete it onAfter [yaml]', async (t) => {
   process.env['FILES_DIR'] = '.';
   const steps = `
   steps:
     - id: create and delete new_file
       onBefore:
         run: |
-          touch new_file.test
+          touch new_file_yaml.test
       zencode: |
         Rule unknown ignore
         Given I send path 'file_path' and verify file exists
         Given I have a 'string' named 'file_path'
         Then print the 'file_path'
       keys:
-        file_path: new_file.test
+        file_path: new_file_yaml.test
       onAfter:
         run: |
-          rm new_file.test
+          rm new_file_yaml.test
     - id: check new_file does not exist
       dataFromStep: create and delete new_file
       zencode: |
@@ -553,9 +556,40 @@ test('onBefore create a file and delete it onAfter', async (t) => {
   });
 });
 
+test('onBefore create a file and delete it onAfter [json]', async (t) => {
+  process.env['FILES_DIR'] = '.';
+  const steps = {
+    steps: [
+      {
+        id: 'create and delete new_file',
+        onBefore: {
+          run: 'touch new_file_json.test',
+        },
+        zencode:
+          "Rule unknown ignore\nGiven I send path 'file_path' and verify file exists\nGiven I have a 'string' named 'file_path'\nThen print the 'file_path'\n",
+        keys: '{"file_path": "new_file_json.test"}',
+        onAfter: {
+          run: 'rm new_file_json.test',
+        },
+      },
+      {
+        id: 'check new_file does not exist',
+        dataFromStep: 'create and delete new_file',
+        zencode:
+          "Rule unknown ignore\nGiven I send path 'file_path' and verify file does not exist\nGiven I have a 'string' named 'file_path'\nThen print the string 'everything works'\n",
+      },
+    ],
+  };
+  const result = await execute(steps);
+  console.log(result);
+  t.deepEqual(JSON.parse(result), {
+    output: ['everything_works'],
+  });
+});
+
 // failing tests
 
-test('check for variables onBefore and onAfter, pass onBefore and fails onAfter', async (t) => {
+test('check for variables onBefore and onAfter, pass onBefore and fails onAfter [yaml]', async (t) => {
   const steps = `
   steps:
     - id: create and delete new_file
@@ -586,6 +620,36 @@ if(r !== 'Hello_world') {
 
 Error: result is not Hello_world: Hello_cat`,
   );
+});
+
+test('check for variables onBefore and onAfter, pass onBefore and fails onAfter [json]', async (t) => {
+  const steps = {
+    steps: [
+      {
+        id: 'create and delete new_file',
+        onBefore: {
+          jsFunction: () => {
+            if (variable !== 'Hello') {
+              throw new Error('variable is not Hello: ' + variable);
+            }
+          },
+        },
+        zencode:
+          "Given nothing\nWhen I set 'res' to 'cat' as 'string'\nThen print the 'res'\n",
+        onAfter: {
+          jsFunction: (result: string) => {
+            const r = variable + '_' + JSON.parse(result).res;
+            if (r !== 'Hello_world') {
+              throw new Error('result is not Hello_world: ' + r);
+            }
+          },
+        },
+      },
+    ],
+  };
+  const fn = execute(steps);
+  const err = await t.throwsAsync(fn);
+  t.is(err?.message, 'result is not Hello_world: Hello_cat');
 });
 
 test('invalid data', async (t) => {
