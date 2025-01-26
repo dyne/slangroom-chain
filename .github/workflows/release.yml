@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2021-2025 Dyne.org foundation
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 name: Release
 on:
   pull_request:
@@ -6,15 +10,23 @@ on:
       - main
 # TODO: docs
 jobs:
+  reuse:
+    name: 🚨
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: fsfe/reuse-action@v5
+
   test:
     name: 🧪
+    needs: reuse
     runs-on: ubuntu-latest
     steps:
       - uses: dyne/pnpm@v1
       - run: pnpm coverage
 
   release:
-    name: Release
+    name: 📦
     needs: test
     if: github.ref == 'refs/heads/main'
     permissions:
