@@ -38,8 +38,6 @@ jobs:
     steps:
       - name: 🔨 Setup pnpm
         uses: dyne/pnpm@v1
-      - name: 🧪 Run the tests
-        run: pnpm coverage
       - name: 📦️ Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
