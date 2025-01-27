@@ -2,8 +2,6 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { execaCommand } from 'execa';
-
 import type {
   Chain,
   JsonOnAfter,
@@ -11,10 +9,7 @@ import type {
   JsonSteps,
   JsonTransformFn,
 } from './types';
-
-const execShellCommand = async (command: string): Promise<void> => {
-  await execaCommand(command);
-};
+import { execShellCommand } from './utils.js';
 
 export class JsonChain implements Chain {
   steps: JsonSteps;

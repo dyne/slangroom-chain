@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { execaCommand } from 'execa';
 import YAML from 'yaml';
 
 import type {
@@ -11,25 +10,7 @@ import type {
   YamlOnBeforeOrAfter,
   YamlSteps,
 } from './types';
-
-/* c8 ignore next */
-const AsyncFunction = async function () {}.constructor;
-
-const execJsFun = async (
-  stringFn: string,
-  args: Record<string, string>,
-): Promise<string> => {
-  const fn = AsyncFunction(...Object.keys(args), stringFn);
-  try {
-    return await fn(...Object.values(args));
-  } catch (e) {
-    throw new Error(`Error executing JS function:\n${stringFn}\n${e}`);
-  }
-};
-
-const execShellCommand = async (command: string): Promise<void> => {
-  await execaCommand(command);
-};
+import { execJsFun, execShellCommand } from './utils.js';
 
 const manageBeforeOrAfter = async (
   stepOnBeforeOrAfter: YamlOnBeforeOrAfter,
