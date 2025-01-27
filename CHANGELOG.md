@@ -1,3 +1,10 @@
+## [1.7.1](https://github.com/dyne/slangroom-chain/compare/v1.7.0...v1.7.1) (2025-01-27)
+
+
+### Bug Fixes
+
+* bump some dependencies ([#17](https://github.com/dyne/slangroom-chain/issues/17)) ([7d50cc0](https://github.com/dyne/slangroom-chain/commit/7d50cc0c461f98e47aa5e57025ec6a813b4832dd))
+
 # [1.7.0](https://github.com/dyne/zencode-chain/compare/v1.6.4...v1.7.0) (2025-01-25)
 
 
