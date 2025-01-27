@@ -1,3 +1,10 @@
+## [1.7.2](https://github.com/dyne/slangroom-chain/compare/v1.7.1...v1.7.2) (2025-01-27)
+
+
+### Bug Fixes
+
+* remove yarn leftovers ([#18](https://github.com/dyne/slangroom-chain/issues/18)) ([d199aa8](https://github.com/dyne/slangroom-chain/commit/d199aa819a29a2e12519e013cceb57cfe1ae15bb))
+
 ## [1.7.1](https://github.com/dyne/slangroom-chain/compare/v1.7.0...v1.7.1) (2025-01-27)
 
 
