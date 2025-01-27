@@ -327,12 +327,14 @@ and print the 'participants.signature'
   t.is(result.petition.list.length, 1);
 });
 
-test('specific conf step should override the generic one [yaml]', async (t) => {
-  const logs: string[] = [];
-  console.log = (x) => {
-    logs.push(x);
-  };
-  const steps = `
+test.serial(
+  'specific conf step should override the generic one [yaml]',
+  async (t) => {
+    const logs: string[] = [];
+    console.log = (x) => {
+      logs.push(x);
+    };
+    const steps = `
     conf: 'rngseed=hex:74eeeab870a394175fae808dd5dd3b047f3ee2d6a8d01e14bff94271565625e98a63babe8dd6cbea6fedf3e19de4bc80314b861599522e44409fdd20f7cd6cfc'
     verbose: true
     steps:
@@ -342,43 +344,47 @@ test('specific conf step should override the generic one [yaml]', async (t) => {
           Given that I have a 'string' named 'hello'
           Then print all data as 'string'
         data: '${JSON.stringify({ hello: 'world' })}'`;
-  await execute(steps);
-  t.true(
-    logs
-      .join()
-      .includes(
-        'CONF: rngseed=hex:11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111',
-      ),
-  );
-});
+    await execute(steps);
+    t.true(
+      logs
+        .join()
+        .includes(
+          'CONF: rngseed=hex:11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111',
+        ),
+    );
+  },
+);
 
-test('specific conf step should override the generic one [json]', async (t) => {
-  const logs: string[] = [];
-  console.log = (x) => {
-    logs.push(x);
-  };
-  const steps = {
-    conf: 'rngseed=hex:74eeeab870a394175fae808dd5dd3b047f3ee2d6a8d01e14bff94271565625e98a63babe8dd6cbea6fedf3e19de4bc80314b861599522e44409fdd20f7cd6cfc',
-    steps: [
-      {
-        id: 'some',
-        conf: 'rngseed=hex:11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111',
-        zencode: `Given that I have a 'string' named 'hello'
+test.serial(
+  'specific conf step should override the generic one [json]',
+  async (t) => {
+    const logs: string[] = [];
+    console.log = (x) => {
+      logs.push(x);
+    };
+    const steps = {
+      conf: 'rngseed=hex:74eeeab870a394175fae808dd5dd3b047f3ee2d6a8d01e14bff94271565625e98a63babe8dd6cbea6fedf3e19de4bc80314b861599522e44409fdd20f7cd6cfc',
+      steps: [
+        {
+          id: 'some',
+          conf: 'rngseed=hex:11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111',
+          zencode: `Given that I have a 'string' named 'hello'
                 Then print all data as 'string'`,
-        data: JSON.stringify({ hello: 'world' }),
-      },
-    ],
-    verbose: true,
-  };
-  await execute(steps);
-  t.true(
-    logs
-      .join()
-      .includes(
-        'CONF: rngseed=hex:11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111',
-      ),
-  );
-});
+          data: JSON.stringify({ hello: 'world' }),
+        },
+      ],
+      verbose: true,
+    };
+    await execute(steps);
+    t.true(
+      logs
+        .join()
+        .includes(
+          'CONF: rngseed=hex:11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111',
+        ),
+    );
+  },
+);
 
 test('keyTransform should work [yaml]', async (t) => {
   const steps = `

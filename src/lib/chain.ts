@@ -2,65 +2,28 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import fs from 'fs';
-
-import { Slangroom } from '@slangroom/core';
-import { db } from '@slangroom/db';
-import { fs as slangroomfs } from '@slangroom/fs';
-import { git } from '@slangroom/git';
-import { helpers } from '@slangroom/helpers';
-import { http } from '@slangroom/http';
-import { JSONSchema } from '@slangroom/json-schema';
-import { oauth } from '@slangroom/oauth';
-import { pocketbase } from '@slangroom/pocketbase';
-import { qrcode } from '@slangroom/qrcode';
-import { redis } from '@slangroom/redis';
-import { shell } from '@slangroom/shell';
-import { timestamp } from '@slangroom/timestamp';
-import { wallet } from '@slangroom/wallet';
-import { zencode } from '@slangroom/zencode';
-
 import { JsonChain } from './jsonChain.js';
+import { SlangroomManager } from './slangroom.js';
 import type { Chain, JsonSteps, Results, Step } from './types';
+import { readFromFile } from './utils.js';
 import { YamlChain } from './yamlChain.js';
-
-const slang = new Slangroom(
-  db,
-  slangroomfs,
-  git,
-  helpers,
-  http,
-  JSONSchema,
-  oauth,
-  pocketbase,
-  qrcode,
-  redis,
-  shell,
-  timestamp,
-  wallet,
-  zencode,
-);
-
-const readFromFile = (path: string): string => {
-  return fs.readFileSync(path).toString('utf-8');
-};
 
 const verbose = (verbose: boolean | undefined): ((m: string) => void) => {
   if (verbose) return (message: string) => console.log(message);
   return () => {};
 };
 
-const getDataOrKeys = (
+const getDataOrKeys = async (
   step: Step,
   results: Results,
   dataOrKeys: 'data' | 'keys',
-): string => {
+): Promise<string> => {
   const fromFile: keyof Step = `${dataOrKeys}FromFile`;
   const fromStep: keyof Step = `${dataOrKeys}FromStep`;
   if (!step[fromFile] && !step[fromStep] && !step[dataOrKeys]) return '{}';
   let data;
   if (step[fromFile] && typeof step[fromFile] === 'string')
-    data = readFromFile(step[fromFile] as string);
+    data = await readFromFile(step[fromFile] as string);
   else if (step[fromStep] && typeof step[fromStep] === 'string')
     data = results[step[fromStep] as string];
   else if (typeof step[dataOrKeys] === 'string') data = step[dataOrKeys];
@@ -71,13 +34,13 @@ const getDataOrKeys = (
   return data;
 };
 
-const getDataAndKeys = (
+const getDataAndKeys = async (
   step: Step,
   results: Results,
-): { data: string; keys: string } => {
+): Promise<{ data: string; keys: string }> => {
   return {
-    data: getDataOrKeys(step, results, 'data'),
-    keys: getDataOrKeys(step, results, 'keys'),
+    data: await getDataOrKeys(step, results, 'data'),
+    keys: await getDataOrKeys(step, results, 'keys'),
   };
 };
 
@@ -93,7 +56,7 @@ export const execute = async (
   else parsedSteps = new JsonChain(steps);
   const verboseFn = verbose(parsedSteps.steps.verbose);
   for (const step of parsedSteps.steps.steps) {
-    let { data, keys } = getDataAndKeys(step, results);
+    let { data, keys } = await getDataAndKeys(step, results);
     // TODO: remove firstIteration boolean variable and
     // each time the data is input take as data the result of
     // previous step for easier chaining
@@ -104,7 +67,7 @@ export const execute = async (
     const conf = step.conf ? step.conf : parsedSteps.steps.conf;
     const zencode =
       'zencodeFromFile' in step
-        ? readFromFile(step.zencodeFromFile)
+        ? await readFromFile(step.zencodeFromFile)
         : step.zencode;
     verboseFn(
       `Executing contract ${step.id}\nZENCODE: ${zencode}\nDATA: ${data}\nKEYS: ${keys}\nCONF: ${conf}`,
@@ -122,11 +85,12 @@ export const execute = async (
       verboseFn,
     );
     await parsedSteps.manageBefore(step.onBefore, zencode, data, keys, conf);
-    const { result, logs } = await slang.execute(zencode, {
-      data: JSON.parse(data),
-      keys: JSON.parse(keys),
+    const { result, logs } = await SlangroomManager.executeInstance(
+      zencode,
+      data,
+      keys,
       conf,
-    });
+    );
     let stringResult;
     try {
       stringResult = JSON.stringify(result);
