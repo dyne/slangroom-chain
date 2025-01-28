@@ -4,44 +4,13 @@
 
 import { JsonChain } from './jsonChain.js';
 import { SlangroomManager } from './slangroom.js';
-import type { Chain, JsonSteps, Results, Step } from './types';
-import { readFromFile } from './utils.js';
+import type { Chain, JsonSteps, Results } from './types';
+import { getDataAndKeys, readFromFile } from './utils.js';
 import { YamlChain } from './yamlChain.js';
 
 const verbose = (verbose: boolean | undefined): ((m: string) => void) => {
   if (verbose) return (message: string) => console.log(message);
   return () => {};
-};
-
-const getDataOrKeys = async (
-  step: Step,
-  results: Results,
-  dataOrKeys: 'data' | 'keys',
-): Promise<string> => {
-  const fromFile: keyof Step = `${dataOrKeys}FromFile`;
-  const fromStep: keyof Step = `${dataOrKeys}FromStep`;
-  if (!step[fromFile] && !step[fromStep] && !step[dataOrKeys]) return '{}';
-  let data;
-  if (step[fromFile] && typeof step[fromFile] === 'string')
-    data = await readFromFile(step[fromFile] as string);
-  else if (step[fromStep] && typeof step[fromStep] === 'string')
-    data = results[step[fromStep] as string];
-  else if (typeof step[dataOrKeys] === 'string') data = step[dataOrKeys];
-  else if (typeof step[dataOrKeys] === 'object')
-    data = JSON.stringify(step[dataOrKeys]);
-  if (!data)
-    throw new Error(`No valid ${dataOrKeys} provided for step ${step.id}`);
-  return data;
-};
-
-const getDataAndKeys = async (
-  step: Step,
-  results: Results,
-): Promise<{ data: string; keys: string }> => {
-  return {
-    data: await getDataOrKeys(step, results, 'data'),
-    keys: await getDataOrKeys(step, results, 'keys'),
-  };
 };
 
 export const execute = async (
@@ -56,6 +25,16 @@ export const execute = async (
   else parsedSteps = new JsonChain(steps);
   const verboseFn = verbose(parsedSteps.steps.verbose);
   for (const step of parsedSteps.steps.steps) {
+    if (
+      !(await parsedSteps.managePrecondition(
+        step.id,
+        results,
+        step.precondition,
+        verboseFn,
+      ))
+    ) {
+      continue;
+    }
     let { data, keys } = await getDataAndKeys(step, results);
     // TODO: remove firstIteration boolean variable and
     // each time the data is input take as data the result of

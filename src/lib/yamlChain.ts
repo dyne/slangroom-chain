@@ -4,13 +4,22 @@
 
 import YAML from 'yaml';
 
+import { SlangroomManager } from './slangroom.js';
 import type {
   Chain,
   OnBeforeOrAfterData,
+  Results,
+  Step,
   YamlOnBeforeOrAfter,
+  YamlPrecondition,
   YamlSteps,
 } from './types';
-import { execJsFun, execShellCommand } from './utils.js';
+import {
+  execJsFun,
+  execShellCommand,
+  getDataAndKeys,
+  readFromFile,
+} from './utils.js';
 
 const manageBeforeOrAfter = async (
   stepOnBeforeOrAfter: YamlOnBeforeOrAfter,
@@ -68,5 +77,39 @@ export class YamlChain implements Chain {
       keys,
       conf,
     });
+  }
+
+  async managePrecondition(
+    stepId: string,
+    results: Results,
+    stepPrecondition: YamlPrecondition | undefined,
+    verboseFn: (m: string) => void,
+  ): Promise<boolean> {
+    if (!stepPrecondition) return true;
+    let res = true;
+    try {
+      verboseFn(`Executing precondition for step ${stepId}`);
+      if ('jsFunction' in stepPrecondition) {
+        verboseFn('Executing js function precondition');
+        const jsRes = await execJsFun(stepPrecondition.jsFunction, {});
+        res = Boolean(jsRes);
+      } else {
+        verboseFn('Executing zencode precondition');
+        const zencode =
+          'zencodeFromFile' in stepPrecondition
+            ? await readFromFile(stepPrecondition.zencodeFromFile)
+            : stepPrecondition.zencode;
+        const { data, keys } = await getDataAndKeys(
+          stepPrecondition as Step,
+          results,
+        );
+        await SlangroomManager.executeInstance(zencode, data, keys, undefined);
+      }
+    } catch (e) {
+      verboseFn(`PRECONDITION not met with error\n${e}`);
+      res = false;
+    }
+    verboseFn(`Precondition ${stepId} result: ${res}`);
+    return res;
   }
 }
