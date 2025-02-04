@@ -87,7 +87,7 @@ export class JsonChain implements Chain {
         const jsRes = await stepPrecondition.jsFunction();
         res = Boolean(jsRes);
       } else {
-        verboseFn('Executing zencode precondition');
+        verboseFn('Executing zencode contract precondition');
         const zencode =
           'zencodeFromFile' in stepPrecondition
             ? await readFromFile(stepPrecondition.zencodeFromFile)
