@@ -40,7 +40,7 @@ const SLANGROOM_PLUGINS = [
 export class SlangroomManager {
   private static instance: SlangroomType;
 
-  private constructor() {}
+  //  private constructor() {}
 
   public static getInstance(): SlangroomType {
     if (!this.instance) {
@@ -51,14 +51,14 @@ export class SlangroomManager {
 
   public static async executeInstance(
     zencode: string,
-    data: string | undefined,
-    keys: string | undefined,
+    data: string,
+    keys: string,
     conf: string | undefined,
   ): Promise<{ result: Record<string, unknown>; logs: string }> {
     const s = this.getInstance();
     const res = await s.execute(zencode, {
-      data: data ? JSON.parse(data) : {},
-      keys: keys ? JSON.parse(keys) : {},
+      data: JSON.parse(data),
+      keys: JSON.parse(keys),
       conf,
     });
     return res;

@@ -77,7 +77,7 @@ export type JsonTransformFn = JsonDataTransform | JsonKeysTransform;
 
 export type JsonPrecondition =
   | {
-      readonly jsFunction: (() => undefined) | (() => Promise<undefined>);
+      readonly jsFunction: (() => unknown) | (() => Promise<unknown>);
     }
   | (ZencodeInputs & Zencode)
   | (ZencodeInputs & ZencodeFromFile);
