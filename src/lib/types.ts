@@ -2,6 +2,24 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+// generic
+type ZencodeInputs = {
+  readonly data?: string;
+  readonly dataFromFile?: string;
+  readonly dataFromStep?: string;
+  readonly keys?: string;
+  readonly keysFromFile?: string;
+  readonly keysFromStep?: string;
+};
+
+type Zencode = {
+  readonly zencode: string;
+};
+
+type ZencodeFromFile = {
+  readonly zencodeFromFile: string;
+};
+
 // types for json format
 type JsonOnBeforeFn =
   | ((
@@ -47,8 +65,6 @@ export type JsonOnAfter =
       run?: string;
     };
 
-export type JsonOnBeforeOrAfter = JsonOnBefore | JsonOnAfter;
-
 type JsonDataTransform =
   | ((data: string) => string)
   | ((data: string) => Promise<string>);
@@ -59,28 +75,26 @@ type JsonKeysTransform =
 
 export type JsonTransformFn = JsonDataTransform | JsonKeysTransform;
 
-type JsonBasicStep = {
+export type JsonPrecondition =
+  | {
+      readonly jsFunction: (() => unknown) | (() => Promise<unknown>);
+    }
+  | (ZencodeInputs & Zencode)
+  | (ZencodeInputs & ZencodeFromFile);
+
+type JsonBasicStep = ZencodeInputs & {
   readonly id: string;
-  readonly data?: string;
-  readonly dataFromStep?: string;
-  readonly dataFromFile?: string;
   readonly dataTransform?: JsonDataTransform;
-  readonly keys?: string;
-  readonly keysFromStep?: string;
-  readonly keysFromFile?: string;
   readonly keysTransform?: JsonKeysTransform;
   readonly conf?: string;
   readonly onAfter?: JsonOnAfter;
   readonly onBefore?: JsonOnBefore;
+  readonly precondition?: JsonPrecondition;
 };
 
 export type JsonStep =
-  | (JsonBasicStep & {
-      readonly zencode: string;
-    })
-  | (JsonBasicStep & {
-      readonly zencodeFromFile: string;
-    });
+  | (JsonBasicStep & Zencode)
+  | (JsonBasicStep & ZencodeFromFile);
 
 export type JsonSteps = {
   readonly steps: readonly JsonStep[];
@@ -94,28 +108,24 @@ export type YamlOnBeforeOrAfter = {
   readonly jsFunction?: string;
 };
 
-type YamlBasicStep = {
+export type YamlPrecondition =
+  | {
+      readonly jsFunction: string;
+    }
+  | (ZencodeInputs & Zencode)
+  | (ZencodeInputs & ZencodeFromFile);
+
+type YamlBasicStep = ZencodeInputs & {
   readonly id: string;
-  readonly data?: string;
-  readonly dataFromStep?: string;
-  readonly dataFromFile?: string;
   readonly dataTransform?: string;
-  readonly keys?: string;
-  readonly keysFromStep?: string;
-  readonly keysFromFile?: string;
   readonly keysTransform?: string;
   readonly conf?: string;
   readonly onAfter?: YamlOnBeforeOrAfter;
   readonly onBefore?: YamlOnBeforeOrAfter;
+  readonly precondition?: YamlPrecondition;
 };
 
-type YamlStep =
-  | (YamlBasicStep & {
-      readonly zencode: string;
-    })
-  | (YamlBasicStep & {
-      readonly zencodeFromFile: string;
-    });
+type YamlStep = (YamlBasicStep & Zencode) | (YamlBasicStep & ZencodeFromFile);
 
 export type YamlSteps = {
   readonly steps: readonly YamlStep[];
@@ -148,6 +158,7 @@ type OnAfterData = {
 
 export type OnBeforeOrAfterData = OnBeforeData | OnAfterData;
 
+// generic chain signature
 export interface Chain {
   steps: JsonSteps | YamlSteps;
   manageTransform(
@@ -171,4 +182,18 @@ export interface Chain {
     keys: string | undefined,
     conf: string | undefined,
   ): Promise<void>;
+  manageAfter(
+    stepOnAfter: YamlOnBeforeOrAfter | JsonOnAfter | undefined,
+    result: string,
+    zencode: string,
+    data: string | undefined,
+    keys: string | undefined,
+    conf: string | undefined,
+  ): Promise<void>;
+  managePrecondition(
+    stepId: string,
+    results: Results,
+    stepPrecondition: JsonPrecondition | YamlPrecondition | undefined,
+    verboseFn: (m: string) => void,
+  ): Promise<boolean>;
 }

@@ -2,19 +2,18 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { execaCommand } from 'execa';
-
+import { SlangroomManager } from './slangroom.js';
 import type {
   Chain,
   JsonOnAfter,
   JsonOnBefore,
+  JsonPrecondition,
   JsonSteps,
   JsonTransformFn,
+  Results,
+  Step,
 } from './types';
-
-const execShellCommand = async (command: string): Promise<void> => {
-  await execaCommand(command);
-};
+import { execShellCommand, getDataAndKeys, readFromFile } from './utils.js';
 
 export class JsonChain implements Chain {
   steps: JsonSteps;
@@ -71,5 +70,39 @@ export class JsonChain implements Chain {
         await execShellCommand(stepOnAfter.run);
       }
     }
+  }
+
+  async managePrecondition(
+    stepId: string,
+    results: Results,
+    stepPrecondition: JsonPrecondition | undefined,
+    verboseFn: (m: string) => void,
+  ): Promise<boolean> {
+    if (!stepPrecondition) return true;
+    let res = true;
+    try {
+      verboseFn(`Executing precondition for step ${stepId}`);
+      if ('jsFunction' in stepPrecondition) {
+        verboseFn('Executing js function precondition');
+        const jsRes = await stepPrecondition.jsFunction();
+        res = Boolean(jsRes);
+      } else {
+        verboseFn('Executing zencode contract precondition');
+        const zencode =
+          'zencodeFromFile' in stepPrecondition
+            ? await readFromFile(stepPrecondition.zencodeFromFile)
+            : stepPrecondition.zencode;
+        const { data, keys } = await getDataAndKeys(
+          stepPrecondition as Step,
+          results,
+        );
+        await SlangroomManager.executeInstance(zencode, data, keys, undefined);
+      }
+    } catch (e) {
+      verboseFn(`PRECONDITION not met with error\n${e}`);
+      res = false;
+    }
+    verboseFn(`Precondition ${stepId} result: ${res}`);
+    return res;
   }
 }

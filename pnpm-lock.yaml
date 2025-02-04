@@ -10,49 +10,52 @@ importers:
     dependencies:
       '@slangroom/core':
         specifier: ^1.43.2
-        version: 1.43.2(zenroom@4.31.2)
+        version: 1.43.2(zenroom@4.47.0)
       '@slangroom/db':
         specifier: ^1.43.2
-        version: 1.43.2(zenroom@4.31.2)
+        version: 1.43.2(zenroom@4.47.0)
+      '@slangroom/ethereum':
+        specifier: ^1.43.2
+        version: 1.43.2(encoding@0.1.13)(typescript@5.4.5)(zenroom@4.47.0)(zod@3.23.8)
       '@slangroom/fs':
         specifier: ^1.43.2
-        version: 1.43.2(zenroom@4.31.2)
+        version: 1.43.2(zenroom@4.47.0)
       '@slangroom/git':
         specifier: ^1.43.2
-        version: 1.43.2(zenroom@4.31.2)
+        version: 1.43.2(zenroom@4.47.0)
       '@slangroom/helpers':
         specifier: ^1.43.2
-        version: 1.43.2(zenroom@4.31.2)
+        version: 1.43.2(zenroom@4.47.0)
       '@slangroom/http':
         specifier: ^1.43.2
-        version: 1.43.2(zenroom@4.31.2)
+        version: 1.43.2(zenroom@4.47.0)
       '@slangroom/json-schema':
         specifier: ^1.43.2
-        version: 1.43.2(zenroom@4.31.2)
+        version: 1.43.2(zenroom@4.47.0)
       '@slangroom/oauth':
         specifier: ^1.43.2
-        version: 1.43.2(zenroom@4.31.2)
+        version: 1.43.2(zenroom@4.47.0)
       '@slangroom/pocketbase':
         specifier: ^1.43.2
-        version: 1.43.2(@capacitor/core@6.0.0)(zenroom@4.31.2)
+        version: 1.43.2(@capacitor/core@6.0.0)(zenroom@4.47.0)
       '@slangroom/qrcode':
         specifier: ^1.43.2
-        version: 1.43.2(zenroom@4.31.2)
+        version: 1.43.2(zenroom@4.47.0)
       '@slangroom/redis':
         specifier: ^1.43.2
-        version: 1.43.2(zenroom@4.31.2)
+        version: 1.43.2(zenroom@4.47.0)
       '@slangroom/shell':
         specifier: ^1.43.2
-        version: 1.43.2(zenroom@4.31.2)
+        version: 1.43.2(zenroom@4.47.0)
       '@slangroom/timestamp':
         specifier: ^1.43.2
-        version: 1.43.2(zenroom@4.31.2)
+        version: 1.43.2(zenroom@4.47.0)
       '@slangroom/wallet':
         specifier: ^1.43.2
-        version: 1.43.2(zenroom@4.31.2)
+        version: 1.43.2(zenroom@4.47.0)
       '@slangroom/zencode':
         specifier: ^1.43.2
-        version: 1.43.2(zenroom@4.31.2)
+        version: 1.43.2(zenroom@4.47.0)
       execa:
         specifier: ^9.5.2
         version: 9.5.2
@@ -142,10 +145,13 @@ importers:
         specifier: ^1.3.0
         version: 1.3.0
       zenroom:
-        specifier: ^4.31.2
-        version: 4.31.2
+        specifier: ^4.45.1
+        version: 4.47.0
 
 packages:
+
+  '@adraffy/ens-normalize@1.11.0':
+    resolution: {integrity: sha512-/3DDPKHqqIqxUULp8yP4zODUY1i+2xvVWsv8A79xGWdCAG+8sb0hRh0Rk2QyOJUnnbyPUAZYcpBuRe3nS2OIUg==}
 
   '@ampproject/remapping@2.3.0':
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
@@ -504,6 +510,16 @@ packages:
     resolution: {integrity: sha512-Ys+3g2TaW7gADOJzPt83SJtCDhMjndcDMFVQ/Tj9iA1BfJzFKD9mAUXT3OenpuPHbI6P/myECxRJrofUsDx/5g==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
+  '@ethereumjs/rlp@4.0.1':
+    resolution: {integrity: sha512-tqsQiBQDQdmPWE1xkkBq4rlSW5QZpLOUJ5RJh2/9fug+q9tnUhuZoVLk7s0scUIKTOzEtR72DFBXI4WiZcMpvw==}
+    engines: {node: '>=14'}
+    hasBin: true
+
+  '@ethereumjs/rlp@5.0.2':
+    resolution: {integrity: sha512-DziebCdg4JpGlEqEdGgXmjqcFoJi+JGulUXwEjsZGAscAQ7MyD/7LE/GVCP29vEQxKc7AAwjT3A2ywHp2xfoCA==}
+    engines: {node: '>=18'}
+    hasBin: true
+
   '@gar/promisify@1.1.3':
     resolution: {integrity: sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==}
 
@@ -570,6 +586,13 @@ packages:
   '@meeco/sd-jwt@0.0.3':
     resolution: {integrity: sha512-r8T/W5zXIvGSg6QIWgTIUU9fwXAJwJrutb4m+fbpkSGPwAPWQHzYvzaZRRe4wcezhxSpAqodOd4KsYc+swbp0w==}
     engines: {node: '>=18', npm: '>=8.0.0'}
+
+  '@noble/curves@1.4.2':
+    resolution: {integrity: sha512-TavHr8qycMChk8UwMld0ZDRvatedkzWfH8IiaeGCfymOP5i0hSCozz9vHOL0nkwk7HRMlFnAiKpS2jrUmSybcw==}
+
+  '@noble/hashes@1.4.0':
+    resolution: {integrity: sha512-V1JJ1WTRUqHHrOSh597hURcMqVKVGL/ea3kv0gSnEdsEZ0/+VyPghM1lMNGc00z7CIQorSvbKpuJkxvuHbvdbg==}
+    engines: {node: '>= 16'}
 
   '@node-oauth/formats@1.0.0':
     resolution: {integrity: sha512-DwSbLtdC8zC5B5gTJkFzJj5s9vr9SGzOgQvV9nH7tUVuMSScg0EswAczhjIapOmH3Y8AyP7C4Jv7b8+QJObWZA==}
@@ -675,6 +698,15 @@ packages:
       rollup:
         optional: true
 
+  '@scure/base@1.1.9':
+    resolution: {integrity: sha512-8YKhl8GHiNI/pU2VMaofa2Tor7PJRAjwQLBBuilkJ9L5+13yVbC7JO/wS7piioAvPSwR3JKM1IJ/u4xQzbcXKg==}
+
+  '@scure/bip32@1.4.0':
+    resolution: {integrity: sha512-sVUpc0Vq3tXCkDGYVWGIZTRfnvu8LoTDaev7vbwh0omSvVORONr960MQWdKqJDCReIEmTj3PAr73O3aoxz7OPg==}
+
+  '@scure/bip39@1.3.0':
+    resolution: {integrity: sha512-disdg7gHuTDZtY+ZdkmLpPCk7fxZSu3gBiEGuoC1XYxv9cGx3Z6cpTggCgW6odSOOIXCiDjuGejW+aJKCY/pIQ==}
+
   '@sec-ant/readable-stream@0.4.1':
     resolution: {integrity: sha512-831qok9r2t8AlxLko40y2ebgSDhenenCatLVeW/uBtnHPyhHOvG0C7TvfgecV+wHzIm5KUICgzmVpWS+IMEAeg==}
 
@@ -747,6 +779,10 @@ packages:
     engines: {node: ^18.20.0 || ^20.10.0 || ^22 || ^23}
     peerDependencies:
       zenroom: ^4.45.1
+
+  '@slangroom/ethereum@1.43.2':
+    resolution: {integrity: sha512-MH9nqw5QtEPtaxgkNsDnosFGgikvqSnJHBuIAkUHkqAS6PzQI3XoGrspomBRSIAaIghROwLIti40fYQearcsVg==}
+    engines: {node: ^18.20.0 || ^20.10.0 || ^22 || ^23}
 
   '@slangroom/fs@1.43.2':
     resolution: {integrity: sha512-sYzaVBIyRmfSumDeQhLKhrEWWeIoMwpMzAHVL0mDi1IA9S2NnW4GbFxNhNPZg6tKtEQYkN7rOoUnKmmnGrv+Yg==}
@@ -854,6 +890,9 @@ packages:
   '@types/validator@13.12.0':
     resolution: {integrity: sha512-nH45Lk7oPIJ1RVOF6JgFI6Dy0QpHEzq4QecZhvguxYPDwT8c93prCMqAtiIttm39voZ+DDR+qkNnMpJmMBRqag==}
 
+  '@types/ws@8.5.3':
+    resolution: {integrity: sha512-6YOoWjruKj1uLf3INHH7D3qTXwFfEsg1kf3c0uDdSBJwfa/llkwIjrAGV7j7mVgGNbzTQ3HiHKKDXl6bJPD97w==}
+
   '@types/yauzl@2.10.3':
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
 
@@ -929,6 +968,15 @@ packages:
   abbrev@3.0.0:
     resolution: {integrity: sha512-+/kfrslGQ7TNV2ecmQwMJj/B65g5KVq1/L3SGVZ3tCYGqlzFuFCGBZJtMP99wH3NpEUyAjn0zPdPUg0D+DwrOA==}
     engines: {node: ^18.17.0 || >=20.5.0}
+
+  abitype@0.7.1:
+    resolution: {integrity: sha512-VBkRHTDZf9Myaek/dO3yMmOzB/y2s3Zo6nVU7yaw1G+TvCHAjwaJzNGN9yo4K5D8bU/VZXKP1EJpRhFr862PlQ==}
+    peerDependencies:
+      typescript: '>=4.9.4'
+      zod: ^3 >=3.19.1
+    peerDependenciesMeta:
+      zod:
+        optional: true
 
   acorn-import-attributes@1.9.5:
     resolution: {integrity: sha512-n02Vykv5uA3eHGM/Z2dQrcD56kL8TyDb2p1+0P83PClMnC/nc+anbQRhIOWnSq4Ke/KvDPrY3C9hDtC/A3eHnQ==}
@@ -1227,8 +1275,16 @@ packages:
     resolution: {integrity: sha512-kpqOvwXnjjN44D89K5ccQC+RUrsy7jB/XLlRrx0D7/2HNcTPqzsb6XgYoErwko6QsV184CA2YgS1fxDiiDZMWA==}
     engines: {node: '>=8'}
 
+  call-bind-apply-helpers@1.0.1:
+    resolution: {integrity: sha512-BhYE+WDaywFg2TBWYNXAE+8B1ATnThNBqXHP5nQu0jWJdVvY2hvkpyB3qOmtmDePiS5/BDQ8wASEWGMWRG148g==}
+    engines: {node: '>= 0.4'}
+
   call-bind@1.0.7:
     resolution: {integrity: sha512-GHTSNSYICQ7scH7sZ+M2rFopRoLh8t2bLSW6BbgrtLsahOIB5iyAVJf9GjWK3cYTDaMj4XdBpM1cA6pIS0Kv2w==}
+    engines: {node: '>= 0.4'}
+
+  call-bound@1.0.3:
+    resolution: {integrity: sha512-YTd+6wGlNlPxSuri7Y6X8tY2dmm12UMH66RpKMhiX6rsk5wXXnYgbUcOt8kiS31/AjfoTOvCsE+w8nZQLQnzHA==}
     engines: {node: '>= 0.4'}
 
   callsites@3.1.0:
@@ -1515,6 +1571,9 @@ packages:
     resolution: {integrity: sha512-gYTKKexFO3kh200H1Nit76sRwRtOY32vQd3jpAQKpLtZqyNsSQNfI4N7o3eP2wUjV35pTWKRYqFUDBvUha/Pkw==}
     engines: {node: '>=0.10.0'}
 
+  cross-fetch@4.1.0:
+    resolution: {integrity: sha512-uKm5PU+MHTootlWEY+mZ4vvXoCn4fLQxT9dSc1sXVMSFkINTJVN8cAQROpwcKm8bJ/c7rgZVIBWzH5T78sNZZw==}
+
   cross-spawn@6.0.5:
     resolution: {integrity: sha512-eTVLrBSt7fjbDygz805pMnstIs2VTBNkRm0qxZd+M7A5XDdxVRWO5MxGBXZhjY4cqLYLdtrGqRf8mBPmzwSpWQ==}
     engines: {node: '>=4.8'}
@@ -1717,6 +1776,10 @@ packages:
   dottie@2.0.6:
     resolution: {integrity: sha512-iGCHkfUc5kFekGiqhe8B/mdaurD+lakO9txNnTvKtA6PISrw86LgqHvRzWYPyoE2Ph5aMIrCw9/uko6XHTKCwA==}
 
+  dunder-proto@1.0.1:
+    resolution: {integrity: sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==}
+    engines: {node: '>= 0.4'}
+
   duplexer2@0.1.4:
     resolution: {integrity: sha512-asLFVfWWtJ90ZyOUHMqk7/S2w2guQKxUI2itj3d92ADHhxUSbCMGi1f1cBcJ7xM1To+pE/Khbwo1yuNbMEPKeA==}
 
@@ -1782,6 +1845,10 @@ packages:
 
   es-define-property@1.0.0:
     resolution: {integrity: sha512-jxayLKShrEqqzJ0eumQbVhTYQM27CfT1T35+gCgDFoL82JLsXqTJ76zv6A0YLOgEnLUMvLzsDsGIrl8NFpT2gQ==}
+    engines: {node: '>= 0.4'}
+
+  es-define-property@1.0.1:
+    resolution: {integrity: sha512-e3nRfgfUZ4rNGL232gUgX06QNyyez04KdjFrF+LTRoOXmrOgFKDg4BCdsjW8EnT69eqdYGmRpJwiPVYNrCaW3g==}
     engines: {node: '>= 0.4'}
 
   es-errors@1.3.0:
@@ -1926,6 +1993,12 @@ packages:
   esutils@2.0.3:
     resolution: {integrity: sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==}
     engines: {node: '>=0.10.0'}
+
+  ethereum-cryptography@2.2.1:
+    resolution: {integrity: sha512-r/W8lkHSiTLxUxW8Rf3u4HGB0xQweG2RyETjywylKZSzLWoWAijRz8WCuOtJ6wah+avllXBqZuk29HCCvhEIRg==}
+
+  eventemitter3@5.0.1:
+    resolution: {integrity: sha512-GWkBvjiSZK87ELrYOSESUYeVIc9mvLLf/nXalMOS5dYrgZq9o5OVkbZAVM06CVxYsCwH9BDZFPlQTlPA1j4ahA==}
 
   execa@5.1.1:
     resolution: {integrity: sha512-8uSpZZocAZRBAPIEINJj3Lo9HyGitllczc27Eh5YYojjMFMn8yHMDMaUHE2Jqfq05D/wucwI4JGURyXt1vchyg==}
@@ -2179,9 +2252,17 @@ packages:
     resolution: {integrity: sha512-5uYhsJH8VJBTv7oslg4BznJYhDoRI6waYCxMmCdnTrcCrHA/fCFKoTFz2JKKE0HdDFUF7/oQuhzumXJK7paBRQ==}
     engines: {node: '>= 0.4'}
 
+  get-intrinsic@1.2.7:
+    resolution: {integrity: sha512-VW6Pxhsrk0KAOqs3WEd0klDiF/+V7gQOpAvY1jVU/LHmaD/kQO4523aiJuikX/QAKYiW6x8Jh+RJej1almdtCA==}
+    engines: {node: '>= 0.4'}
+
   get-package-type@0.1.0:
     resolution: {integrity: sha512-pjzuKtY64GYfWizNAJ0fr9VqttZkNiK2iS430LtIHzjBEr6bX8Am2zm4sW4Ro5wjWW5cAlRL1qAMTcXbjNAO2Q==}
     engines: {node: '>=8.0.0'}
+
+  get-proto@1.0.1:
+    resolution: {integrity: sha512-sTSfBjoXBp89JvIKIefqw7U2CCebsc74kiY6awiGogKtoSGbgjYE/G/+l9sF3MWFPNc9IcoOC4ODfKHfxFmp0g==}
+    engines: {node: '>= 0.4'}
 
   get-stdin@9.0.0:
     resolution: {integrity: sha512-dVKBjfWisLAicarI2Sf+JuBE/DghV4UzNAVe9yhEJuzeREd3JhOTE9cUaJTeSa77fsbQUK3pcOpJfM59+VKZaA==}
@@ -2276,6 +2357,10 @@ packages:
   gopd@1.0.1:
     resolution: {integrity: sha512-d65bNlIadxvpb/A2abVdlqKqV563juRnZ1Wtk6s1sIR8uNsXR70xqIzVqxVf1eTqDunwT2MkczEeaezCKTZhwA==}
 
+  gopd@1.2.0:
+    resolution: {integrity: sha512-ZUKRh6/kUFoAiTAtTYPZJ3hw9wNxx+BIBOijnlG9PnrJsCcSjs1wyyD6vJpaYtgnzDrKYRSqf3OO6Rfa93xsRg==}
+    engines: {node: '>= 0.4'}
+
   got@5.7.1:
     resolution: {integrity: sha512-1qd54GLxvVgzuidFmw9ze9umxS3rzhdBH6Wt6BTYrTQUXTN01vGGYXwzLzYLowNx8HBH3/c7kRyvx90fh13i7Q==}
     engines: {node: '>=0.10.0 <7'}
@@ -2322,6 +2407,10 @@ packages:
 
   has-symbols@1.0.3:
     resolution: {integrity: sha512-l3LCuF6MgDNwTDKkdYGEihYjt5pRPbEg46rtlmnSPlUbgmB8LOIrKJbYYFBSbnPaJexMKtiPO8hmeRjRz2Td+A==}
+    engines: {node: '>= 0.4'}
+
+  has-symbols@1.1.0:
+    resolution: {integrity: sha512-1cDNdwJ2Jaohmb3sg4OmKaMBwuC48sYni5HUw2DvsC8LjGTLK9h+eb1X6RyuOHe4hT0ULCW68iomhjUoKUqlPQ==}
     engines: {node: '>= 0.4'}
 
   has-tostringtag@1.0.2:
@@ -2488,6 +2577,10 @@ packages:
     resolution: {integrity: sha512-1ANGLZ+Nkv1ptFb2pa8oG8Lem4krflKuX/gINiHJHjJUKaJHk/SXk5x6K3J+39/p0h1RQ2saROclJJ+QLvETCQ==}
     engines: {node: '>=8'}
 
+  is-arguments@1.2.0:
+    resolution: {integrity: sha512-7bVbi0huj/wrIAOzb8U1aszg9kdi3KN/CyU19CTI7tAoZYEZoL9yCDXpbXN+uPsuWnP02cyug1gleqq+TU+YCA==}
+    engines: {node: '>= 0.4'}
+
   is-array-buffer@3.0.4:
     resolution: {integrity: sha512-wcjaerHw0ydZwfhiKbXJWLDY8A7yV7KhjQOpb83hGgGfId/aQa4TOvwyzn2PuswW2gPCYEL/nEAiSVpdOj1lXw==}
     engines: {node: '>= 0.4'}
@@ -2541,6 +2634,10 @@ packages:
   is-fullwidth-code-point@4.0.0:
     resolution: {integrity: sha512-O4L094N2/dZ7xqVdrXhh9r1KODPJpFms8B5sGdJLPy664AgvXsreZUyCQQNItZRDlYug4xStLjNp/sz3HvBowQ==}
     engines: {node: '>=12'}
+
+  is-generator-function@1.1.0:
+    resolution: {integrity: sha512-nPUB5km40q9e8UfN/Zc24eLlzdSf9OfKByBw9CIdw4H1giPMeA0OIJvbchsCu4npfI2QcMVBsGEBHKZ7wLTWmQ==}
+    engines: {node: '>= 0.4'}
 
   is-glob@4.0.3:
     resolution: {integrity: sha512-xelSayHH36ZgE7ZWhli7pW34hNbNl8Ojv5KVmkJD4hBdD3th8Tfk9vYasLM+mXWOZhFkgZfxhLSnrwRr4elSSg==}
@@ -2609,6 +2706,10 @@ packages:
 
   is-regex@1.1.4:
     resolution: {integrity: sha512-kvRdxDsxZjhzUX07ZnLydzS1TU/TJlTUHHY4YLL87e37oUA49DfkLqgy+VjFocowy29cKvcSiu+kIv728jTTVg==}
+    engines: {node: '>= 0.4'}
+
+  is-regex@1.2.1:
+    resolution: {integrity: sha512-MjYsKHO5O7mCsmRGxWcLWheFqN9DJ/2TmngvjKXihe6efViPqc274+Fx/4fYj/r03+ESvBdTXK0V6tA3rgez1g==}
     engines: {node: '>= 0.4'}
 
   is-retry-allowed@1.2.0:
@@ -2685,6 +2786,11 @@ packages:
     resolution: {integrity: sha512-IxGiaKBwAdcgBXwIcxJU6rHLk+NrzYaaPKXXQffcA0GW3IUrQXdUPDXDo+hkGVcYruuz/7JlGBiuaeTCgIgivQ==}
     engines: {node: '>=12'}
     hasBin: true
+
+  isomorphic-ws@5.0.0:
+    resolution: {integrity: sha512-muId7Zzn9ywDsyXgTIafTry2sV3nySZeUDe6YedVd1Hvuuep5AsIlqK+XefWpYTyJG5e503F2xIuT2lcU6rCSw==}
+    peerDependencies:
+      ws: '*'
 
   issue-parser@7.0.1:
     resolution: {integrity: sha512-3YZcUUR2Wt1WsapF+S/WiA2WmlW0cWAoPccMqne7AxEBhCdFeTPjfv/Axb8V2gyCgY3nRw+ksZ3xSUX+R47iAg==}
@@ -2914,6 +3020,10 @@ packages:
   matcher@5.0.0:
     resolution: {integrity: sha512-s2EMBOWtXFc8dgqvoAzKJXxNHibcdJMV0gwqKUaw9E2JBJuGUK7DrNKrA6g/i+v72TT16+6sVm5mS3thaMLQUw==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+
+  math-intrinsics@1.1.0:
+    resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
+    engines: {node: '>= 0.4'}
 
   md5-hex@3.0.1:
     resolution: {integrity: sha512-BUiRtTtV39LIJwinWBjqVsU9xhdnz7/i889V859IBFpuqGAj6LuOvHv5XLbgZ2R7ptJoJaEcxkv88/h25T7Ciw==}
@@ -3801,6 +3911,10 @@ packages:
     resolution: {integrity: sha512-CdASjNJPvRa7roO6Ra/gLYBTzYzzPyyBXxIMdGW3USQLyjWEls2RgW5UBTXaQVp+OrpeCK3bLem8smtmheoRuw==}
     engines: {node: '>= 0.4'}
 
+  safe-regex-test@1.1.0:
+    resolution: {integrity: sha512-x/+Cz4YrimQxQccJf5mKEbIa1NzeCRNI5Ecl/ekmlYaampdNLPalVyIcCZNNH3MvmqBugV5TMYZXv0ljslUlaw==}
+    engines: {node: '>= 0.4'}
+
   safer-buffer@2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
 
@@ -3890,6 +4004,9 @@ packages:
   set-function-name@2.0.2:
     resolution: {integrity: sha512-7PGFlmtwsEADb0WYyvCMa1t+yke6daIG4Wirafur5kcf+MhUnPms1UeR0CKQdTZD81yESwMHbtn+TR+dMviakQ==}
     engines: {node: '>= 0.4'}
+
+  setimmediate@1.0.5:
+    resolution: {integrity: sha512-MATJdZp8sLqDl/68LfQmbP8zKPLQNV6BIZoIgrscFDQ+RsvK/BxeDQOgyxKKoh0y/8h3BqVFnCqQ/gd+reiIXA==}
 
   sha.js@2.4.11:
     resolution: {integrity: sha512-QMEp5B7cftE7APOjk5Y6xgrbWu+WkLVQwk8JNjZ8nKRciZaByEW6MubieAiToS7+dwvrjGhH8jRXz3MVd0AYqQ==}
@@ -4378,6 +4495,9 @@ packages:
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
+  util@0.12.5:
+    resolution: {integrity: sha512-kZf/K6hEIrWHI6XqOFUiiMa+79wE/D8Q+NCNAWclkyg3b4d2k7s0QGepNjiABc+aR3N1PAyHL7p6UcLY6LmrnA==}
+
   uuid@2.0.3:
     resolution: {integrity: sha512-FULf7fayPdpASncVy4DLh3xydlXEJJpvIELjYjNeQWYUZ9pclcpvCZSr2gkmN2FrrGcI7G/cJsIEwk5/8vfXpg==}
     deprecated: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
@@ -4411,6 +4531,82 @@ packages:
 
   wcwidth@1.0.1:
     resolution: {integrity: sha512-XHPEwS0q6TaxcvG85+8EYkbiCux2XtWG2mkc47Ng2A77BQu9+DqIOJldST4HgPkuea7dvKSj5VgX3P1d4rW8Tg==}
+
+  web3-core@4.7.1:
+    resolution: {integrity: sha512-9KSeASCb/y6BG7rwhgtYC4CvYY66JfkmGNEYb7q1xgjt9BWfkf09MJPaRyoyT5trdOxYDHkT9tDlypvQWaU8UQ==}
+    engines: {node: '>=14', npm: '>=6.12.0'}
+
+  web3-errors@1.3.1:
+    resolution: {integrity: sha512-w3NMJujH+ZSW4ltIZZKtdbkbyQEvBzyp3JRn59Ckli0Nz4VMsVq8aF1bLWM7A2kuQ+yVEm3ySeNU+7mSRwx7RQ==}
+    engines: {node: '>=14', npm: '>=6.12.0'}
+
+  web3-eth-abi@4.4.1:
+    resolution: {integrity: sha512-60ecEkF6kQ9zAfbTY04Nc9q4eEYM0++BySpGi8wZ2PD1tw/c0SDvsKhV6IKURxLJhsDlb08dATc3iD6IbtWJmg==}
+    engines: {node: '>=14', npm: '>=6.12.0'}
+
+  web3-eth-accounts@4.3.1:
+    resolution: {integrity: sha512-rTXf+H9OKze6lxi7WMMOF1/2cZvJb2AOnbNQxPhBDssKOllAMzLhg1FbZ4Mf3lWecWfN6luWgRhaeSqO1l+IBQ==}
+    engines: {node: '>=14', npm: '>=6.12.0'}
+
+  web3-eth-contract@4.7.2:
+    resolution: {integrity: sha512-3ETqs2pMNPEAc7BVY/C3voOhTUeJdkf2aM3X1v+edbngJLHAxbvxKpOqrcO0cjXzC4uc2Q8Zpf8n8zT5r0eLnA==}
+    engines: {node: '>=14', npm: '>=6.12.0'}
+
+  web3-eth-ens@4.4.0:
+    resolution: {integrity: sha512-DeyVIS060hNV9g8dnTx92syqvgbvPricE3MerCxe/DquNZT3tD8aVgFfq65GATtpCgDDJffO2bVeHp3XBemnSQ==}
+    engines: {node: '>=14', npm: '>=6.12.0'}
+
+  web3-eth-iban@4.0.7:
+    resolution: {integrity: sha512-8weKLa9KuKRzibC87vNLdkinpUE30gn0IGY027F8doeJdcPUfsa4IlBgNC4k4HLBembBB2CTU0Kr/HAOqMeYVQ==}
+    engines: {node: '>=14', npm: '>=6.12.0'}
+
+  web3-eth-personal@4.1.0:
+    resolution: {integrity: sha512-RFN83uMuvA5cu1zIwwJh9A/bAj0OBxmGN3tgx19OD/9ygeUZbifOL06jgFzN0t+1ekHqm3DXYQM8UfHpXi7yDQ==}
+    engines: {node: '>=14', npm: '>=6.12.0'}
+
+  web3-eth@4.11.1:
+    resolution: {integrity: sha512-q9zOkzHnbLv44mwgLjLXuyqszHuUgZWsQayD2i/rus2uk0G7hMn11bE2Q3hOVnJS4ws4VCtUznlMxwKQ+38V2w==}
+    engines: {node: '>=14', npm: '>=6.12.0'}
+
+  web3-net@4.1.0:
+    resolution: {integrity: sha512-WWmfvHVIXWEoBDWdgKNYKN8rAy6SgluZ0abyRyXOL3ESr7ym7pKWbfP4fjApIHlYTh8tNqkrdPfM4Dyi6CA0SA==}
+    engines: {node: '>=14', npm: '>=6.12.0'}
+
+  web3-providers-http@4.2.0:
+    resolution: {integrity: sha512-IPMnDtHB7dVwaB7/mMxAZzyq7d5ezfO1+Vw0bNfAeIi7gaDlJiggp85SdyAfOgov8AMUA/dyiY72kQ0KmjXKvQ==}
+    engines: {node: '>=14', npm: '>=6.12.0'}
+
+  web3-providers-ipc@4.0.7:
+    resolution: {integrity: sha512-YbNqY4zUvIaK2MHr1lQFE53/8t/ejHtJchrWn9zVbFMGXlTsOAbNoIoZWROrg1v+hCBvT2c9z8xt7e/+uz5p1g==}
+    engines: {node: '>=14', npm: '>=6.12.0'}
+
+  web3-providers-ws@4.0.8:
+    resolution: {integrity: sha512-goJdgata7v4pyzHRsg9fSegUG4gVnHZSHODhNnn6J93ykHkBI1nz4fjlGpcQLUMi4jAMz6SHl9Ibzs2jj9xqPw==}
+    engines: {node: '>=14', npm: '>=6.12.0'}
+
+  web3-rpc-methods@1.3.0:
+    resolution: {integrity: sha512-/CHmzGN+IYgdBOme7PdqzF+FNeMleefzqs0LVOduncSaqsppeOEoskLXb2anSpzmQAP3xZJPaTrkQPWSJMORig==}
+    engines: {node: '>=14', npm: '>=6.12.0'}
+
+  web3-rpc-providers@1.0.0-rc.4:
+    resolution: {integrity: sha512-PXosCqHW0EADrYzgmueNHP3Y5jcSmSwH+Dkqvn7EYD0T2jcsdDAIHqk6szBiwIdhumM7gv9Raprsu/s/f7h1fw==}
+    engines: {node: '>=14', npm: '>=6.12.0'}
+
+  web3-types@1.10.0:
+    resolution: {integrity: sha512-0IXoaAFtFc8Yin7cCdQfB9ZmjafrbP6BO0f0KT/khMhXKUpoJ6yShrVhiNpyRBo8QQjuOagsWzwSK2H49I7sbw==}
+    engines: {node: '>=14', npm: '>=6.12.0'}
+
+  web3-utils@4.3.3:
+    resolution: {integrity: sha512-kZUeCwaQm+RNc2Bf1V3BYbF29lQQKz28L0y+FA4G0lS8IxtJVGi5SeDTUkpwqqkdHHC7JcapPDnyyzJ1lfWlOw==}
+    engines: {node: '>=14', npm: '>=6.12.0'}
+
+  web3-validator@2.0.6:
+    resolution: {integrity: sha512-qn9id0/l1bWmvH4XfnG/JtGKKwut2Vokl6YXP5Kfg424npysmtRLe9DgiNBM9Op7QL/aSiaA0TVXibuIuWcizg==}
+    engines: {node: '>=14', npm: '>=6.12.0'}
+
+  web3@4.16.0:
+    resolution: {integrity: sha512-SgoMSBo6EsJ5GFCGar2E/pR2lcR/xmUSuQ61iK6yDqzxmm42aPPxSqZfJz2z/UCR6pk03u77pU8TGV6lgMDdIQ==}
+    engines: {node: '>=14.0.0', npm: '>=6.12.0'}
 
   webidl-conversions@3.0.1:
     resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
@@ -4487,6 +4683,18 @@ packages:
     resolution: {integrity: sha512-GmqrO8WJ1NuzJ2DrziEI2o57jKAVIQNf8a18W3nCYU3H7PNWqCCVTeH6/NQE93CIllIgQS98rrmVkYgTX9fFJQ==}
     engines: {node: ^18.17.0 || >=20.5.0}
 
+  ws@8.18.0:
+    resolution: {integrity: sha512-8VbfWfHLbbwu3+N6OKsOMpBdT4kXPDDB9cJk2bJ6mh9ucxdlnNvH1e+roYkKmN9Nxw2yjz7VzeO9oOz2zJ04Pw==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+
   xdg-basedir@2.0.0:
     resolution: {integrity: sha512-NF1pPn594TaRSUO/HARoB4jK8I+rWgcpVlpQCK6/6o5PHyLUt2CSiDrpUZbQ6rROck+W2EwF8mBJcTs+W98J9w==}
     engines: {node: '>=0.10.0'}
@@ -4556,13 +4764,15 @@ packages:
     resolution: {integrity: sha512-Ct97huExsu7cWeEjmrXlofevF8CvzUglJ4iGUet5B8xn1oumtAZBpHU4GzYuoE6PVqcZ5hghtBrSlhwHuR1Jmw==}
     engines: {node: '>=18'}
 
-  zenroom@4.31.2:
-    resolution: {integrity: sha512-1q+1xoakhGQTha63G2foZHZQaDNBeWxoLpFHmDVBKgPIs5RBXIuRCXehJDHSKQM9YWRjeYdtKX9Mb2gfkwhFfQ==}
+  zenroom@4.47.0:
+    resolution: {integrity: sha512-VENtfCh/uBV9x/W+LjJaL/kivxHwBMAqK/NOrur1KMdAwGe9p5EyZtKDxHZkdtrkoTRqApqViMaWEMye5x2+uQ==}
 
   zod@3.23.8:
     resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
 
 snapshots:
+
+  '@adraffy/ens-normalize@1.11.0': {}
 
   '@ampproject/remapping@2.3.0':
     dependencies:
@@ -4981,6 +5191,10 @@ snapshots:
 
   '@eslint/js@8.57.0': {}
 
+  '@ethereumjs/rlp@4.0.1': {}
+
+  '@ethereumjs/rlp@5.0.2': {}
+
   '@gar/promisify@1.1.3':
     optional: true
 
@@ -5059,6 +5273,12 @@ snapshots:
       '@meeco/sd-jwt': 0.0.3
 
   '@meeco/sd-jwt@0.0.3': {}
+
+  '@noble/curves@1.4.2':
+    dependencies:
+      '@noble/hashes': 1.4.0
+
+  '@noble/hashes@1.4.0': {}
 
   '@node-oauth/formats@1.0.0': {}
 
@@ -5178,6 +5398,19 @@ snapshots:
       estree-walker: 2.0.2
       picomatch: 4.0.2
 
+  '@scure/base@1.1.9': {}
+
+  '@scure/bip32@1.4.0':
+    dependencies:
+      '@noble/curves': 1.4.2
+      '@noble/hashes': 1.4.0
+      '@scure/base': 1.1.9
+
+  '@scure/bip39@1.3.0':
+    dependencies:
+      '@noble/hashes': 1.4.0
+      '@scure/base': 1.1.9
+
   '@sec-ant/readable-stream@0.4.1': {}
 
   '@semantic-release/changelog@6.0.3(semantic-release@24.2.1(typescript@5.4.5))':
@@ -5281,18 +5514,18 @@ snapshots:
 
   '@sindresorhus/merge-streams@4.0.0': {}
 
-  '@slangroom/core@1.43.2(zenroom@4.31.2)':
+  '@slangroom/core@1.43.2(zenroom@4.47.0)':
     dependencies:
-      '@slangroom/deps': 1.43.2(zenroom@4.31.2)
-      '@slangroom/ignored': 1.43.2(zenroom@4.31.2)
-      '@slangroom/shared': 1.43.2(zenroom@4.31.2)
+      '@slangroom/deps': 1.43.2(zenroom@4.47.0)
+      '@slangroom/ignored': 1.43.2(zenroom@4.47.0)
+      '@slangroom/shared': 1.43.2(zenroom@4.47.0)
     transitivePeerDependencies:
       - zenroom
 
-  '@slangroom/db@1.43.2(zenroom@4.31.2)':
+  '@slangroom/db@1.43.2(zenroom@4.47.0)':
     dependencies:
-      '@slangroom/core': 1.43.2(zenroom@4.31.2)
-      '@slangroom/shared': 1.43.2(zenroom@4.31.2)
+      '@slangroom/core': 1.43.2(zenroom@4.47.0)
+      '@slangroom/shared': 1.43.2(zenroom@4.47.0)
       sequelize: 6.37.3(sqlite3@5.1.7)
       sqlite3: 5.1.7
     transitivePeerDependencies:
@@ -5308,16 +5541,32 @@ snapshots:
       - tedious
       - zenroom
 
-  '@slangroom/deps@1.43.2(zenroom@4.31.2)':
+  '@slangroom/deps@1.43.2(zenroom@4.47.0)':
     dependencies:
       chalk: 5.4.1
       chevrotain: 10.5.0
-      zenroom: 4.31.2
+      zenroom: 4.47.0
 
-  '@slangroom/fs@1.43.2(zenroom@4.31.2)':
+  '@slangroom/ethereum@1.43.2(encoding@0.1.13)(typescript@5.4.5)(zenroom@4.47.0)(zod@3.23.8)':
     dependencies:
-      '@slangroom/core': 1.43.2(zenroom@4.31.2)
-      '@slangroom/shared': 1.43.2(zenroom@4.31.2)
+      '@slangroom/core': 1.43.2(zenroom@4.47.0)
+      '@slangroom/shared': 1.43.2(zenroom@4.47.0)
+      axios: 1.6.8
+      web3: 4.16.0(encoding@0.1.13)(typescript@5.4.5)(zod@3.23.8)
+      web3-validator: 2.0.6
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - encoding
+      - typescript
+      - utf-8-validate
+      - zenroom
+      - zod
+
+  '@slangroom/fs@1.43.2(zenroom@4.47.0)':
+    dependencies:
+      '@slangroom/core': 1.43.2(zenroom@4.47.0)
+      '@slangroom/shared': 1.43.2(zenroom@4.47.0)
       axios: 1.6.8
       extract-zip: 2.0.1
     transitivePeerDependencies:
@@ -5325,117 +5574,117 @@ snapshots:
       - supports-color
       - zenroom
 
-  '@slangroom/git@1.43.2(zenroom@4.31.2)':
+  '@slangroom/git@1.43.2(zenroom@4.47.0)':
     dependencies:
-      '@slangroom/core': 1.43.2(zenroom@4.31.2)
+      '@slangroom/core': 1.43.2(zenroom@4.47.0)
       isomorphic-git: 1.25.10
     transitivePeerDependencies:
       - zenroom
 
-  '@slangroom/helpers@1.43.2(zenroom@4.31.2)':
+  '@slangroom/helpers@1.43.2(zenroom@4.47.0)':
     dependencies:
-      '@slangroom/core': 1.43.2(zenroom@4.31.2)
-      '@slangroom/shared': 1.43.2(zenroom@4.31.2)
+      '@slangroom/core': 1.43.2(zenroom@4.47.0)
+      '@slangroom/shared': 1.43.2(zenroom@4.47.0)
       '@types/lodash': 4.17.1
       lodash: 4.17.21
     transitivePeerDependencies:
       - zenroom
 
-  '@slangroom/http@1.43.2(zenroom@4.31.2)':
+  '@slangroom/http@1.43.2(zenroom@4.47.0)':
     dependencies:
-      '@slangroom/core': 1.43.2(zenroom@4.31.2)
-      '@slangroom/shared': 1.43.2(zenroom@4.31.2)
+      '@slangroom/core': 1.43.2(zenroom@4.47.0)
+      '@slangroom/shared': 1.43.2(zenroom@4.47.0)
       axios: 1.6.8
     transitivePeerDependencies:
       - debug
       - zenroom
 
-  '@slangroom/ignored@1.43.2(zenroom@4.31.2)':
+  '@slangroom/ignored@1.43.2(zenroom@4.47.0)':
     dependencies:
-      '@slangroom/deps': 1.43.2(zenroom@4.31.2)
-      '@slangroom/shared': 1.43.2(zenroom@4.31.2)
+      '@slangroom/deps': 1.43.2(zenroom@4.47.0)
+      '@slangroom/shared': 1.43.2(zenroom@4.47.0)
     transitivePeerDependencies:
       - zenroom
 
-  '@slangroom/json-schema@1.43.2(zenroom@4.31.2)':
+  '@slangroom/json-schema@1.43.2(zenroom@4.47.0)':
     dependencies:
-      '@slangroom/core': 1.43.2(zenroom@4.31.2)
-      '@slangroom/shared': 1.43.2(zenroom@4.31.2)
+      '@slangroom/core': 1.43.2(zenroom@4.47.0)
+      '@slangroom/shared': 1.43.2(zenroom@4.47.0)
       ajv: 8.13.0
     transitivePeerDependencies:
       - zenroom
 
-  '@slangroom/oauth@1.43.2(zenroom@4.31.2)':
+  '@slangroom/oauth@1.43.2(zenroom@4.47.0)':
     dependencies:
       '@node-oauth/oauth2-server': 5.1.0
-      '@slangroom/core': 1.43.2(zenroom@4.31.2)
-      '@slangroom/shared': 1.43.2(zenroom@4.31.2)
+      '@slangroom/core': 1.43.2(zenroom@4.47.0)
+      '@slangroom/shared': 1.43.2(zenroom@4.47.0)
       bs58: 5.0.0
       jose: 5.3.0
     transitivePeerDependencies:
       - zenroom
 
-  '@slangroom/pocketbase@1.43.2(@capacitor/core@6.0.0)(zenroom@4.31.2)':
+  '@slangroom/pocketbase@1.43.2(@capacitor/core@6.0.0)(zenroom@4.47.0)':
     dependencies:
       '@capacitor/preferences': 6.0.0(@capacitor/core@6.0.0)
-      '@slangroom/core': 1.43.2(zenroom@4.31.2)
-      '@slangroom/shared': 1.43.2(zenroom@4.31.2)
+      '@slangroom/core': 1.43.2(zenroom@4.47.0)
+      '@slangroom/shared': 1.43.2(zenroom@4.47.0)
       pocketbase: 0.21.5
       zod: 3.23.8
     transitivePeerDependencies:
       - '@capacitor/core'
       - zenroom
 
-  '@slangroom/qrcode@1.43.2(zenroom@4.31.2)':
+  '@slangroom/qrcode@1.43.2(zenroom@4.47.0)':
     dependencies:
-      '@slangroom/core': 1.43.2(zenroom@4.31.2)
+      '@slangroom/core': 1.43.2(zenroom@4.47.0)
       qrcode: 1.5.3
     transitivePeerDependencies:
       - zenroom
 
-  '@slangroom/redis@1.43.2(zenroom@4.31.2)':
+  '@slangroom/redis@1.43.2(zenroom@4.47.0)':
     dependencies:
       '@redis/client': 1.5.14
-      '@slangroom/core': 1.43.2(zenroom@4.31.2)
-      '@slangroom/shared': 1.43.2(zenroom@4.31.2)
+      '@slangroom/core': 1.43.2(zenroom@4.47.0)
+      '@slangroom/shared': 1.43.2(zenroom@4.47.0)
     transitivePeerDependencies:
       - zenroom
 
-  '@slangroom/shared@1.43.2(zenroom@4.31.2)':
+  '@slangroom/shared@1.43.2(zenroom@4.47.0)':
     dependencies:
-      '@slangroom/deps': 1.43.2(zenroom@4.31.2)
+      '@slangroom/deps': 1.43.2(zenroom@4.47.0)
     transitivePeerDependencies:
       - zenroom
 
-  '@slangroom/shell@1.43.2(zenroom@4.31.2)':
+  '@slangroom/shell@1.43.2(zenroom@4.47.0)':
     dependencies:
-      '@slangroom/core': 1.43.2(zenroom@4.31.2)
+      '@slangroom/core': 1.43.2(zenroom@4.47.0)
       execa: 8.0.1
     transitivePeerDependencies:
       - zenroom
 
-  '@slangroom/timestamp@1.43.2(zenroom@4.31.2)':
+  '@slangroom/timestamp@1.43.2(zenroom@4.47.0)':
     dependencies:
-      '@slangroom/core': 1.43.2(zenroom@4.31.2)
-      '@slangroom/shared': 1.43.2(zenroom@4.31.2)
+      '@slangroom/core': 1.43.2(zenroom@4.47.0)
+      '@slangroom/shared': 1.43.2(zenroom@4.47.0)
     transitivePeerDependencies:
       - zenroom
 
-  '@slangroom/wallet@1.43.2(zenroom@4.31.2)':
+  '@slangroom/wallet@1.43.2(zenroom@4.47.0)':
     dependencies:
       '@meeco/sd-jwt': 0.0.3
       '@meeco/sd-jwt-vc': 0.0.4
-      '@slangroom/core': 1.43.2(zenroom@4.31.2)
-      '@slangroom/shared': 1.43.2(zenroom@4.31.2)
+      '@slangroom/core': 1.43.2(zenroom@4.47.0)
+      '@slangroom/shared': 1.43.2(zenroom@4.47.0)
       bs58: 5.0.0
       jose: 5.3.0
     transitivePeerDependencies:
       - zenroom
 
-  '@slangroom/zencode@1.43.2(zenroom@4.31.2)':
+  '@slangroom/zencode@1.43.2(zenroom@4.47.0)':
     dependencies:
-      '@slangroom/core': 1.43.2(zenroom@4.31.2)
-      '@slangroom/shared': 1.43.2(zenroom@4.31.2)
+      '@slangroom/core': 1.43.2(zenroom@4.47.0)
+      '@slangroom/shared': 1.43.2(zenroom@4.47.0)
     transitivePeerDependencies:
       - zenroom
 
@@ -5480,6 +5729,10 @@ snapshots:
   '@types/semver@7.5.8': {}
 
   '@types/validator@13.12.0': {}
+
+  '@types/ws@8.5.3':
+    dependencies:
+      '@types/node': 20.12.12
 
   '@types/yauzl@2.10.3':
     dependencies:
@@ -5592,6 +5845,12 @@ snapshots:
     optional: true
 
   abbrev@3.0.0: {}
+
+  abitype@0.7.1(typescript@5.4.5)(zod@3.23.8):
+    dependencies:
+      typescript: 5.4.5
+    optionalDependencies:
+      zod: 3.23.8
 
   acorn-import-attributes@1.9.5(acorn@8.14.0):
     dependencies:
@@ -5971,6 +6230,11 @@ snapshots:
       package-hash: 4.0.0
       write-file-atomic: 3.0.3
 
+  call-bind-apply-helpers@1.0.1:
+    dependencies:
+      es-errors: 1.3.0
+      function-bind: 1.1.2
+
   call-bind@1.0.7:
     dependencies:
       es-define-property: 1.0.0
@@ -5978,6 +6242,11 @@ snapshots:
       function-bind: 1.1.2
       get-intrinsic: 1.2.4
       set-function-length: 1.2.2
+
+  call-bound@1.0.3:
+    dependencies:
+      call-bind-apply-helpers: 1.0.1
+      get-intrinsic: 1.2.7
 
   callsites@3.1.0: {}
 
@@ -6266,6 +6535,12 @@ snapshots:
     dependencies:
       capture-stack-trace: 1.0.2
 
+  cross-fetch@4.1.0(encoding@0.1.13):
+    dependencies:
+      node-fetch: 2.7.0(encoding@0.1.13)
+    transitivePeerDependencies:
+      - encoding
+
   cross-spawn@6.0.5:
     dependencies:
       nice-try: 1.0.5
@@ -6506,6 +6781,12 @@ snapshots:
 
   dottie@2.0.6: {}
 
+  dunder-proto@1.0.1:
+    dependencies:
+      call-bind-apply-helpers: 1.0.1
+      es-errors: 1.3.0
+      gopd: 1.2.0
+
   duplexer2@0.1.4:
     dependencies:
       readable-stream: 2.3.8
@@ -6607,6 +6888,8 @@ snapshots:
   es-define-property@1.0.0:
     dependencies:
       get-intrinsic: 1.2.4
+
+  es-define-property@1.0.1: {}
 
   es-errors@1.3.0: {}
 
@@ -6784,6 +7067,15 @@ snapshots:
   estree-walker@2.0.2: {}
 
   esutils@2.0.3: {}
+
+  ethereum-cryptography@2.2.1:
+    dependencies:
+      '@noble/curves': 1.4.2
+      '@noble/hashes': 1.4.0
+      '@scure/bip32': 1.4.0
+      '@scure/bip39': 1.3.0
+
+  eventemitter3@5.0.1: {}
 
   execa@5.1.1:
     dependencies:
@@ -7085,7 +7377,25 @@ snapshots:
       has-symbols: 1.0.3
       hasown: 2.0.2
 
+  get-intrinsic@1.2.7:
+    dependencies:
+      call-bind-apply-helpers: 1.0.1
+      es-define-property: 1.0.1
+      es-errors: 1.3.0
+      es-object-atoms: 1.0.0
+      function-bind: 1.1.2
+      get-proto: 1.0.1
+      gopd: 1.2.0
+      has-symbols: 1.1.0
+      hasown: 2.0.2
+      math-intrinsics: 1.1.0
+
   get-package-type@0.1.0: {}
+
+  get-proto@1.0.1:
+    dependencies:
+      dunder-proto: 1.0.1
+      es-object-atoms: 1.0.0
 
   get-stdin@9.0.0: {}
 
@@ -7216,6 +7526,8 @@ snapshots:
     dependencies:
       get-intrinsic: 1.2.4
 
+  gopd@1.2.0: {}
+
   got@5.7.1:
     dependencies:
       '@types/keyv': 3.1.4
@@ -7270,6 +7582,8 @@ snapshots:
   has-proto@1.0.3: {}
 
   has-symbols@1.0.3: {}
+
+  has-symbols@1.1.0: {}
 
   has-tostringtag@1.0.2:
     dependencies:
@@ -7444,6 +7758,11 @@ snapshots:
 
   irregular-plurals@3.5.0: {}
 
+  is-arguments@1.2.0:
+    dependencies:
+      call-bound: 1.0.3
+      has-tostringtag: 1.0.2
+
   is-array-buffer@3.0.4:
     dependencies:
       call-bind: 1.0.7
@@ -7487,6 +7806,13 @@ snapshots:
   is-fullwidth-code-point@3.0.0: {}
 
   is-fullwidth-code-point@4.0.0: {}
+
+  is-generator-function@1.1.0:
+    dependencies:
+      call-bound: 1.0.3
+      get-proto: 1.0.1
+      has-tostringtag: 1.0.2
+      safe-regex-test: 1.1.0
 
   is-glob@4.0.3:
     dependencies:
@@ -7539,6 +7865,13 @@ snapshots:
     dependencies:
       call-bind: 1.0.7
       has-tostringtag: 1.0.2
+
+  is-regex@1.2.1:
+    dependencies:
+      call-bound: 1.0.3
+      gopd: 1.2.0
+      has-tostringtag: 1.0.2
+      hasown: 2.0.2
 
   is-retry-allowed@1.2.0: {}
 
@@ -7603,6 +7936,10 @@ snapshots:
       readable-stream: 3.6.2
       sha.js: 2.4.11
       simple-get: 4.0.1
+
+  isomorphic-ws@5.0.0(ws@8.18.0):
+    dependencies:
+      ws: 8.18.0
 
   issue-parser@7.0.1:
     dependencies:
@@ -7846,6 +8183,8 @@ snapshots:
   matcher@5.0.0:
     dependencies:
       escape-string-regexp: 5.0.0
+
+  math-intrinsics@1.1.0: {}
 
   md5-hex@3.0.1:
     dependencies:
@@ -8663,6 +9002,12 @@ snapshots:
       es-errors: 1.3.0
       is-regex: 1.1.4
 
+  safe-regex-test@1.1.0:
+    dependencies:
+      call-bound: 1.0.3
+      es-errors: 1.3.0
+      is-regex: 1.2.1
+
   safer-buffer@2.1.2: {}
 
   semantic-release@24.2.1(typescript@5.4.5):
@@ -8764,6 +9109,8 @@ snapshots:
       es-errors: 1.3.0
       functions-have-names: 1.2.3
       has-property-descriptors: 1.0.2
+
+  setimmediate@1.0.5: {}
 
   sha.js@2.4.11:
     dependencies:
@@ -9297,6 +9644,14 @@ snapshots:
 
   util-deprecate@1.0.2: {}
 
+  util@0.12.5:
+    dependencies:
+      inherits: 2.0.4
+      is-arguments: 1.2.0
+      is-generator-function: 1.1.0
+      is-typed-array: 1.1.13
+      which-typed-array: 1.1.15
+
   uuid@2.0.3: {}
 
   uuid@8.3.2: {}
@@ -9325,6 +9680,231 @@ snapshots:
   wcwidth@1.0.1:
     dependencies:
       defaults: 1.0.4
+
+  web3-core@4.7.1(encoding@0.1.13):
+    dependencies:
+      web3-errors: 1.3.1
+      web3-eth-accounts: 4.3.1
+      web3-eth-iban: 4.0.7
+      web3-providers-http: 4.2.0(encoding@0.1.13)
+      web3-providers-ws: 4.0.8
+      web3-types: 1.10.0
+      web3-utils: 4.3.3
+      web3-validator: 2.0.6
+    optionalDependencies:
+      web3-providers-ipc: 4.0.7
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - utf-8-validate
+
+  web3-errors@1.3.1:
+    dependencies:
+      web3-types: 1.10.0
+
+  web3-eth-abi@4.4.1(typescript@5.4.5)(zod@3.23.8):
+    dependencies:
+      abitype: 0.7.1(typescript@5.4.5)(zod@3.23.8)
+      web3-errors: 1.3.1
+      web3-types: 1.10.0
+      web3-utils: 4.3.3
+      web3-validator: 2.0.6
+    transitivePeerDependencies:
+      - typescript
+      - zod
+
+  web3-eth-accounts@4.3.1:
+    dependencies:
+      '@ethereumjs/rlp': 4.0.1
+      crc-32: 1.2.2
+      ethereum-cryptography: 2.2.1
+      web3-errors: 1.3.1
+      web3-types: 1.10.0
+      web3-utils: 4.3.3
+      web3-validator: 2.0.6
+
+  web3-eth-contract@4.7.2(encoding@0.1.13)(typescript@5.4.5)(zod@3.23.8):
+    dependencies:
+      '@ethereumjs/rlp': 5.0.2
+      web3-core: 4.7.1(encoding@0.1.13)
+      web3-errors: 1.3.1
+      web3-eth: 4.11.1(encoding@0.1.13)(typescript@5.4.5)(zod@3.23.8)
+      web3-eth-abi: 4.4.1(typescript@5.4.5)(zod@3.23.8)
+      web3-types: 1.10.0
+      web3-utils: 4.3.3
+      web3-validator: 2.0.6
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - typescript
+      - utf-8-validate
+      - zod
+
+  web3-eth-ens@4.4.0(encoding@0.1.13)(typescript@5.4.5)(zod@3.23.8):
+    dependencies:
+      '@adraffy/ens-normalize': 1.11.0
+      web3-core: 4.7.1(encoding@0.1.13)
+      web3-errors: 1.3.1
+      web3-eth: 4.11.1(encoding@0.1.13)(typescript@5.4.5)(zod@3.23.8)
+      web3-eth-contract: 4.7.2(encoding@0.1.13)(typescript@5.4.5)(zod@3.23.8)
+      web3-net: 4.1.0(encoding@0.1.13)
+      web3-types: 1.10.0
+      web3-utils: 4.3.3
+      web3-validator: 2.0.6
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - typescript
+      - utf-8-validate
+      - zod
+
+  web3-eth-iban@4.0.7:
+    dependencies:
+      web3-errors: 1.3.1
+      web3-types: 1.10.0
+      web3-utils: 4.3.3
+      web3-validator: 2.0.6
+
+  web3-eth-personal@4.1.0(encoding@0.1.13)(typescript@5.4.5)(zod@3.23.8):
+    dependencies:
+      web3-core: 4.7.1(encoding@0.1.13)
+      web3-eth: 4.11.1(encoding@0.1.13)(typescript@5.4.5)(zod@3.23.8)
+      web3-rpc-methods: 1.3.0(encoding@0.1.13)
+      web3-types: 1.10.0
+      web3-utils: 4.3.3
+      web3-validator: 2.0.6
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - typescript
+      - utf-8-validate
+      - zod
+
+  web3-eth@4.11.1(encoding@0.1.13)(typescript@5.4.5)(zod@3.23.8):
+    dependencies:
+      setimmediate: 1.0.5
+      web3-core: 4.7.1(encoding@0.1.13)
+      web3-errors: 1.3.1
+      web3-eth-abi: 4.4.1(typescript@5.4.5)(zod@3.23.8)
+      web3-eth-accounts: 4.3.1
+      web3-net: 4.1.0(encoding@0.1.13)
+      web3-providers-ws: 4.0.8
+      web3-rpc-methods: 1.3.0(encoding@0.1.13)
+      web3-types: 1.10.0
+      web3-utils: 4.3.3
+      web3-validator: 2.0.6
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - typescript
+      - utf-8-validate
+      - zod
+
+  web3-net@4.1.0(encoding@0.1.13):
+    dependencies:
+      web3-core: 4.7.1(encoding@0.1.13)
+      web3-rpc-methods: 1.3.0(encoding@0.1.13)
+      web3-types: 1.10.0
+      web3-utils: 4.3.3
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - utf-8-validate
+
+  web3-providers-http@4.2.0(encoding@0.1.13):
+    dependencies:
+      cross-fetch: 4.1.0(encoding@0.1.13)
+      web3-errors: 1.3.1
+      web3-types: 1.10.0
+      web3-utils: 4.3.3
+    transitivePeerDependencies:
+      - encoding
+
+  web3-providers-ipc@4.0.7:
+    dependencies:
+      web3-errors: 1.3.1
+      web3-types: 1.10.0
+      web3-utils: 4.3.3
+    optional: true
+
+  web3-providers-ws@4.0.8:
+    dependencies:
+      '@types/ws': 8.5.3
+      isomorphic-ws: 5.0.0(ws@8.18.0)
+      web3-errors: 1.3.1
+      web3-types: 1.10.0
+      web3-utils: 4.3.3
+      ws: 8.18.0
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+
+  web3-rpc-methods@1.3.0(encoding@0.1.13):
+    dependencies:
+      web3-core: 4.7.1(encoding@0.1.13)
+      web3-types: 1.10.0
+      web3-validator: 2.0.6
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - utf-8-validate
+
+  web3-rpc-providers@1.0.0-rc.4(encoding@0.1.13):
+    dependencies:
+      web3-errors: 1.3.1
+      web3-providers-http: 4.2.0(encoding@0.1.13)
+      web3-providers-ws: 4.0.8
+      web3-types: 1.10.0
+      web3-utils: 4.3.3
+      web3-validator: 2.0.6
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - utf-8-validate
+
+  web3-types@1.10.0: {}
+
+  web3-utils@4.3.3:
+    dependencies:
+      ethereum-cryptography: 2.2.1
+      eventemitter3: 5.0.1
+      web3-errors: 1.3.1
+      web3-types: 1.10.0
+      web3-validator: 2.0.6
+
+  web3-validator@2.0.6:
+    dependencies:
+      ethereum-cryptography: 2.2.1
+      util: 0.12.5
+      web3-errors: 1.3.1
+      web3-types: 1.10.0
+      zod: 3.23.8
+
+  web3@4.16.0(encoding@0.1.13)(typescript@5.4.5)(zod@3.23.8):
+    dependencies:
+      web3-core: 4.7.1(encoding@0.1.13)
+      web3-errors: 1.3.1
+      web3-eth: 4.11.1(encoding@0.1.13)(typescript@5.4.5)(zod@3.23.8)
+      web3-eth-abi: 4.4.1(typescript@5.4.5)(zod@3.23.8)
+      web3-eth-accounts: 4.3.1
+      web3-eth-contract: 4.7.2(encoding@0.1.13)(typescript@5.4.5)(zod@3.23.8)
+      web3-eth-ens: 4.4.0(encoding@0.1.13)(typescript@5.4.5)(zod@3.23.8)
+      web3-eth-iban: 4.0.7
+      web3-eth-personal: 4.1.0(encoding@0.1.13)(typescript@5.4.5)(zod@3.23.8)
+      web3-net: 4.1.0(encoding@0.1.13)
+      web3-providers-http: 4.2.0(encoding@0.1.13)
+      web3-providers-ws: 4.0.8
+      web3-rpc-methods: 1.3.0(encoding@0.1.13)
+      web3-rpc-providers: 1.0.0-rc.4(encoding@0.1.13)
+      web3-types: 1.10.0
+      web3-utils: 4.3.3
+      web3-validator: 2.0.6
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - typescript
+      - utf-8-validate
+      - zod
 
   webidl-conversions@3.0.1: {}
 
@@ -9424,6 +10004,8 @@ snapshots:
       imurmurhash: 0.1.4
       signal-exit: 4.1.0
 
+  ws@8.18.0: {}
+
   xdg-basedir@2.0.0:
     dependencies:
       os-homedir: 1.0.2
@@ -9496,6 +10078,6 @@ snapshots:
 
   yoctocolors@2.0.2: {}
 
-  zenroom@4.31.2: {}
+  zenroom@4.47.0: {}
 
   zod@3.23.8: {}

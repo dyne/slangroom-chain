@@ -1,0 +1,5 @@
+Given nothing
+
+When I exit with error message 'do not meet this precodition'
+
+Then print the string 'a string'
