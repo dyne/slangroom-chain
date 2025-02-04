@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/dyne/slangroom-chain/compare/v1.7.2...v1.8.0) (2025-02-04)
+
+
+### Features
+
+* add step preconditions ([#19](https://github.com/dyne/slangroom-chain/issues/19)) ([3c26644](https://github.com/dyne/slangroom-chain/commit/3c26644503ca4be52e63ddc5a31caaa832e521e9))
+
 ## [1.7.2](https://github.com/dyne/slangroom-chain/compare/v1.7.1...v1.7.2) (2025-01-27)
 
 
