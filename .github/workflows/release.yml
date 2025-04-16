@@ -22,7 +22,10 @@ jobs:
     needs: reuse
     runs-on: ubuntu-latest
     steps:
-      - uses: dyne/pnpm@v1
+      - uses: dyne/pnpm@main
+        with:
+          node-version: 22
+          pnpm-version: 9
       - run: pnpm coverage
 
   release:
@@ -37,9 +40,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 🔨 Setup pnpm
-        uses: dyne/pnpm@v1
+        uses: dyne/pnpm@main
+        with:
+          node-version: 22
+          pnpm-version: 9
       - name: 📦️ Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npx semantic-release
+        run: pnpm semantic-release
