@@ -72,7 +72,13 @@
     "@semantic-release/changelog",
     "@semantic-release/github",
     "@semantic-release/npm",
-    "@semantic-release/git"
+    "@semantic-release/git",
+    [
+      "@semantic-release/exec",
+      {
+        "prepareCmd": "pnpm build"
+      }
+    ]
   ],
   "release": {
     "prepare": [
