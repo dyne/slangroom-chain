@@ -1,3 +1,10 @@
+## [1.9.1](https://github.com/dyne/slangroom-chain/compare/v1.9.0...v1.9.1) (2025-04-16)
+
+
+### Bug Fixes
+
+* build before release ([49411c8](https://github.com/dyne/slangroom-chain/commit/49411c8ad933572d41cc4aa0460093600ba21cf9))
+
 # [1.9.0](https://github.com/dyne/slangroom-chain/compare/v1.8.0...v1.9.0) (2025-04-16)
 
 
