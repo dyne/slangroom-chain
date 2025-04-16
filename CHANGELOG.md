@@ -1,3 +1,10 @@
+## [1.9.2](https://github.com/dyne/slangroom-chain/compare/v1.9.1...v1.9.2) (2025-04-16)
+
+
+### Bug Fixes
+
+* use .releaserc for semantic-release plugins ([d946ea6](https://github.com/dyne/slangroom-chain/commit/d946ea6bb2ced2156a187a2f230dd9f8a44d1e96))
+
 ## [1.9.1](https://github.com/dyne/slangroom-chain/compare/v1.9.0...v1.9.1) (2025-04-16)
 
 
