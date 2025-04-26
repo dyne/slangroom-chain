@@ -17,6 +17,3 @@ updates:
       slangroom-packages:
         patterns:
           - "@slangroom/*"
-      zenroom:
-        patterns:
-          - "zenroom"
