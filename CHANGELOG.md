@@ -1,3 +1,5 @@
+## [1.9.6](https://github.com/dyne/slangroom-chain/compare/v1.9.5...v1.9.6) (2025-05-05)
+
 ## [1.9.5](https://github.com/dyne/slangroom-chain/compare/v1.9.4...v1.9.5) (2025-05-01)
 
 ## [1.9.4](https://github.com/dyne/slangroom-chain/compare/v1.9.3...v1.9.4) (2025-04-26)
