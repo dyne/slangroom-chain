@@ -1,6 +1,6 @@
 {
   "name": "@dyne/slangroom-chain",
-  "version": "1.9.14",
+  "version": "1.9.15",
   "description": "Execute chain of slangroom smart contracts",
   "main": "build/main/index.js",
   "type": "module",
