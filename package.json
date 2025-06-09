@@ -127,7 +127,7 @@
     "@slangroom/timestamp": "^1.45.3",
     "@slangroom/wallet": "^1.45.3",
     "@slangroom/zencode": "^1.45.3",
-    "execa": "^9.5.2",
+    "execa": "^8.0.1",
     "yaml": "^2.7.1"
   }
 }
