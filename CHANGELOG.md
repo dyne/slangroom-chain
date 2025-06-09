@@ -1,3 +1,10 @@
+## [1.9.16](https://github.com/dyne/slangroom-chain/compare/v1.9.15...v1.9.16) (2025-06-09)
+
+
+### Bug Fixes
+
+* use execa@8.0.1 since the version 9 does not works with pkg and thus breaks ncr ([#35](https://github.com/dyne/slangroom-chain/issues/35)) ([7a7b68a](https://github.com/dyne/slangroom-chain/commit/7a7b68ab174becf9e362d3965feda1d7037fa28d))
+
 ## [1.9.15](https://github.com/dyne/slangroom-chain/compare/v1.9.14...v1.9.15) (2025-06-05)
 
 
