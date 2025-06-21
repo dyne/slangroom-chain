@@ -2,7 +2,11 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { Slangroom, type Slangroom as SlangroomType } from '@slangroom/core';
+import {
+  Slangroom,
+  type Slangroom as SlangroomType,
+  type Plugin,
+} from '@slangroom/core';
 import { db } from '@slangroom/db';
 import { ethereum } from '@slangroom/ethereum';
 import { fs } from '@slangroom/fs';
@@ -46,7 +50,7 @@ export class SlangroomManager {
 
   public static getInstance(): SlangroomType {
     if (!this.instance) {
-      this.instance = new Slangroom(SLANGROOM_PLUGINS);
+      this.instance = new Slangroom(SLANGROOM_PLUGINS as Plugin[]);
     }
     return this.instance;
   }
