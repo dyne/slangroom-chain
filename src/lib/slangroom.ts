@@ -2,7 +2,11 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { Slangroom, type Slangroom as SlangroomType } from '@slangroom/core';
+import {
+  Slangroom,
+  type Slangroom as SlangroomType,
+  type Plugin,
+} from '@slangroom/core';
 import { db } from '@slangroom/db';
 import { ethereum } from '@slangroom/ethereum';
 import { fs } from '@slangroom/fs';
@@ -13,6 +17,7 @@ import { JSONSchema } from '@slangroom/json-schema';
 import { oauth } from '@slangroom/oauth';
 import { pocketbase } from '@slangroom/pocketbase';
 import { qrcode } from '@slangroom/qrcode';
+import { rdf } from '@slangroom/rdf';
 import { redis } from '@slangroom/redis';
 import { shell } from '@slangroom/shell';
 import { timestamp } from '@slangroom/timestamp';
@@ -30,6 +35,7 @@ const SLANGROOM_PLUGINS = [
   oauth,
   pocketbase,
   qrcode,
+  rdf,
   redis,
   shell,
   timestamp,
@@ -44,7 +50,7 @@ export class SlangroomManager {
 
   public static getInstance(): SlangroomType {
     if (!this.instance) {
-      this.instance = new Slangroom(SLANGROOM_PLUGINS);
+      this.instance = new Slangroom(SLANGROOM_PLUGINS as Plugin[]);
     }
     return this.instance;
   }
