@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/dyne/slangroom-chain/compare/v1.9.19...v1.10.0) (2025-06-21)
+
+
+### Features
+
+* add @slangroom/rdf plugin ([#40](https://github.com/dyne/slangroom-chain/issues/40)) ([0e9d058](https://github.com/dyne/slangroom-chain/commit/0e9d0587fd72f7d650ca31db13c3cb487de063f0))
+
 ## [1.9.19](https://github.com/dyne/slangroom-chain/compare/v1.9.18...v1.9.19) (2025-06-19)
 
 ## [1.9.18](https://github.com/dyne/slangroom-chain/compare/v1.9.17...v1.9.18) (2025-06-13)
