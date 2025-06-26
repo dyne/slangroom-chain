@@ -10,55 +10,55 @@ importers:
     dependencies:
       '@slangroom/core':
         specifier: ^1.45.3
-        version: 1.48.5(zenroom@5.20.4)
+        version: 1.48.5(zenroom@5.23.0)
       '@slangroom/db':
         specifier: ^1.45.3
-        version: 1.48.5(zenroom@5.20.4)
+        version: 1.48.5(zenroom@5.23.0)
       '@slangroom/ethereum':
         specifier: ^1.45.3
-        version: 1.48.5(encoding@0.1.13)(typescript@5.8.3)(zenroom@5.20.4)(zod@3.25.67)
+        version: 1.48.5(encoding@0.1.13)(typescript@5.8.3)(zenroom@5.23.0)(zod@3.25.67)
       '@slangroom/fs':
         specifier: ^1.45.3
-        version: 1.48.5(zenroom@5.20.4)
+        version: 1.48.5(zenroom@5.23.0)
       '@slangroom/git':
         specifier: ^1.45.3
-        version: 1.48.5(zenroom@5.20.4)
+        version: 1.48.5(zenroom@5.23.0)
       '@slangroom/helpers':
         specifier: ^1.45.3
-        version: 1.48.5(zenroom@5.20.4)
+        version: 1.48.5(zenroom@5.23.0)
       '@slangroom/http':
         specifier: ^1.45.3
-        version: 1.48.5(zenroom@5.20.4)
+        version: 1.48.5(zenroom@5.23.0)
       '@slangroom/json-schema':
         specifier: ^1.45.3
-        version: 1.48.5(zenroom@5.20.4)
+        version: 1.48.5(zenroom@5.23.0)
       '@slangroom/oauth':
         specifier: ^1.45.3
-        version: 1.48.5(zenroom@5.20.4)
+        version: 1.48.5(zenroom@5.23.0)
       '@slangroom/pocketbase':
         specifier: ^1.45.3
-        version: 1.48.5(@capacitor/core@6.0.0)(zenroom@5.20.4)
+        version: 1.48.5(@capacitor/core@6.0.0)(zenroom@5.23.0)
       '@slangroom/qrcode':
         specifier: ^1.45.3
-        version: 1.48.5(zenroom@5.20.4)
+        version: 1.48.5(zenroom@5.23.0)
       '@slangroom/rdf':
         specifier: ^1.48.5
-        version: 1.48.5(web-streams-polyfill@3.3.3)(zenroom@5.20.4)
+        version: 1.48.5(web-streams-polyfill@3.3.3)(zenroom@5.23.0)
       '@slangroom/redis':
         specifier: ^1.45.3
-        version: 1.48.5(zenroom@5.20.4)
+        version: 1.48.5(zenroom@5.23.0)
       '@slangroom/shell':
         specifier: ^1.45.3
-        version: 1.48.5(zenroom@5.20.4)
+        version: 1.48.5(zenroom@5.23.0)
       '@slangroom/timestamp':
         specifier: ^1.45.3
-        version: 1.48.5(zenroom@5.20.4)
+        version: 1.48.5(zenroom@5.23.0)
       '@slangroom/wallet':
         specifier: ^1.45.3
-        version: 1.48.5(zenroom@5.20.4)
+        version: 1.48.5(zenroom@5.23.0)
       '@slangroom/zencode':
         specifier: ^1.45.3
-        version: 1.48.5(zenroom@5.20.4)
+        version: 1.48.5(zenroom@5.23.0)
       execa:
         specifier: ^8.0.1
         version: 8.0.1
@@ -164,7 +164,7 @@ importers:
         version: 1.3.0
       zenroom:
         specifier: ^5.17.0
-        version: 5.20.4
+        version: 5.23.0
 
 packages:
 
@@ -4976,8 +4976,8 @@ packages:
     resolution: {integrity: sha512-GQHQqAopRhwU8Kt1DDM8NjibDXHC8eoh1erhGAJPEyveY9qqVeXvVikNKrDz69sHowPMorbPUrH/mx8c50eiBQ==}
     engines: {node: '>=18'}
 
-  zenroom@5.20.4:
-    resolution: {integrity: sha512-0q/Fw+MkBOrJg0DIYPJVoKivwY3WbmitKBiCPfVjm0HJ26hEVUtDfU4pWgFYbIh5wa8BzKnA6QleM0GKerJ6hA==}
+  zenroom@5.23.0:
+    resolution: {integrity: sha512-meXvOpWgwkEoz7nVq/5fuJPCIj0udvI6CjXKx0T2Ha4ac7L9vj7mXeSRXPSiph5N0IRY5Lio/KvrgWceD82WLw==}
 
   zod@3.25.67:
     resolution: {integrity: sha512-idA2YXwpCdqUSKRCACDE6ItZD9TZzy3OZMtpfLoh6oPR47lipysRrJfjzMqFxQ3uJuUPyUeWe1r9vLH33xO/Qw==}
@@ -5786,19 +5786,19 @@ snapshots:
 
   '@sindresorhus/merge-streams@4.0.0': {}
 
-  '@slangroom/core@1.48.5(zenroom@5.20.4)':
+  '@slangroom/core@1.48.5(zenroom@5.23.0)':
     dependencies:
-      '@slangroom/deps': 1.48.5(zenroom@5.20.4)
-      '@slangroom/ignored': 1.48.5(zenroom@5.20.4)
-      '@slangroom/shared': 1.48.5(zenroom@5.20.4)
+      '@slangroom/deps': 1.48.5(zenroom@5.23.0)
+      '@slangroom/ignored': 1.48.5(zenroom@5.23.0)
+      '@slangroom/shared': 1.48.5(zenroom@5.23.0)
       fastest-levenshtein: 1.0.16
     transitivePeerDependencies:
       - zenroom
 
-  '@slangroom/db@1.48.5(zenroom@5.20.4)':
+  '@slangroom/db@1.48.5(zenroom@5.23.0)':
     dependencies:
-      '@slangroom/core': 1.48.5(zenroom@5.20.4)
-      '@slangroom/shared': 1.48.5(zenroom@5.20.4)
+      '@slangroom/core': 1.48.5(zenroom@5.23.0)
+      '@slangroom/shared': 1.48.5(zenroom@5.23.0)
       pg-hstore: 2.3.4
       sequelize: 6.37.7(pg-hstore@2.3.4)(sqlite3@5.1.7)
       sqlite3: 5.1.7
@@ -5814,16 +5814,16 @@ snapshots:
       - tedious
       - zenroom
 
-  '@slangroom/deps@1.48.5(zenroom@5.20.4)':
+  '@slangroom/deps@1.48.5(zenroom@5.23.0)':
     dependencies:
       chalk: 5.4.1
       chevrotain: 10.5.0
-      zenroom: 5.20.4
+      zenroom: 5.23.0
 
-  '@slangroom/ethereum@1.48.5(encoding@0.1.13)(typescript@5.8.3)(zenroom@5.20.4)(zod@3.25.67)':
+  '@slangroom/ethereum@1.48.5(encoding@0.1.13)(typescript@5.8.3)(zenroom@5.23.0)(zod@3.25.67)':
     dependencies:
-      '@slangroom/core': 1.48.5(zenroom@5.20.4)
-      '@slangroom/shared': 1.48.5(zenroom@5.20.4)
+      '@slangroom/core': 1.48.5(zenroom@5.23.0)
+      '@slangroom/shared': 1.48.5(zenroom@5.23.0)
       web3: 4.16.0(encoding@0.1.13)(typescript@5.8.3)(zod@3.25.67)
       web3-validator: 2.0.6
     transitivePeerDependencies:
@@ -5834,134 +5834,134 @@ snapshots:
       - zenroom
       - zod
 
-  '@slangroom/fs@1.48.5(zenroom@5.20.4)':
+  '@slangroom/fs@1.48.5(zenroom@5.23.0)':
     dependencies:
-      '@slangroom/core': 1.48.5(zenroom@5.20.4)
-      '@slangroom/shared': 1.48.5(zenroom@5.20.4)
+      '@slangroom/core': 1.48.5(zenroom@5.23.0)
+      '@slangroom/shared': 1.48.5(zenroom@5.23.0)
       fflate: 0.8.2
     transitivePeerDependencies:
       - zenroom
 
-  '@slangroom/git@1.48.5(zenroom@5.20.4)':
+  '@slangroom/git@1.48.5(zenroom@5.23.0)':
     dependencies:
-      '@slangroom/core': 1.48.5(zenroom@5.20.4)
+      '@slangroom/core': 1.48.5(zenroom@5.23.0)
       isomorphic-git: 1.31.0
     transitivePeerDependencies:
       - zenroom
 
-  '@slangroom/helpers@1.48.5(zenroom@5.20.4)':
+  '@slangroom/helpers@1.48.5(zenroom@5.23.0)':
     dependencies:
-      '@slangroom/core': 1.48.5(zenroom@5.20.4)
-      '@slangroom/shared': 1.48.5(zenroom@5.20.4)
+      '@slangroom/core': 1.48.5(zenroom@5.23.0)
+      '@slangroom/shared': 1.48.5(zenroom@5.23.0)
       '@types/lodash': 4.17.18
       lodash: 4.17.21
     transitivePeerDependencies:
       - zenroom
 
-  '@slangroom/http@1.48.5(zenroom@5.20.4)':
+  '@slangroom/http@1.48.5(zenroom@5.23.0)':
     dependencies:
-      '@slangroom/core': 1.48.5(zenroom@5.20.4)
-      '@slangroom/shared': 1.48.5(zenroom@5.20.4)
+      '@slangroom/core': 1.48.5(zenroom@5.23.0)
+      '@slangroom/shared': 1.48.5(zenroom@5.23.0)
       axios: 1.10.0
     transitivePeerDependencies:
       - debug
       - zenroom
 
-  '@slangroom/ignored@1.48.5(zenroom@5.20.4)':
+  '@slangroom/ignored@1.48.5(zenroom@5.23.0)':
     dependencies:
-      '@slangroom/deps': 1.48.5(zenroom@5.20.4)
-      '@slangroom/shared': 1.48.5(zenroom@5.20.4)
+      '@slangroom/deps': 1.48.5(zenroom@5.23.0)
+      '@slangroom/shared': 1.48.5(zenroom@5.23.0)
     transitivePeerDependencies:
       - zenroom
 
-  '@slangroom/json-schema@1.48.5(zenroom@5.20.4)':
+  '@slangroom/json-schema@1.48.5(zenroom@5.23.0)':
     dependencies:
-      '@slangroom/core': 1.48.5(zenroom@5.20.4)
-      '@slangroom/shared': 1.48.5(zenroom@5.20.4)
+      '@slangroom/core': 1.48.5(zenroom@5.23.0)
+      '@slangroom/shared': 1.48.5(zenroom@5.23.0)
       ajv: 8.17.1
     transitivePeerDependencies:
       - zenroom
 
-  '@slangroom/oauth@1.48.5(zenroom@5.20.4)':
+  '@slangroom/oauth@1.48.5(zenroom@5.23.0)':
     dependencies:
       '@node-oauth/oauth2-server': 5.2.0
-      '@slangroom/core': 1.48.5(zenroom@5.20.4)
-      '@slangroom/shared': 1.48.5(zenroom@5.20.4)
+      '@slangroom/core': 1.48.5(zenroom@5.23.0)
+      '@slangroom/shared': 1.48.5(zenroom@5.23.0)
       bs58: 5.0.0
       jose: 5.10.0
     transitivePeerDependencies:
       - zenroom
 
-  '@slangroom/pocketbase@1.48.5(@capacitor/core@6.0.0)(zenroom@5.20.4)':
+  '@slangroom/pocketbase@1.48.5(@capacitor/core@6.0.0)(zenroom@5.23.0)':
     dependencies:
       '@capacitor/preferences': 6.0.3(@capacitor/core@6.0.0)
-      '@slangroom/core': 1.48.5(zenroom@5.20.4)
-      '@slangroom/shared': 1.48.5(zenroom@5.20.4)
+      '@slangroom/core': 1.48.5(zenroom@5.23.0)
+      '@slangroom/shared': 1.48.5(zenroom@5.23.0)
       pocketbase: 0.25.2
       zod: 3.25.67
     transitivePeerDependencies:
       - '@capacitor/core'
       - zenroom
 
-  '@slangroom/qrcode@1.48.5(zenroom@5.20.4)':
+  '@slangroom/qrcode@1.48.5(zenroom@5.23.0)':
     dependencies:
-      '@slangroom/core': 1.48.5(zenroom@5.20.4)
+      '@slangroom/core': 1.48.5(zenroom@5.23.0)
       qrcode: 1.5.4
     transitivePeerDependencies:
       - zenroom
 
-  '@slangroom/rdf@1.48.5(web-streams-polyfill@3.3.3)(zenroom@5.20.4)':
+  '@slangroom/rdf@1.48.5(web-streams-polyfill@3.3.3)(zenroom@5.23.0)':
     dependencies:
-      '@slangroom/core': 1.48.5(zenroom@5.20.4)
+      '@slangroom/core': 1.48.5(zenroom@5.23.0)
       jsonld: 8.3.3(web-streams-polyfill@3.3.3)
       rdf-canonize: 4.0.1
     transitivePeerDependencies:
       - web-streams-polyfill
       - zenroom
 
-  '@slangroom/redis@1.48.5(zenroom@5.20.4)':
+  '@slangroom/redis@1.48.5(zenroom@5.23.0)':
     dependencies:
       '@redis/client': 1.6.1
-      '@slangroom/core': 1.48.5(zenroom@5.20.4)
-      '@slangroom/shared': 1.48.5(zenroom@5.20.4)
+      '@slangroom/core': 1.48.5(zenroom@5.23.0)
+      '@slangroom/shared': 1.48.5(zenroom@5.23.0)
     transitivePeerDependencies:
       - zenroom
 
-  '@slangroom/shared@1.48.5(zenroom@5.20.4)':
+  '@slangroom/shared@1.48.5(zenroom@5.23.0)':
     dependencies:
-      '@slangroom/deps': 1.48.5(zenroom@5.20.4)
+      '@slangroom/deps': 1.48.5(zenroom@5.23.0)
     transitivePeerDependencies:
       - zenroom
 
-  '@slangroom/shell@1.48.5(zenroom@5.20.4)':
+  '@slangroom/shell@1.48.5(zenroom@5.23.0)':
     dependencies:
-      '@slangroom/core': 1.48.5(zenroom@5.20.4)
+      '@slangroom/core': 1.48.5(zenroom@5.23.0)
       execa: 8.0.1
     transitivePeerDependencies:
       - zenroom
 
-  '@slangroom/timestamp@1.48.5(zenroom@5.20.4)':
+  '@slangroom/timestamp@1.48.5(zenroom@5.23.0)':
     dependencies:
-      '@slangroom/core': 1.48.5(zenroom@5.20.4)
-      '@slangroom/shared': 1.48.5(zenroom@5.20.4)
+      '@slangroom/core': 1.48.5(zenroom@5.23.0)
+      '@slangroom/shared': 1.48.5(zenroom@5.23.0)
     transitivePeerDependencies:
       - zenroom
 
-  '@slangroom/wallet@1.48.5(zenroom@5.20.4)':
+  '@slangroom/wallet@1.48.5(zenroom@5.23.0)':
     dependencies:
       '@meeco/sd-jwt': 0.0.3
       '@meeco/sd-jwt-vc': 0.0.4
-      '@slangroom/core': 1.48.5(zenroom@5.20.4)
-      '@slangroom/shared': 1.48.5(zenroom@5.20.4)
+      '@slangroom/core': 1.48.5(zenroom@5.23.0)
+      '@slangroom/shared': 1.48.5(zenroom@5.23.0)
       bs58: 5.0.0
       jose: 5.10.0
     transitivePeerDependencies:
       - zenroom
 
-  '@slangroom/zencode@1.48.5(zenroom@5.20.4)':
+  '@slangroom/zencode@1.48.5(zenroom@5.23.0)':
     dependencies:
-      '@slangroom/core': 1.48.5(zenroom@5.20.4)
-      '@slangroom/shared': 1.48.5(zenroom@5.20.4)
+      '@slangroom/core': 1.48.5(zenroom@5.23.0)
+      '@slangroom/shared': 1.48.5(zenroom@5.23.0)
     transitivePeerDependencies:
       - zenroom
 
@@ -10484,6 +10484,6 @@ snapshots:
 
   yoctocolors@2.1.1: {}
 
-  zenroom@5.20.4: {}
+  zenroom@5.23.0: {}
 
   zod@3.25.67: {}
