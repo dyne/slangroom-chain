@@ -10,12 +10,13 @@ import { YamlChain } from './yamlChain.js';
 
 const verbose = (verbose: boolean | undefined): ((m: string) => void) => {
   if (verbose) return (message: string) => console.log(message);
-  return () => {};
+  return () => { };
 };
 
 export const execute = async (
   steps: string | JsonSteps,
   inputData?: string,
+  inputKeys?: string,
 ): Promise<string> => {
   const results: Results = {};
   let final = '';
@@ -41,6 +42,7 @@ export const execute = async (
     // previous step for easier chaining
     if (firstIteration) {
       if (data === '{}' && inputData) data = inputData;
+      if (keys === '{}' && inputKeys) keys = inputKeys;
       firstIteration = false;
     }
     const conf = step.conf ? step.conf : parsedSteps.steps.conf;
