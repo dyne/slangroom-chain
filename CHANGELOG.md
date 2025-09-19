@@ -1,3 +1,10 @@
+# [1.11.0](https://github.com/dyne/slangroom-chain/compare/v1.10.7...v1.11.0) (2025-09-19)
+
+
+### Features
+
+* execute accept also input keys ([75869e4](https://github.com/dyne/slangroom-chain/commit/75869e44d825680755f58a12484c8446793ff71a))
+
 ## [1.10.7](https://github.com/dyne/slangroom-chain/compare/v1.10.6...v1.10.7) (2025-07-29)
 
 ## [1.10.6](https://github.com/dyne/slangroom-chain/compare/v1.10.5...v1.10.6) (2025-07-24)
