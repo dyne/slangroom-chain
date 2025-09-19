@@ -123,7 +123,6 @@
     "@slangroom/oauth": "^1.49.5",
     "@slangroom/pocketbase": "^1.49.5",
     "@slangroom/qrcode": "^1.49.5",
-    "@slangroom/rdf": "^1.49.5",
     "@slangroom/redis": "^1.49.5",
     "@slangroom/shell": "^1.49.5",
     "@slangroom/timestamp": "^1.49.5",
