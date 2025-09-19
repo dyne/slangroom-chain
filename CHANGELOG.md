@@ -1,3 +1,10 @@
+## [1.12.1](https://github.com/dyne/slangroom-chain/compare/v1.12.0...v1.12.1) (2025-09-19)
+
+
+### Bug Fixes
+
+* remove @slangroom/rdf ([8983e39](https://github.com/dyne/slangroom-chain/commit/8983e39da1c3a441a9b60dd72291ddd2e899bd7c))
+
 # [1.12.0](https://github.com/dyne/slangroom-chain/compare/v1.11.0...v1.12.0) (2025-09-19)
 
 
