@@ -3,8 +3,10 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import test from 'ava';
+import fs from 'fs/promises';
 
 import { execute } from './chain.js';
+import { readFromFile } from './utils.js';
 
 declare global {
   // eslint-disable-next-line no-var
@@ -382,4 +384,55 @@ test('check for variables onBefore and onAfter, pass onBefore and fails onAfter'
   const fn = execute(steps);
   const err = await t.throwsAsync(fn);
   t.is(err?.message, 'result is not Hello_world: Hello_cat');
+});
+
+test('onError.jsFunction', async (t) => {
+  const steps = {
+    steps: [
+      {
+        id: 'step that fails',
+        zencode: "Given nothing\nWhen I copy 'a' to 'b'\nThen print data",
+        onError: {
+          jsFunction: (error: string) => {
+            throw new Error('Error from onError: ' + error);
+          },
+        },
+      },
+    ],
+  };
+  const fn = execute(steps);
+  const err = await t.throwsAsync(fn);
+  t.true(
+    err?.message.startsWith('Error from onError: [ "ZENROOM JSON LOG START",'),
+    err.message,
+  );
+});
+
+test('onError.zencode', async (t) => {
+  process.env['FILES_DIR'] = '.';
+  const steps ={
+    steps: [
+      {
+        id: "step that produce out path",
+        zencode: "Given nothing\nWhen I set 'path' to 'error_json.out' as 'string'\nThen print the 'path'\n"
+      },
+      {
+        id: "step that fails",
+        zencode: "Given nothing\nWhen I copy 'a' to 'b'\nThen print data\n",
+        onError: {
+          zencode: "Prepare: store in file with path 'path', content 'slangroomChainError'\nGiven I have a 'string' named 'slangroomChainError'\nThen print the data\n",
+          keysFromStep: "step that produce out path"
+        }
+      }
+    ]
+  };
+  const fn = execute(steps);
+  const err = await t.throwsAsync(fn);
+  t.true(
+    err?.message.startsWith('step that fails failed with error: '),
+    err.message,
+  );
+  const errFile = await readFromFile('error_json.out');
+  t.true(errFile.startsWith('[ "ZENROOM JSON LOG START",'));
+  await fs.unlink('error_json.out');
 });
