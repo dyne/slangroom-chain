@@ -322,17 +322,17 @@ test('precondition', async (t) => {
           },
         },
         zencode:
-          "Given nothing\nWhen I create the 'string array' named 'res'\nWhen I set 'str' to 'meet js precondtion' as 'string'\nWhen I move 'str' in 'res'\nThen print the 'res'\n",
+          "Given nothing\nWhen I create the 'string array' named 'res'\nWhen I set 'str' to 'meet js precondition' as 'string'\nWhen I move 'str' in 'res'\nThen print the 'res'\n",
       },
       {
         id: 'meet zencode precondition',
         precondition: {
           zencode:
-            "Given I have a 'string array' named 'res'\n\nWhen I create copy of element '1' from array 'res'\nWhen I set 'check' to 'meet js precondtion' as 'string'\nWhen I verify 'copy' is equal to 'check'\n\nThen print the 'res'\n",
+            "Given I have a 'string array' named 'res'\n\nWhen I create copy of element '1' from array 'res'\nWhen I set 'check' to 'meet js precondition' as 'string'\nWhen I verify 'copy' is equal to 'check'\n\nThen print the 'res'\n",
           dataFromStep: 'meet js precondition',
         },
         zencode:
-          "Given I have a 'string array' named 'res'\nWhen I set 'str' to 'meet zen precondtion' as 'string'\nWhen I move 'str' in 'res'\nThen print the 'res'\n",
+          "Given I have a 'string array' named 'res'\nWhen I set 'str' to 'meet zen precondition' as 'string'\nWhen I move 'str' in 'res'\nThen print the 'res'\n",
         dataFromStep: 'meet js precondition',
       },
       {
@@ -341,14 +341,14 @@ test('precondition', async (t) => {
           zencodeFromFile: 'test_contracts/precondition.zen',
         },
         zencode:
-          "Given I have a 'string array' named 'res'\nWhen I set 'str' to 'meet a false zen precondtion' as 'string'\nWhen I move 'str' in 'res'\nThen print the 'res'\n",
+          "Given I have a 'string array' named 'res'\nWhen I set 'str' to 'meet a false zen precondition' as 'string'\nWhen I move 'str' in 'res'\nThen print the 'res'\n",
         dataFromStep: 'meet zencode precondition',
       },
     ],
   };
   const result = await execute(steps);
   t.deepEqual(JSON.parse(result), {
-    res: ['meet_js_precondtion', 'meet_zen_precondtion'],
+    res: ['meet_js_precondition', 'meet_zen_precondition'],
   });
 });
 

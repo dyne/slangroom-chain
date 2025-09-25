@@ -296,7 +296,7 @@ test('preconditions', async (t) => {
       zencode: |
         Given nothing
         When I create the 'string array' named 'res'
-        When I set 'str' to 'meet js precondtion' as 'string'
+        When I set 'str' to 'meet js precondition' as 'string'
         When I move 'str' in 'res'
         Then print the 'res'
     - id: meet zencode precondition
@@ -305,14 +305,14 @@ test('preconditions', async (t) => {
           Given I have a 'string array' named 'res'
 
           When I create copy of element '1' from array 'res'
-          When I set 'check' to 'meet js precondtion' as 'string'
+          When I set 'check' to 'meet js precondition' as 'string'
           When I verify 'copy' is equal to 'check'
 
           Then print the 'res'
         dataFromStep: meet js precondition
       zencode: |
         Given I have a 'string array' named 'res'
-        When I set 'str' to 'meet zen precondtion' as 'string'
+        When I set 'str' to 'meet zen precondition' as 'string'
         When I move 'str' in 'res'
         Then print the 'res'
       dataFromStep: meet js precondition
@@ -321,13 +321,13 @@ test('preconditions', async (t) => {
         zencodeFromFile: test_contracts/precondition.zen
       zencode: |
         Given I have a 'string array' named 'res'
-        When I set 'str' to 'meet a false zen precondtion' as 'string'
+        When I set 'str' to 'meet a false zen precondition' as 'string'
         When I move 'str' in 'res'
         Then print the 'res'
       dataFromStep: meet zencode precondition`;
   const result = await execute(steps);
   t.deepEqual(JSON.parse(result), {
-    res: ['meet_js_precondtion', 'meet_zen_precondtion'],
+    res: ['meet_js_precondition', 'meet_zen_precondition'],
   });
 });
 
