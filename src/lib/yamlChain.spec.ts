@@ -3,14 +3,17 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import test from 'ava';
+import fs from 'fs/promises';
 
 import { execute } from './chain.js';
+import { readFromFile } from './utils.js';
 
 declare global {
   // eslint-disable-next-line no-var
   var variable: string;
 }
 global.variable = 'Hello';
+process.env['FILES_DIR'] = '.';
 
 test('should execute work', async (t) => {
   const account = JSON.stringify({ username: 'Alice' });
@@ -255,7 +258,6 @@ test('mix zencode and zencodeFromFile', async (t) => {
 });
 
 test('onBefore create a file and delete it onAfter', async (t) => {
-  process.env['FILES_DIR'] = '.';
   const steps = `
   steps:
     - id: create and delete new_file
@@ -379,4 +381,52 @@ test('invalid data', async (t) => {
   const fn = execute(steps);
   const err = await t.throwsAsync(fn);
   t.is(err?.message, 'No valid data provided for step step with invalid data');
+});
+
+test('onError.jsFunction', async (t) => {
+  const steps = `
+  steps:
+    - id: step that fails
+      zencode: |
+        Given nothing
+        When I copy 'a' to 'b'
+        Then print data
+      onError:
+        jsFunction: |
+          throw new Error(\`Error from onError: \${error}\`)
+  `;
+  const fn = execute(steps);
+  const err = await t.throwsAsync(fn);
+  t.true(err?.message.startsWith(`Error executing JS function:
+throw new Error(\`Error from onError: \${error}\`)
+
+Error: Error from onError: [ "ZENROOM JSON LOG START",`), err.message);
+});
+
+test('onError.zencode', async (t) => {
+  const steps = `
+  steps:
+    - id: step that produce out path
+      zencode: |
+        Given nothing
+        When I set 'path' to 'error.out' as 'string'
+        Then print the 'path'
+    - id: step that fails
+      zencode: |
+        Given nothing
+        When I copy 'a' to 'b'
+        Then print data
+      onError:
+        zencode: |
+          Prepare: store in file with path 'path', content 'slangroomChainError'
+          Given I have a 'string' named 'slangroomChainError'
+          Then print the data
+        keysFromStep: step that produce out path
+  `;
+  const fn = execute(steps);
+  const err = await t.throwsAsync(fn);
+  t.true(err?.message.startsWith('step that fails failed with error: '), err.message);
+  const errFile = await readFromFile('error.out');
+  t.true(errFile.startsWith('[ "ZENROOM JSON LOG START",'));
+  await fs.unlink('error.out');
 });
