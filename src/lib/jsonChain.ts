@@ -7,6 +7,7 @@ import type {
   Chain,
   JsonOnAfter,
   JsonOnBefore,
+  JsonOnError,
   JsonPrecondition,
   JsonSteps,
   JsonTransformFn,
@@ -15,6 +16,33 @@ import type {
 } from './types';
 import { execShellCommand, getDataAndKeys, readFromFile } from './utils.js';
 
+const manageBeforeOrAfterOrError = async (
+  step: JsonOnAfter | JsonOnBefore | JsonOnError,
+  error: string | undefined,
+  results: Results,
+): Promise<void> => {
+  if ('run' in step && step.run) {
+    await execShellCommand(step.run);
+  }
+  let zencode;
+  if ('zencode' in step && step.zencode) zencode = step.zencode;
+  else if ('zencodeFromFile' in step && step.zencodeFromFile)
+    zencode = await readFromFile(step.zencodeFromFile);
+  if (zencode) {
+    const dataKeys = await getDataAndKeys(step as Step, results);
+    if (error) {
+      const jsonKeys = JSON.parse(dataKeys.keys);
+      jsonKeys.slangroomChainError = error;
+      dataKeys.keys = JSON.stringify(jsonKeys);
+    }
+    await SlangroomManager.executeInstance(
+      zencode,
+      dataKeys.data,
+      dataKeys.keys,
+      undefined,
+    );
+  }
+};
 export class JsonChain implements Chain {
   steps: JsonSteps;
   constructor(steps: JsonSteps) {
@@ -39,16 +67,16 @@ export class JsonChain implements Chain {
     data: string | undefined,
     keys: string | undefined,
     conf: string | undefined,
+    results: Results,
   ): Promise<void> {
     if (!stepOnBefore) return;
     if (typeof stepOnBefore === 'function') {
       await stepOnBefore(zencode, data, keys, conf);
     } else if (typeof stepOnBefore === 'object') {
-      if (stepOnBefore.jsFunction) {
+      if ('jsFunction' in stepOnBefore && stepOnBefore.jsFunction) {
         await stepOnBefore.jsFunction(zencode, data, keys, conf);
-      } else if (stepOnBefore.run) {
-        await execShellCommand(stepOnBefore.run);
       }
+      await manageBeforeOrAfterOrError(stepOnBefore, undefined, results);
     }
   }
 
@@ -59,16 +87,32 @@ export class JsonChain implements Chain {
     data: string | undefined,
     keys: string | undefined,
     conf: string | undefined,
+    results: Results,
   ): Promise<void> {
     if (!stepOnAfter) return;
     if (typeof stepOnAfter === 'function') {
       await stepOnAfter(result, zencode, data, keys, conf);
     } else if (typeof stepOnAfter === 'object') {
-      if (stepOnAfter.jsFunction) {
+      if ('jsFunction' in stepOnAfter && stepOnAfter.jsFunction) {
         await stepOnAfter.jsFunction(result, zencode, data, keys, conf);
-      } else if (stepOnAfter.run) {
-        await execShellCommand(stepOnAfter.run);
       }
+      await manageBeforeOrAfterOrError(stepOnAfter, undefined, results);
+    }
+  }
+
+  async manageError(
+    stepOnError: JsonOnError | undefined,
+    error: string,
+    results: Results,
+  ): Promise<void> {
+    if (!stepOnError) return;
+    if (typeof stepOnError === 'function') {
+      await stepOnError(error);
+    } else if (typeof stepOnError === 'object') {
+      if ('jsFunction' in stepOnError && stepOnError.jsFunction) {
+        await stepOnError.jsFunction(error);
+      }
+      await manageBeforeOrAfterOrError(stepOnError, error, results);
     }
   }
 

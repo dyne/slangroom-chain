@@ -7,10 +7,10 @@ import YAML from 'yaml';
 import { SlangroomManager } from './slangroom.js';
 import type {
   Chain,
-  OnBeforeOrAfterData,
+  OnBeforeOrAfterOrErrorData,
   Results,
   Step,
-  YamlOnBeforeOrAfter,
+  YamlOnBeforeOrAfterOrError,
   YamlPrecondition,
   YamlSteps,
 } from './types';
@@ -21,13 +21,44 @@ import {
   readFromFile,
 } from './utils.js';
 
-const manageBeforeOrAfter = async (
-  stepOnBeforeOrAfter: YamlOnBeforeOrAfter,
-  data: OnBeforeOrAfterData,
+const manageBeforeOrAfterOrError = async (
+  stepOnBeforeOrAfterOrError: YamlOnBeforeOrAfterOrError,
+  data: OnBeforeOrAfterOrErrorData,
 ): Promise<void> => {
-  if (stepOnBeforeOrAfter.jsFunction)
-    await execJsFun(stepOnBeforeOrAfter.jsFunction, data);
-  if (stepOnBeforeOrAfter.run) await execShellCommand(stepOnBeforeOrAfter.run);
+  let zencode;
+  if (
+    'jsFunction' in stepOnBeforeOrAfterOrError &&
+    stepOnBeforeOrAfterOrError.jsFunction
+  )
+    await execJsFun(stepOnBeforeOrAfterOrError.jsFunction, data);
+  if ('run' in stepOnBeforeOrAfterOrError && stepOnBeforeOrAfterOrError.run)
+    await execShellCommand(stepOnBeforeOrAfterOrError.run);
+  if (
+    'zencode' in stepOnBeforeOrAfterOrError &&
+    stepOnBeforeOrAfterOrError.zencode
+  )
+    zencode = stepOnBeforeOrAfterOrError.zencode;
+  else if (
+    'zencodeFromFile' in stepOnBeforeOrAfterOrError &&
+    stepOnBeforeOrAfterOrError.zencodeFromFile
+  )
+    zencode = await readFromFile(stepOnBeforeOrAfterOrError.zencodeFromFile);
+  if (zencode) {
+    const jsonRes = JSON.parse(data.results);
+    const { data: zencodeData, keys: zencodeKeys } = await getDataAndKeys(
+      stepOnBeforeOrAfterOrError as Step,
+      jsonRes,
+    );
+    await SlangroomManager.executeInstance(
+      zencode,
+      zencodeData,
+      JSON.stringify({
+        ...JSON.parse(zencodeKeys),
+        slangroomChainError: data.error,
+      }),
+      undefined,
+    );
+  }
 };
 
 export class YamlChain implements Chain {
@@ -51,31 +82,52 @@ export class YamlChain implements Chain {
   }
 
   async manageBefore(
-    stepOnBefore: YamlOnBeforeOrAfter | undefined,
+    stepOnBefore: YamlOnBeforeOrAfterOrError | undefined,
     zencode: string,
     data: string | undefined,
     keys: string | undefined,
     conf: string | undefined,
+    results: Results,
   ): Promise<void> {
     if (!stepOnBefore) return;
-    await manageBeforeOrAfter(stepOnBefore, { zencode, data, keys, conf });
+    await manageBeforeOrAfterOrError(stepOnBefore, {
+      zencode,
+      data,
+      keys,
+      conf,
+      results: JSON.stringify(results),
+    });
   }
 
   async manageAfter(
-    stepOnAfter: YamlOnBeforeOrAfter | undefined,
+    stepOnAfter: YamlOnBeforeOrAfterOrError | undefined,
     result: string,
     zencode: string,
     data: string | undefined,
     keys: string | undefined,
     conf: string | undefined,
+    results: Results,
   ): Promise<void> {
     if (!stepOnAfter) return;
-    await manageBeforeOrAfter(stepOnAfter, {
+    await manageBeforeOrAfterOrError(stepOnAfter, {
       result,
       zencode,
       data,
       keys,
       conf,
+      results: JSON.stringify(results),
+    });
+  }
+
+  async manageError(
+    stepOnError: YamlOnBeforeOrAfterOrError | undefined,
+    error: string,
+    results: Results,
+  ): Promise<void> {
+    if (!stepOnError) return;
+    await manageBeforeOrAfterOrError(stepOnError, {
+      error,
+      results: JSON.stringify(results),
     });
   }
 

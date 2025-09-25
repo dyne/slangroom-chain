@@ -3,9 +3,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import {
+  type Plugin,
   Slangroom,
   type Slangroom as SlangroomType,
-  type Plugin,
 } from '@slangroom/core';
 import { db } from '@slangroom/db';
 import { did } from '@slangroom/did';
