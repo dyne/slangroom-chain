@@ -1,3 +1,10 @@
+# [1.13.0](https://github.com/dyne/slangroom-chain/compare/v1.12.1...v1.13.0) (2025-09-26)
+
+
+### Features
+
+* implement onError branching ([#64](https://github.com/dyne/slangroom-chain/issues/64)) ([4516daa](https://github.com/dyne/slangroom-chain/commit/4516daafe6aa509f4848c682aacbb075a23ec17b))
+
 ## [1.12.1](https://github.com/dyne/slangroom-chain/compare/v1.12.0...v1.12.1) (2025-09-19)
 
 
