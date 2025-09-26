@@ -2,8 +2,9 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import test from 'ava';
 import fs from 'fs/promises';
+
+import test from 'ava';
 
 import { execute } from './chain.js';
 import { readFromFile } from './utils.js';
@@ -397,10 +398,13 @@ test('onError.jsFunction', async (t) => {
   `;
   const fn = execute(steps);
   const err = await t.throwsAsync(fn);
-  t.true(err?.message.startsWith(`Error executing JS function:
+  t.true(
+    err?.message.startsWith(`Error executing JS function:
 throw new Error(\`Error from onError: \${error}\`)
 
-Error: Error from onError: [ "ZENROOM JSON LOG START",`), err.message);
+Error: Error from onError: [ "ZENROOM JSON LOG START",`),
+    err.message,
+  );
 });
 
 test('onError.zencode', async (t) => {
@@ -425,7 +429,10 @@ test('onError.zencode', async (t) => {
   `;
   const fn = execute(steps);
   const err = await t.throwsAsync(fn);
-  t.true(err?.message.startsWith('step that fails failed with error: '), err.message);
+  t.true(
+    err?.message.startsWith('step that fails failed with error: '),
+    err.message,
+  );
   const errFile = await readFromFile('error.out');
   t.true(errFile.startsWith('[ "ZENROOM JSON LOG START",'));
   await fs.unlink('error.out');

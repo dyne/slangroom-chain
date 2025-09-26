@@ -82,7 +82,11 @@ export const execute = async (
         conf,
       ));
     } catch (e) {
-      await parsedSteps.manageError(step.onError, (e as Error).message, results);
+      await parsedSteps.manageError(
+        step.onError,
+        (e as Error).message,
+        results,
+      );
       throw new Error(`${step.id} failed with error: ${(e as Error).message}`);
     }
     let stringResult;

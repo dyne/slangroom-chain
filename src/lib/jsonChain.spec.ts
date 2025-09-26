@@ -2,8 +2,9 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import test from 'ava';
 import fs from 'fs/promises';
+
+import test from 'ava';
 
 import { execute } from './chain.js';
 import { readFromFile } from './utils.js';
@@ -410,21 +411,23 @@ test('onError.jsFunction', async (t) => {
 
 test('onError.zencode', async (t) => {
   process.env['FILES_DIR'] = '.';
-  const steps ={
+  const steps = {
     steps: [
       {
-        id: "step that produce out path",
-        zencode: "Given nothing\nWhen I set 'path' to 'error_json.out' as 'string'\nThen print the 'path'\n"
+        id: 'step that produce out path',
+        zencode:
+          "Given nothing\nWhen I set 'path' to 'error_json.out' as 'string'\nThen print the 'path'\n",
       },
       {
-        id: "step that fails",
+        id: 'step that fails',
         zencode: "Given nothing\nWhen I copy 'a' to 'b'\nThen print data\n",
         onError: {
-          zencode: "Prepare: store in file with path 'path', content 'slangroomChainError'\nGiven I have a 'string' named 'slangroomChainError'\nThen print the data\n",
-          keysFromStep: "step that produce out path"
-        }
-      }
-    ]
+          zencode:
+            "Prepare: store in file with path 'path', content 'slangroomChainError'\nGiven I have a 'string' named 'slangroomChainError'\nThen print the data\n",
+          keysFromStep: 'step that produce out path',
+        },
+      },
+    ],
   };
   const fn = execute(steps);
   const err = await t.throwsAsync(fn);
