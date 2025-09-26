@@ -24,15 +24,23 @@ import {
 const manageBeforeOrAfterOrError = async (
   stepOnBeforeOrAfterOrError: YamlOnBeforeOrAfterOrError,
   data: OnBeforeOrAfterOrErrorData,
+  verboseFn: (m: string) => void,
+  onName: string,
 ): Promise<void> => {
   let zencode;
   if (
     'jsFunction' in stepOnBeforeOrAfterOrError &&
     stepOnBeforeOrAfterOrError.jsFunction
-  )
+  ) {
+    verboseFn(
+      `Executing jsFunction ${onName}: ${stepOnBeforeOrAfterOrError.jsFunction}`,
+    );
     await execJsFun(stepOnBeforeOrAfterOrError.jsFunction, data);
-  if ('run' in stepOnBeforeOrAfterOrError && stepOnBeforeOrAfterOrError.run)
+  }
+  if ('run' in stepOnBeforeOrAfterOrError && stepOnBeforeOrAfterOrError.run) {
+    verboseFn(`Executing run ${onName}: ${stepOnBeforeOrAfterOrError.run}`);
     await execShellCommand(stepOnBeforeOrAfterOrError.run);
+  }
   if (
     'zencode' in stepOnBeforeOrAfterOrError &&
     stepOnBeforeOrAfterOrError.zencode
@@ -44,11 +52,13 @@ const manageBeforeOrAfterOrError = async (
   )
     zencode = await readFromFile(stepOnBeforeOrAfterOrError.zencodeFromFile);
   if (zencode) {
+    verboseFn(`Executing zencode ${onName}: ${zencode}`);
     const jsonRes = JSON.parse(data.results);
     const { data: zencodeData, keys: zencodeKeys } = await getDataAndKeys(
       stepOnBeforeOrAfterOrError as Step,
       jsonRes,
     );
+    verboseFn(`Executing zencode ${onName} with data: ${zencodeData}`);
     await SlangroomManager.executeInstance(
       zencode,
       zencodeData,
@@ -88,15 +98,23 @@ export class YamlChain implements Chain {
     keys: string | undefined,
     conf: string | undefined,
     results: Results,
+    verboseFn: (m: string) => void,
+    stepId: string,
   ): Promise<void> {
     if (!stepOnBefore) return;
-    await manageBeforeOrAfterOrError(stepOnBefore, {
-      zencode,
-      data,
-      keys,
-      conf,
-      results: JSON.stringify(results),
-    });
+    verboseFn(`Executing onAfter for step ${stepId}`);
+    await manageBeforeOrAfterOrError(
+      stepOnBefore,
+      {
+        zencode,
+        data,
+        keys,
+        conf,
+        results: JSON.stringify(results),
+      },
+      verboseFn,
+      'onBefore',
+    );
   }
 
   async manageAfter(
@@ -107,28 +125,44 @@ export class YamlChain implements Chain {
     keys: string | undefined,
     conf: string | undefined,
     results: Results,
+    verboseFn: (m: string) => void,
+    stepId: string,
   ): Promise<void> {
     if (!stepOnAfter) return;
-    await manageBeforeOrAfterOrError(stepOnAfter, {
-      result,
-      zencode,
-      data,
-      keys,
-      conf,
-      results: JSON.stringify(results),
-    });
+    verboseFn(`Executing onAfter for step ${stepId}`);
+    await manageBeforeOrAfterOrError(
+      stepOnAfter,
+      {
+        result,
+        zencode,
+        data,
+        keys,
+        conf,
+        results: JSON.stringify(results),
+      },
+      verboseFn,
+      'onAfter',
+    );
   }
 
   async manageError(
     stepOnError: YamlOnBeforeOrAfterOrError | undefined,
     error: string,
     results: Results,
+    verboseFn: (m: string) => void,
+    stepId: string,
   ): Promise<void> {
     if (!stepOnError) return;
-    await manageBeforeOrAfterOrError(stepOnError, {
-      error,
-      results: JSON.stringify(results),
-    });
+    verboseFn(`Executing onError for step ${stepId}`);
+    await manageBeforeOrAfterOrError(
+      stepOnError,
+      {
+        error,
+        results: JSON.stringify(results),
+      },
+      verboseFn,
+      'onResult',
+    );
   }
 
   async managePrecondition(

@@ -200,6 +200,8 @@ export interface Chain {
     keys: string | undefined,
     conf: string | undefined,
     results: Results,
+    verboseFn: (m: string) => void,
+    stepId: string,
   ): Promise<void>;
   manageAfter(
     stepOnAfter: YamlOnBeforeOrAfterOrError | JsonOnAfter | undefined,
@@ -209,11 +211,15 @@ export interface Chain {
     keys: string | undefined,
     conf: string | undefined,
     results: Results,
+    verboseFn: (m: string) => void,
+    stepId: string,
   ): Promise<void>;
   manageError(
     stepOnError: YamlOnBeforeOrAfterOrError | JsonOnError | undefined,
     error: string,
     results: Results,
+    verboseFn: (m: string) => void,
+    stepId: string,
   ): Promise<void>;
   managePrecondition(
     stepId: string,
