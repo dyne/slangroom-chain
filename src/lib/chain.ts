@@ -72,6 +72,8 @@ export const execute = async (
       keys,
       conf,
       results,
+      verboseFn,
+      step.id,
     );
     let result, logs;
     try {
@@ -86,6 +88,8 @@ export const execute = async (
         step.onError,
         (e as Error).message,
         results,
+        verboseFn,
+        step.id,
       );
       throw new Error(`${step.id} failed with error: ${(e as Error).message}`);
     }
@@ -104,6 +108,8 @@ export const execute = async (
       keys,
       conf,
       results,
+      verboseFn,
+      step.id,
     );
     results[step.id] = stringResult;
     verboseFn(logs);
