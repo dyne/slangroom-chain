@@ -40,7 +40,9 @@ export type JsonOnBefore =
   | {
       jsFunction?: JsonOnBeforeFn;
       run?: string;
-    };
+    }
+  | (ZencodeInputs & Zencode)
+  | (ZencodeInputs & ZencodeFromFile);
 
 type JsonOnAfterFn =
   | ((
@@ -63,7 +65,22 @@ export type JsonOnAfter =
   | {
       jsFunction?: JsonOnAfterFn;
       run?: string;
-    };
+    }
+  | (ZencodeInputs & Zencode)
+  | (ZencodeInputs & ZencodeFromFile);
+
+type JsonOnErrorFn =
+  | ((error: string) => void)
+  | ((error: string) => Promise<void>);
+
+export type JsonOnError =
+  | JsonOnErrorFn
+  | {
+      jsFunction?: JsonOnErrorFn;
+      run?: string;
+    }
+  | (ZencodeInputs & Zencode)
+  | (ZencodeInputs & ZencodeFromFile);
 
 type JsonDataTransform =
   | ((data: string) => string)
@@ -89,6 +106,7 @@ type JsonBasicStep = ZencodeInputs & {
   readonly conf?: string;
   readonly onAfter?: JsonOnAfter;
   readonly onBefore?: JsonOnBefore;
+  readonly onError?: JsonOnError;
   readonly precondition?: JsonPrecondition;
 };
 
@@ -103,10 +121,13 @@ export type JsonSteps = {
 };
 
 // types for yaml format
-export type YamlOnBeforeOrAfter = {
-  readonly run?: string;
-  readonly jsFunction?: string;
-};
+export type YamlOnBeforeOrAfterOrError =
+  | {
+      readonly run?: string;
+      readonly jsFunction?: string;
+    }
+  | (ZencodeInputs & Zencode)
+  | (ZencodeInputs & ZencodeFromFile);
 
 export type YamlPrecondition =
   | {
@@ -120,8 +141,9 @@ type YamlBasicStep = ZencodeInputs & {
   readonly dataTransform?: string;
   readonly keysTransform?: string;
   readonly conf?: string;
-  readonly onAfter?: YamlOnBeforeOrAfter;
-  readonly onBefore?: YamlOnBeforeOrAfter;
+  readonly onAfter?: YamlOnBeforeOrAfterOrError;
+  readonly onBefore?: YamlOnBeforeOrAfterOrError;
+  readonly onError?: YamlOnBeforeOrAfterOrError;
   readonly precondition?: YamlPrecondition;
 };
 
@@ -141,22 +163,26 @@ export type Results = {
   [x: string]: string;
 };
 
+type onErrorData = {
+  readonly error?: string;
+  readonly results: string;
+};
+
 type OnBeforeData = {
   readonly zencode: string;
   readonly data?: string;
   readonly keys?: string;
   readonly conf?: string;
-};
+} & onErrorData;
 
 type OnAfterData = {
   readonly result: string;
-  readonly zencode: string;
-  readonly data?: string;
-  readonly keys?: string;
-  readonly conf?: string;
-};
+} & OnBeforeData;
 
-export type OnBeforeOrAfterData = OnBeforeData | OnAfterData;
+export type OnBeforeOrAfterOrErrorData =
+  | OnBeforeData
+  | OnAfterData
+  | onErrorData;
 
 // generic chain signature
 export interface Chain {
@@ -168,27 +194,32 @@ export interface Chain {
     verboseFn: (m: string) => void,
   ): Promise<string>;
   manageBefore(
-    stepOnBefore: YamlOnBeforeOrAfter | JsonOnBefore | undefined,
+    stepOnBefore: YamlOnBeforeOrAfterOrError | JsonOnBefore | undefined,
     zencode: string,
     data: string | undefined,
     keys: string | undefined,
     conf: string | undefined,
+    results: Results,
+    verboseFn: (m: string) => void,
+    stepId: string,
   ): Promise<void>;
   manageAfter(
-    stepOnAfter: YamlOnBeforeOrAfter | JsonOnAfter | undefined,
+    stepOnAfter: YamlOnBeforeOrAfterOrError | JsonOnAfter | undefined,
     result: string,
     zencode: string,
     data: string | undefined,
     keys: string | undefined,
     conf: string | undefined,
+    results: Results,
+    verboseFn: (m: string) => void,
+    stepId: string,
   ): Promise<void>;
-  manageAfter(
-    stepOnAfter: YamlOnBeforeOrAfter | JsonOnAfter | undefined,
-    result: string,
-    zencode: string,
-    data: string | undefined,
-    keys: string | undefined,
-    conf: string | undefined,
+  manageError(
+    stepOnError: YamlOnBeforeOrAfterOrError | JsonOnError | undefined,
+    error: string,
+    results: Results,
+    verboseFn: (m: string) => void,
+    stepId: string,
   ): Promise<void>;
   managePrecondition(
     stepId: string,

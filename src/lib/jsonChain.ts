@@ -7,6 +7,7 @@ import type {
   Chain,
   JsonOnAfter,
   JsonOnBefore,
+  JsonOnError,
   JsonPrecondition,
   JsonSteps,
   JsonTransformFn,
@@ -15,6 +16,38 @@ import type {
 } from './types';
 import { execShellCommand, getDataAndKeys, readFromFile } from './utils.js';
 
+const manageBeforeOrAfterOrError = async (
+  step: JsonOnAfter | JsonOnBefore | JsonOnError,
+  error: string | undefined,
+  results: Results,
+  verboseFn: (m: string) => void,
+  onName: string,
+): Promise<void> => {
+  if ('run' in step && step.run) {
+    verboseFn(`Executing run ${onName}: ${step.run}`);
+    await execShellCommand(step.run);
+  }
+  let zencode;
+  if ('zencode' in step && step.zencode) zencode = step.zencode;
+  else if ('zencodeFromFile' in step && step.zencodeFromFile)
+    zencode = await readFromFile(step.zencodeFromFile);
+  if (zencode) {
+    verboseFn(`Executing zencode ${onName}: ${zencode}`);
+    const dataKeys = await getDataAndKeys(step as Step, results);
+    verboseFn(`Executing zencode ${onName} with data: ${dataKeys.data}`);
+    if (error) {
+      const jsonKeys = JSON.parse(dataKeys.keys);
+      jsonKeys.slangroomChainError = error;
+      dataKeys.keys = JSON.stringify(jsonKeys);
+    }
+    await SlangroomManager.executeInstance(
+      zencode,
+      dataKeys.data,
+      dataKeys.keys,
+      undefined,
+    );
+  }
+};
 export class JsonChain implements Chain {
   steps: JsonSteps;
   constructor(steps: JsonSteps) {
@@ -39,16 +72,27 @@ export class JsonChain implements Chain {
     data: string | undefined,
     keys: string | undefined,
     conf: string | undefined,
+    results: Results,
+    verboseFn: (m: string) => void,
+    stepId: string,
   ): Promise<void> {
     if (!stepOnBefore) return;
+    verboseFn(`Executing onBefore for step ${stepId}`);
     if (typeof stepOnBefore === 'function') {
+      verboseFn('Executing onBefore as js function');
       await stepOnBefore(zencode, data, keys, conf);
     } else if (typeof stepOnBefore === 'object') {
-      if (stepOnBefore.jsFunction) {
+      if ('jsFunction' in stepOnBefore && stepOnBefore.jsFunction) {
+        verboseFn('Executing onBefore.jsFunction as js function');
         await stepOnBefore.jsFunction(zencode, data, keys, conf);
-      } else if (stepOnBefore.run) {
-        await execShellCommand(stepOnBefore.run);
       }
+      await manageBeforeOrAfterOrError(
+        stepOnBefore,
+        undefined,
+        results,
+        verboseFn,
+        'onBefore',
+      );
     }
   }
 
@@ -59,16 +103,54 @@ export class JsonChain implements Chain {
     data: string | undefined,
     keys: string | undefined,
     conf: string | undefined,
+    results: Results,
+    verboseFn: (m: string) => void,
+    stepId: string,
   ): Promise<void> {
     if (!stepOnAfter) return;
+    verboseFn(`Executing onAfter for step ${stepId}`);
     if (typeof stepOnAfter === 'function') {
+      verboseFn('Executing onAfter as js function');
       await stepOnAfter(result, zencode, data, keys, conf);
     } else if (typeof stepOnAfter === 'object') {
-      if (stepOnAfter.jsFunction) {
+      if ('jsFunction' in stepOnAfter && stepOnAfter.jsFunction) {
+        verboseFn('Executing onAfter.jsFunction as js function');
         await stepOnAfter.jsFunction(result, zencode, data, keys, conf);
-      } else if (stepOnAfter.run) {
-        await execShellCommand(stepOnAfter.run);
       }
+      await manageBeforeOrAfterOrError(
+        stepOnAfter,
+        undefined,
+        results,
+        verboseFn,
+        'onAfter',
+      );
+    }
+  }
+
+  async manageError(
+    stepOnError: JsonOnError | undefined,
+    error: string,
+    results: Results,
+    verboseFn: (m: string) => void,
+    stepId: string,
+  ): Promise<void> {
+    if (!stepOnError) return;
+    verboseFn(`Executing onError for step ${stepId}`);
+    if (typeof stepOnError === 'function') {
+      verboseFn('Executing onError as js function');
+      await stepOnError(error);
+    } else if (typeof stepOnError === 'object') {
+      if ('jsFunction' in stepOnError && stepOnError.jsFunction) {
+        verboseFn('Executing onError.jsFunction as js function');
+        await stepOnError.jsFunction(error);
+      }
+      await manageBeforeOrAfterOrError(
+        stepOnError,
+        error,
+        results,
+        verboseFn,
+        'onError',
+      );
     }
   }
 

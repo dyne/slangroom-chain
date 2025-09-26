@@ -10,7 +10,7 @@ import { YamlChain } from './yamlChain.js';
 
 const verbose = (verbose: boolean | undefined): ((m: string) => void) => {
   if (verbose) return (message: string) => console.log(message);
-  return () => { };
+  return () => {};
 };
 
 export const execute = async (
@@ -65,13 +65,34 @@ export const execute = async (
       'keys',
       verboseFn,
     );
-    await parsedSteps.manageBefore(step.onBefore, zencode, data, keys, conf);
-    const { result, logs } = await SlangroomManager.executeInstance(
+    await parsedSteps.manageBefore(
+      step.onBefore,
       zencode,
       data,
       keys,
       conf,
+      results,
+      verboseFn,
+      step.id,
     );
+    let result, logs;
+    try {
+      ({ result, logs } = await SlangroomManager.executeInstance(
+        zencode,
+        data,
+        keys,
+        conf,
+      ));
+    } catch (e) {
+      await parsedSteps.manageError(
+        step.onError,
+        (e as Error).message,
+        results,
+        verboseFn,
+        step.id,
+      );
+      throw new Error(`${step.id} failed with error: ${(e as Error).message}`);
+    }
     let stringResult;
     try {
       stringResult = JSON.stringify(result);
@@ -86,6 +107,9 @@ export const execute = async (
       data,
       keys,
       conf,
+      results,
+      verboseFn,
+      step.id,
     );
     results[step.id] = stringResult;
     verboseFn(logs);
