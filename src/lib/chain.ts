@@ -84,14 +84,26 @@ export const execute = async (
         conf,
       ));
     } catch (e) {
-      await parsedSteps.manageError(
+      const onErrorResult = await parsedSteps.manageError(
         step.onError,
         (e as Error).message,
         results,
         verboseFn,
         step.id,
       );
-      throw new Error(`${step.id} failed with error: ${(e as Error).message}`);
+      if (
+        !onErrorResult ||
+        !step.onError ||
+        (step.onError && !('fail' in step.onError)) ||
+        (step.onError && 'fail' in step.onError && Boolean(step.onError.fail))
+      ) {
+        throw new Error(
+          `${step.id} failed with error: ${(e as Error).message}`,
+        );
+      } else {
+        final = onErrorResult;
+        break;
+      }
     }
     let stringResult;
     try {
