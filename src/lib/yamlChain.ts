@@ -26,7 +26,7 @@ const manageBeforeOrAfterOrError = async (
   data: OnBeforeOrAfterOrErrorData,
   verboseFn: (m: string) => void,
   onName: string,
-): Promise<void> => {
+): Promise<string | void> => {
   let zencode;
   if (
     'jsFunction' in stepOnBeforeOrAfterOrError &&
@@ -35,11 +35,11 @@ const manageBeforeOrAfterOrError = async (
     verboseFn(
       `Executing jsFunction ${onName}: ${stepOnBeforeOrAfterOrError.jsFunction}`,
     );
-    await execJsFun(stepOnBeforeOrAfterOrError.jsFunction, data);
+    return await execJsFun(stepOnBeforeOrAfterOrError.jsFunction, data);
   }
   if ('run' in stepOnBeforeOrAfterOrError && stepOnBeforeOrAfterOrError.run) {
     verboseFn(`Executing run ${onName}: ${stepOnBeforeOrAfterOrError.run}`);
-    await execShellCommand(stepOnBeforeOrAfterOrError.run);
+    return await execShellCommand(stepOnBeforeOrAfterOrError.run);
   }
   if (
     'zencode' in stepOnBeforeOrAfterOrError &&
@@ -59,7 +59,7 @@ const manageBeforeOrAfterOrError = async (
       jsonRes,
     );
     verboseFn(`Executing zencode ${onName} with data: ${zencodeData}`);
-    await SlangroomManager.executeInstance(
+    const zencodeResult = await SlangroomManager.executeInstance(
       zencode,
       zencodeData,
       JSON.stringify({
@@ -68,6 +68,7 @@ const manageBeforeOrAfterOrError = async (
       }),
       undefined,
     );
+    return JSON.stringify(zencodeResult.result);
   }
 };
 
@@ -151,10 +152,10 @@ export class YamlChain implements Chain {
     results: Results,
     verboseFn: (m: string) => void,
     stepId: string,
-  ): Promise<void> {
+  ): Promise<string | void> {
     if (!stepOnError) return;
     verboseFn(`Executing onError for step ${stepId}`);
-    await manageBeforeOrAfterOrError(
+    return await manageBeforeOrAfterOrError(
       stepOnError,
       {
         error,

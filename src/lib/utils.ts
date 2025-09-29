@@ -47,8 +47,8 @@ export const getDataAndKeys = async (
 };
 
 // shell command
-export const execShellCommand = async (command: string): Promise<void> => {
-  await execaCommand(command);
+export const execShellCommand = async (command: string): Promise<string> => {
+  return JSON.stringify(await execaCommand(command));
 };
 
 // js function

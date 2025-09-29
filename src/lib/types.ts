@@ -75,12 +75,14 @@ type JsonOnErrorFn =
 
 export type JsonOnError =
   | JsonOnErrorFn
-  | {
-      jsFunction?: JsonOnErrorFn;
-      run?: string;
-    }
-  | (ZencodeInputs & Zencode)
-  | (ZencodeInputs & ZencodeFromFile);
+  | ((
+      | {
+          jsFunction?: JsonOnErrorFn;
+          run?: string;
+        }
+      | (ZencodeInputs & Zencode)
+      | (ZencodeInputs & ZencodeFromFile)
+    ) & { readonly fail?: boolean });
 
 type JsonDataTransform =
   | ((data: string) => string)
@@ -121,13 +123,14 @@ export type JsonSteps = {
 };
 
 // types for yaml format
-export type YamlOnBeforeOrAfterOrError =
+export type YamlOnBeforeOrAfterOrError = (
   | {
       readonly run?: string;
       readonly jsFunction?: string;
     }
   | (ZencodeInputs & Zencode)
-  | (ZencodeInputs & ZencodeFromFile);
+  | (ZencodeInputs & ZencodeFromFile)
+) & { readonly fail?: boolean };
 
 export type YamlPrecondition =
   | {
@@ -220,7 +223,7 @@ export interface Chain {
     results: Results,
     verboseFn: (m: string) => void,
     stepId: string,
-  ): Promise<void>;
+  ): Promise<string | void>;
   managePrecondition(
     stepId: string,
     results: Results,

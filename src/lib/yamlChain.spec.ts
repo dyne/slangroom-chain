@@ -437,3 +437,25 @@ test('onError.zencode', async (t) => {
   t.true(errFile.startsWith('[ "ZENROOM JSON LOG START",'));
   await fs.unlink('error.out');
 });
+
+test('onError.zencode with no failing', async (t) => {
+  const steps = `
+  steps:
+    - id: step that fails
+      zencode: |
+        Given nothing
+        When I copy 'a' to 'b'
+        Then print data
+      onError:
+        zencode: |
+          Given I have a 'string' named 'slangroomChainError'
+          When I set 'error' to 'something bad happened' as 'string'
+          When I rename 'slangroomChainError' to 'error description'
+          Then print the data
+        fail: false
+  `;
+  const result = await execute(steps);
+  const jsonRes = JSON.parse(result);
+  t.is(jsonRes.error, 'something_bad_happened', JSON.stringify(jsonRes));
+  t.true(jsonRes.error_description.startsWith('[ "ZENROOM JSON LOG START",'));
+});
