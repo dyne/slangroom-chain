@@ -1,3 +1,10 @@
+# [1.14.0](https://github.com/dyne/slangroom-chain/compare/v1.13.0...v1.14.0) (2025-09-29)
+
+
+### Features
+
+* add the falg to specify if chain should fail on error ([#65](https://github.com/dyne/slangroom-chain/issues/65)) ([315957b](https://github.com/dyne/slangroom-chain/commit/315957b901e551441c43806f775d3ce570d190b7))
+
 # [1.13.0](https://github.com/dyne/slangroom-chain/compare/v1.12.1...v1.13.0) (2025-09-26)
 
 
