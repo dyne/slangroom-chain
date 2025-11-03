@@ -1,3 +1,10 @@
+# [1.15.0](https://github.com/dyne/slangroom-chain/compare/v1.14.2...v1.15.0) (2025-11-03)
+
+
+### Features
+
+* add @slangroom/rdf ([#74](https://github.com/dyne/slangroom-chain/issues/74)) ([209bcf8](https://github.com/dyne/slangroom-chain/commit/209bcf8444ce9d4ab4cf1c2ce2f1df56f69b31d1))
+
 ## [1.14.2](https://github.com/dyne/slangroom-chain/compare/v1.14.1...v1.14.2) (2025-11-03)
 
 ## [1.14.1](https://github.com/dyne/slangroom-chain/compare/v1.14.0...v1.14.1) (2025-10-29)
