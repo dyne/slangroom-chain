@@ -18,6 +18,7 @@ import { JSONSchema } from '@slangroom/json-schema';
 import { oauth } from '@slangroom/oauth';
 import { pocketbase } from '@slangroom/pocketbase';
 import { qrcode } from '@slangroom/qrcode';
+import { rdf } from '@slangroom/rdf';
 import { redis } from '@slangroom/redis';
 import { shell } from '@slangroom/shell';
 import { timestamp } from '@slangroom/timestamp';
@@ -36,6 +37,7 @@ const SLANGROOM_PLUGINS = [
   oauth,
   pocketbase,
   qrcode,
+  rdf,
   redis,
   shell,
   timestamp,
