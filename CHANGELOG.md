@@ -1,3 +1,10 @@
+# [1.16.0](https://github.com/dyne/slangroom-chain/compare/v1.15.0...v1.16.0) (2025-11-11)
+
+
+### Features
+
+* add @slangroom/dcql ([#77](https://github.com/dyne/slangroom-chain/issues/77)) ([8662023](https://github.com/dyne/slangroom-chain/commit/866202311f42b765d262c7c7f1add116e0359fb8))
+
 # [1.15.0](https://github.com/dyne/slangroom-chain/compare/v1.14.2...v1.15.0) (2025-11-03)
 
 
