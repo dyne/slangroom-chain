@@ -1,3 +1,10 @@
+## [1.16.7](https://github.com/dyne/slangroom-chain/compare/v1.16.6...v1.16.7) (2025-12-16)
+
+
+### Bug Fixes
+
+* image in README ([03c9945](https://github.com/dyne/slangroom-chain/commit/03c99458b13e23819ed44500a65142712c81256e))
+
 ## [1.16.6](https://github.com/dyne/slangroom-chain/compare/v1.16.5...v1.16.6) (2025-12-16)
 
 
