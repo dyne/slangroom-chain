@@ -1,3 +1,12 @@
+## [1.16.5](https://github.com/dyne/slangroom-chain/compare/v1.16.4...v1.16.5) (2025-12-16)
+
+
+### Bug Fixes
+
+* remove [@semantic-release](https://github.com/semantic-release) packages that are already included in semantic-release ([8b2539b](https://github.com/dyne/slangroom-chain/commit/8b2539b004822659027f27aed240a440c2982419))
+* remove classic npm token ([55faf0d](https://github.com/dyne/slangroom-chain/commit/55faf0d6cec10f1e1590376c185123d0fdbc4ef0))
+* update also semantic-release ([08e68c1](https://github.com/dyne/slangroom-chain/commit/08e68c1e5fa6ac045a6ccda3c513cd026f3bc557))
+
 ## [1.16.4](https://github.com/dyne/slangroom-chain/compare/v1.16.3...v1.16.4) (2025-11-28)
 
 ## [1.16.3](https://github.com/dyne/slangroom-chain/compare/v1.16.2...v1.16.3) (2025-11-27)
