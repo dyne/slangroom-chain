@@ -200,7 +200,11 @@ No known issue by now
 
 ## 😍 Acknowledgements
 
-[![software by Dyne.org](https://files.dyne.org/software_by_dyne.png)](http://www.dyne.org)
+<p align="center">
+  <a href="https://dyne.org">
+    <img src="https://files.dyne.org/software_by_dyne.png" alt="Dyne.org" width="200">
+  </a>
+</p>
 
 Copyleft (ɔ) 2021 by [Dyne.org](https://www.dyne.org) foundation, Amsterdam
 
