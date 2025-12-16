@@ -1,3 +1,10 @@
+## [1.16.6](https://github.com/dyne/slangroom-chain/compare/v1.16.5...v1.16.6) (2025-12-16)
+
+
+### Bug Fixes
+
+* repo url ([b05b8ec](https://github.com/dyne/slangroom-chain/commit/b05b8ec425fc24e0b927fb81519704c435d57039))
+
 ## [1.16.5](https://github.com/dyne/slangroom-chain/compare/v1.16.4...v1.16.5) (2025-12-16)
 
 
